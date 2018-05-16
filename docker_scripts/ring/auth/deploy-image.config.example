@@ -1,0 +1,4 @@
+#! /bin/bash
+DOCKER_REGISTRY=vm####.ch
+DOCKER_TAG=auth:latest
+DOCKER_PATH=ringler/auth

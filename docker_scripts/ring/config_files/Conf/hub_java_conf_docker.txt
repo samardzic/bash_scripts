@@ -1,0 +1,38 @@
+#example: localhost / 0.0.0.0
+HUB_HOST=localhost
+
+
+#example: 9000
+HUB_PORT=8080
+
+#example: http:0.0.0.0:8080,http:1.1.1.1:8080
+HUB_AUTHURLS=http://0.0.0.0:9000
+
+#example: 0.0.0.0:3306,1.1.1.1.3306,2.2.2.2:3306
+HUB_DBHOST=127.0.0.1
+HUB_DBPORT=3306
+
+#example: auth
+HUB_DBNAME=hub
+
+#example: root
+HUB_DBUSERNAME=root
+
+#example: toor
+HUB_DBPASSWORD=root
+
+#example: true / false
+HUB_DBLOGMODE=true
+
+#example: debug / warn / info / error / none
+HUB_LOGMODE=debug
+
+#example: export HUB_DBMASTER=localhost:3306
+HUB_DBMASTER=localhost:3306
+
+
+#example: export HUB_DBSLAVE1=
+HUB_DBSLAVE1=
+
+#example: export HUB_FILESDIR=./files
+HUB_FILESDIR=./files
