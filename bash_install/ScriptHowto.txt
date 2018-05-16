@@ -1,0 +1,12 @@
+
+
+#!/bin/bash
+clear
+echo "Good morning, world."
+
+
+- After saving this plain text file
+
+- chmod 755 morning
+
+- ./morning
