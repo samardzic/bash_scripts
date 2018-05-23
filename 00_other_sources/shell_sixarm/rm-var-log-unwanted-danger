@@ -1,0 +1,64 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# Remove /var/log files that we don't want.
+#
+# We use this to clean up drive space.
+#
+# Remove log rotation files:
+#
+#   * Compressed files: these end in .bz2, .bzip, .gz, .tgz, .zip.
+#   * Sequence files: these end in .1, .2, .3, etc.
+#
+# Remove Unix system upgrade logs:
+#
+#   * dist-upgrade/*
+#   * unattended-upgrades/unattended-upgrades-dpkg_*.log
+#
+# Remove specific programs' logs:
+#
+#   * nagios3/archives/*
+#   * samba/log*
+#
+# Remove macOS logs:
+#
+#   * asl/Logs/*
+#   * DiagnosticMessages/*.asl
+#   * powermanagement/*.asl
+#
+# Compatibility:
+#
+#   * We prefer to be more compatible rather than system-specific.
+#
+#   * To delete files, we prefer `-exec rm` vs. `-delete`.
+#     The former is more compatible, the latter is faster.
+#
+#   * To regex, we prefer patterns to be basic vs. extended.
+#     The former is more compatible, the latter is more modern.
+#
+# Tracking:
+#
+#   * Command: rm-log-files-danger
+#   * Version: 1.5.0
+#   * Created: 2013-12-09
+#   * Updated: 2017-08-29
+#   * License: GPL
+#   * Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+##
+
+dir=/var/log
+find $dir \( -name "*.bz2" -o -name "*.bzip" -o -name "*.gz" -o -name "*.tgz" -o -name "*.zip" -o -regex ".*\.[0123456789][0123456789]*" \) -exec rm {} \;
+
+## Unix system upgrades
+rm -rf $dir/dist-upgrade/*
+rm -rf $dir/unattended-upgrades/unattended-upgrades-dpkg_*.log
+
+## Specific programes
+rm -rf $dir/log/samba/log*
+rm -rf $dir/log/nagios3/archives/*
+
+## macOS
+rm -rf $dir/asl/Logs/*
+rm -rf $dir/DiagnosticMessages/*.asl
+rm -rf $dir/powermanagement/*.asl

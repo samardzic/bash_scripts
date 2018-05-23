@@ -1,0 +1,94 @@
+#!/bin/bash
+set -euf -o pipefail
+out () { printf %s\\n "$*" ; }
+
+##
+# Choose a Ruby version
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+help()
+{
+cat << EOF
+ruby-v
+
+usage: $0 [options]
+
+Ruby version chooser for our specific systems.
+
+This script is tightly coupled to our systems;
+if you are looking for a general-purpose solution,
+we suggest using `chruby` along with `ruby-install`.
+
+Example:
+
+    source rubyv mri 2.1.5
+
+Options:
+
+   -h      Show this help message
+   -l      List versions in /opt/ruby
+   -v      Verbose messages
+
+We install Ruby runtimes and versions here:
+
+    /opt/ruby/<runtime>/<version>
+    /opt/gems/<runtime>/<version>
+
+Examples:
+
+    /opt/ruby/mri/2.1.5
+    /opt/ruby/jruby/1.7.16.1
+    /opt/ruby/rbx/2.3.0
+
+This script modifies three environment variables:
+
+    PATH: replaces /opt/ruby/<runtime>/<version> and /opt/gems/<runtime>/<version>/
+    GEM_HOME: changes it to /opt/gems/<runtime>/<version>
+    GEM_PATH: changes it to be identical to GEM_HOME
+
+EOF
+}
+
+RUBY_TOP_DIR=/opt/ruby
+GEMs_TOP_DIR=/opt/gems
+
+VERBOSE=
+while getopts “hlv” option
+do
+     case "$option" in
+         h)
+             help
+             exit 1
+             ;;
+	 l)
+             ls -l $RUBY_TOP_DIR | awk '{print $9,$10,$11;}' | grep \\w
+             ls -l $GEMS_TOP_DIR | awk '{print $9,$10,$11;}' | grep \\w
+             exit 1
+             ;;
+         v)
+             VERBOSE=1
+             ;;
+         ?)
+             help
+             exit
+             ;;
+     esac
+done
+shift $(($OPTIND - 1))
+
+VERSION=$1
+
+export PATH=`out $PATH | sed "s#:$RUBY_TOP_DIR/[^/]*/#:$RUBY_TOP_DIR/$VERSION/#; s#:$GEM_TOP_DIR/[^/]*/#:$GEM_TOP_DIR/$VERSION/#"`
+
+export GEM_HOME=$GEM_TOP_DIR/$VERSION
+export GEM_PATH=`out $GEM_PATH | sed "s#$GEM_TOP_DIR/[^:]*#$GEM_TOP_DIR/$VERSION#"`
+
+if [ "$VERBOSE" = "1" ]; then
+   out "PATH=$PATH"
+   out "GEM_HOME=$GEM_HOME"
+   out "GEM_PATH=$GEM_PATH"
+fi

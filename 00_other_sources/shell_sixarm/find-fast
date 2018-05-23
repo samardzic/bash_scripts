@@ -1,0 +1,17 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Find fast, with settings for typical searches.
+#
+#  * Prune top-level system directores: /Applications, /Libraries, /dev, /proc, /tmp
+#  * Prune hidden items: any subpath that starts with a dot.
+#  * Use default path ".", which makes OSX find work like Linux find.
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-04-15
+##
+
+[[ $# -eq 0 ]] && paths="." || paths="$@"
+find "$paths" -noleaf '(' -path /Applications -o -path /Library -o -path /dev -o -path /proc -o -path /sys -o -path /tmp -o -path '*/\.*' ')' -prune -o -print

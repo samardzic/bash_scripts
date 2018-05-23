@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# Start printing when we see a pattern; stop printing when we see a pattern.
+#
+# We include the line that matches the start pattern;
+# we exclude the line that matches the stop pattern.
+#
+# Example:
+#
+#     $ cat alphabet.txt | sed-start-stop c f
+#     c
+#     d
+#     e
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+sed -n "/$1/,/$2/p" | sed '$d'

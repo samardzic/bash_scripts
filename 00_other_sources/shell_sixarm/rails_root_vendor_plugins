@@ -1,0 +1,12 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Print a list of the Rails plugins in ./vendor/plugins
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+find vendor/plugins/* -maxdepth 0 -type d | sed s#vendor/plugins/##

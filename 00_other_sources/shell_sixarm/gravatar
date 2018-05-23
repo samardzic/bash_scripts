@@ -1,0 +1,22 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Gravatar: generate a gravatar URI for a given email address.
+#
+# Syntax:
+#
+#     gravatar <email address>
+#
+# Example:
+#
+#     gravatar me@my.com
+#
+# To learn more about Gravatar, see http://www.gravatar
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+echo -n 'http://www.gravatar.com/avatar/' && echo -n "$1" | md5sum | sed 's/ -$//'

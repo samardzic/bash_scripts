@@ -1,0 +1,5 @@
+#!/bin/bash
+SERVER_IP=88.191.146.33
+SERVER_PORT=4155
+REPO_PATH="/srv/bzr"
+bzr serve --listen=$SERVER_IP --port=$SERVER_PORT --directory=$REPO_PATH --allow-writes

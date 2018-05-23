@@ -1,0 +1,19 @@
+#!/bin/bash
+
+clear
+git checkout dev
+git status
+echo Press Enter to continue ..
+read
+
+git fetch
+git rebase origin/master
+git checkout master
+git status
+echo Press Enter to continue ..
+read
+
+git merge dev
+git push origin master
+git push origin dev
+git checkout dev

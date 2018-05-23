@@ -1,0 +1,107 @@
+#!/usr/local/bin/awk -f
+#
+# Parse a typical bank transactions spreadsheet.
+#
+# Our actual sheets always use CSV and never use embedded quotes,
+# so we believe it is safe to use the field separator ",".
+#
+# The fields in order are:
+#
+#   * The date in "MM/DD/YY"
+#   * The transaction amount in USD; deposits are postive, withdrawls are negatives.
+#   * An asterisk; we do not know what this means.
+#   * A blank field; we do not know what this means.
+#   * A text note that typically explains the vendor, purpose, etc.
+#
+# This script iterates on the input lines. For each line, this script
+# does a bunch of text searches that we have hand-coded to our needs,
+# and if any match is found then this script can set a `site` variable
+# and a `tags` variable.
+#
+# A line may match zero or more text searches. For example, one line could be
+# recognized as a taxi company (such as Lyft) and also as a metro area (such as NYC).
+#
+BEGIN {
+    FS=OFS="\",\""
+    IGNORECASE = 1
+}
+{
+    gsub(/^"/,"")
+    gsub(/"$/,"")
+
+    use=1 # 1=true 0=false
+    site="?"
+    tags="?"
+
+    # Deposits, withdrawals, transfers, etc.
+    if (/ATM ACCESS |ATM DEPOSIT |ATM WITHDRAWAL |eDeposit |eWithdrawal |INTERNATIONAL PURCHASE TRANSACTION |ONLINE TRANSFER |RECURRING PAYMENT /) {
+        next  # Personally I skip these
+    }
+
+    # Skip items that I know I personally don't care about
+    if (/ AETHER APPARE | CONTAINERSTORESANF | JOURNEYS | LULULEMON | MACY.S | MERIT CLEANERS | MOMA BOOKSTORE | NORDSTROM | NORTH FACE | \*THINK BLEECKER New York NY | REI | SQ \*PALENQUE New York NY | THE UPS STORE | TRILLIUM INTEGRATI | WPY\*A Room to Brea | WPY\*Mama Art Your /) next
+
+    # Skip tickets to events
+    if (/ METREON | PREKINDLE EVENTS | STATE FAIR | TFI\*TICKETFLY /) next
+
+    # Skip non-work lodging
+    if (/ COSMO VESPER | EMBASSY NETWORK /) next
+
+    # Defer crowdfunding
+    if (/ INDIEGOGO /)                      { use = 0; site = "indiegogo.com";   tags = tags "#crowdfunding"; }
+    if (/ KICKSTARTER | KICKSTARTER.?COM /) { use = 0; site = "kickstarter.com"; tags = tags "#crowdfunding"; }
+    if (/ PATREON.COM /)                    { use = 0; site = "patreon.com";     tags = tags "#crowdfunding"; }
+
+    # Defer companies that need better categorization
+    if (/ AMAZON | AMAZON.COM |KINDLE-/)    { use = 0; site = "amazon.com"; }
+    if (/ APPLE STORE | APL\* ITUNES.COM/)  { use = 0; site = "apple.com"; }
+    if (/ AT&T | AT&T\*BILL PAYMENT /)      { use = 0; site = "att.com"; }
+    if (/ BARNES & NOBLE /)                 { use = 0; site = "barnesandnoble.com"; }
+    if (/ BEST BUY /)                       { use = 0; site = "bestbuy.com"; }
+    if (/ MICROSOFT /)                      { use = 0; site = "microsoft.com"; }
+    if (/ MMA KIOSK ADMISSIO NEW YORK /)    { use = 0; site = "metmusuem.org" }
+    if (/ TARGET /)                         { use = 0; site = "target.com"; }
+    if (/ WALMART /)                        { use = 0; site = "walmart.com"; }
+
+    # Unknown & minor
+    if (/ SQ \*GOTHAM ENTERPR | WALLSTREETST2563 HOUSTON | YELLOW CARD SERVIC SAN FRANCISCO CA /) { use = 0; }
+
+    # Specific food
+    if (/ 7-ELEVEN | ANDALOUS MEDITERRA | AU BON PAIN | BLANK SLATE | BOW K | BREAD & BUTTER | CAFETAL | CHIPOTLE | CHOZA | CREAMLINE | CROOKED KNIFE | DELAROSA | DIG INN | EATZI'S | EINSTEIN BROS | ESSEN | EUROPA | GRUBHUB.COM | HAIGHT & FILLMORE WHOL | HAIGHT STREET MARK | HURLEYS | IDA CLAIRE | IN \*TILLYS OLD FAS | JUPITER HOUSE | KOFFEECAKE | MADHUFALLA,INC. | MANHATTAN FRUIT | MARCHE MADISON | MINUTI DOWNTOWN HOUSTON | NO TSU OH HOUSTON TX | PEET'S | PINKBERRY | PRET A MANGER | POST OAK SMOKE | QUESA | SALATA | SMASHBURGER | SOCARRAT NOLITA | SOPHIE'S CUBAN | STARBUCKS | SQ \*MADISON SQUARE | SQ \*NO 7 SUB | SQ \*PLATE AND SIMP | SQ \*ROCKIT SWIRL | SUNAC NEW YORK | SUSHIRO | TACOMBI | TGI FRIDAY'?S | THE GREGORY BAR | THE GROVE YERBA | THE IRISH BANK | THE LONG ROOM | THE SMITH NOMAD | TOP BAR | TOUT SUITE LLC HOUSTON TX | WHOLEFDS /) tags = tags "#food"
+
+    # Generic food
+    if (/ BAKE | BAKERY | BAKING | BAKEHOUSE | BBQ | BEER | BREW | BURGER | CAFE | CAFFE | COFFEE | COFFEESHOP | DELI | EAT | EATERY | EATS | FARM | FARMS | FOOD | FOODS | GASTROPUB | GREENS | GRILL | GROCER | GROCERY | HUNAN | JUICE | KITCHEN | MARKET | PIZZA | PUB | RESTAURANT | SALAD | SALOON | SNACK | SUSHI | TAVERN | TACO | THAI | WOK /) tags = tags "#food"
+
+    if (/ CAB | CITI BIKE | TAXI | LYFT | NYC-TAXI | UBER /) tags = tags "#taxi"
+    if (/ CVS.PHARMACY | DUANE READE | WALGREENS /) tags = tags "#drugstore"
+    if (/ AIRBNB | ANDAZ FIFTH AVENUE | HOTEL | MOTEL | COURTYARD | SUITES | HOTELTONIGHT| MANHATTAN NYC NEW YORK NY | NOMO SOHO | RESIDENCE INN | RITZ CARLTON | THE MANSFIELD HOTE | THE REDBURY | WARWICK MELROSE HO /) tags = tags "#lodge"
+    if (/ DELTA AIR | JETBLUE | SPIRIT AIRL | UNITED 016260 /) tags = tags "#travel-air"
+    if (/ AMTRAK | BART SFIA | BART-POWELL | CALTRAIN | CLIPPER SERVICE | COACHUSA\/MEGABUS | DART TICKET | MTA MVM\*G001-CONEY | METRO-NORTH /) tags = tags "#travel-train"
+    if (/ MUJI JFK JAMAICA NY | OTG JFK T5 VENTURE JAMAICA NY /) tags = tags "#travel-food"
+    if (/ NUTHOUSE HARDWARE /) tags = "#hardware"
+
+    # Tag by purpose
+    if (/ ATLASSIAN /)          { site = "atlassian.com";    tags = tags "#webservice"; }
+    if (/ BACKBLAZE /)          { site = "backblaze.com";    tags = tags "#webservice"; }
+    if (/ WWW.CLEVERBRIDGE.N /) { site = "cleverbridge.com"; tags = tags "#webservice"; }
+    if (/ FULLCONTACT.COM /)    { site = "fullcontact.com";  tags = tags "#webservice"; }
+    if (/ OMNI DEVELOPMENT /)   { site = "omnigroup.com";    tags = tags "#webservice"; }
+    if (/ PAW.CLOUD /)          { site = "paw.cloud";        tags = tags "#webservice"; }
+    if (/ PRAGMATIC PROGRAMM /} { site = "pragprog.com";     tags = tags "#webservice"; }
+    if (/ RACKSPACE CLOUD /)    { site = "rackspace.com";    tags = tags "#webservice"; }
+    if (/ REPORT.COM /)         { site = "report.com";       tags = tags "#webservice"; }
+
+        # Tag by metropolitan area, using the format #metro-<country>-<region>-<locality> 
+    if (/ BROOKLYN NY | JAMAICA NY | NEW YORK NY | NYC-TAXI /) tags = tags "#metro-us-tx-new-york-city"
+    if (/ ADDIS 0001 TX | ADDISON TX | DALLAS TX | DENTON TX | IRVING TX /) tags = tags "#metro-us-tx-dallas "
+    if (/ HOUSTON TX /) tags = tags "#metro-us-tx-houston "
+    if (/ LOS ANGELES CA | SANTA MONICA CA /) tags = tags "#metro-us-ca-los-angeles "
+    if (/ BERKELEY CA | DALY CITY CA | OAKLAND CA | PALO ALTO CA | SAN FRANCISCO CA | SANTA CLARA CA /) tags = tags "#metro-us-ca-san-francisco-metro-area "
+
+    # Done
+    if (!use) next
+    $5 = $5 " " site " " tags
+    print "\"" $0 "\""
+}
+END {
+}

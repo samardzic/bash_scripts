@@ -1,0 +1,19 @@
+#!/bin/bash
+set -euf -o pipefail -o xtrace
+
+##
+# Rails script to do a simple deployment from the command line.
+#
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+git pull
+git submodule update --init --recursive
+bundle install
+bundle update sprockets
+bundle rake db:migrate
+bundle rake db:seed
+touch tmp/restart.txt

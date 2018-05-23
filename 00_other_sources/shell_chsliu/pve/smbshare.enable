@@ -1,0 +1,60 @@
+#!/bin/bash
+
+rpool=tank
+[ ! $3 ] || rpool=$3
+
+if [ -z ${1+x} ]; then
+	echo "new share name is needed"
+	exit
+fi
+
+if [ ! -f "/sbin/zfs" ]; then
+	echo ZFS not install, aborting
+	exit
+fi
+
+if [ ! -d "/$rpool" ]; then
+	echo zpool $rpool not created, aborting
+	exit
+fi
+
+if [ ! -z ${2+x} ]; then 
+    compression=$2
+else 
+    compression=off
+fi
+
+zfs_create_share() {
+	if [ ! -d "/$1" ]; then 
+		echo Creating $1
+		sudo zfs create -o xattr=sa $1
+	fi
+
+	echo $1 set compression=$2
+	sudo zfs set compression=$2 $1
+
+	sudo chgrp users /$1
+	sudo chmod 775 /$1
+}
+
+smb_create() {
+	if ! grep -Fxq "[$1]" /etc/samba/smb.conf; then
+		echo Adding Samba Share: $1
+		
+		echo [$1] 			| sudo tee -a /etc/samba/smb.conf
+		echo path = /$rpool/Shares/$1	| sudo tee -a /etc/samba/smb.conf
+		echo force group = users	| sudo tee -a /etc/samba/smb.conf
+		echo read only = No		| sudo tee -a /etc/samba/smb.conf
+		echo create mask = 0775	       	| sudo tee -a /etc/samba/smb.conf
+		echo force create mode = 0775 	| sudo tee -a /etc/samba/smb.conf
+		echo directory mask = 0775      | sudo tee -a /etc/samba/smb.conf
+		echo force directory mode = 0775| sudo tee -a /etc/samba/smb.conf
+		echo guest ok = Yes		| sudo tee -a /etc/samba/smb.conf
+		
+		sudo /etc/init.d/samba restart
+	fi	
+}
+
+zfs_create_share $rpool/Shares $compression
+zfs_create_share $rpool/Shares/$1 $compression
+smb_create $1

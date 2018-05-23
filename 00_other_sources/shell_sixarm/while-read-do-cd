@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euf -o pipefail
+out () { printf %s\\n "$*" ; }
+
+##
+# For each line of input on command line, cd into a path then run a command.
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-12-22
+##
+
+unset CDPATH
+while read path
+do
+  out "=== $path"
+  cd $path
+  $1
+  cd -
+done

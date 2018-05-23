@@ -1,0 +1,3 @@
+#!/bin/bash
+path=${1-'.'}
+find $1 -name .git -prune -o -name vendor -prune -o -name tmp -prune -o -name "*.rb" -print | xargs -I{} ruby -c {} | grep -v "Syntax OK"

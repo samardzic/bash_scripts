@@ -1,0 +1,18 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Install the `ruby-install` program where we want it.
+#
+# Compare the `ruby-build-install` script in this same repo.
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+cd /opt
+test -d ruby-install || sudo git clone --depth 1 https://github.com/postmodern/ruby-install.git
+cd ruby-install
+sudo git pull
+sudo make install

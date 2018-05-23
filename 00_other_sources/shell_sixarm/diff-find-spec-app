@@ -1,0 +1,20 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Compare the list of filenames in the `spec` directory and `app directory.
+#
+# This is useful for discovering specs files that need app implementation,
+# and also app implemenations that are missing corresponding spec files.
+#
+# This trims off the leading directory name (i.e. "app/" or "spec/"),
+# and also trims off the basename suffix (e.g. "_spec.rb" or ".rb")
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+diff  \
+<(find spec -type f | sed 's#^[^/]\+/##; s#_spec\.[[:alnum:]]\+$##') \
+<(find app  -type f | sed 's#^[^/]\+/##; s#\.[[:alnum:]]\+$##')

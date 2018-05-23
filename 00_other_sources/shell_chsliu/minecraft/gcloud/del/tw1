@@ -1,0 +1,45 @@
+#!/bin/bash
+
+. /home/sita/script/include/console.color
+
+### 
+addto_crontab() {
+	(crontab -l; echo "$*") | crontab -
+}
+
+delfrom_crontab() {
+	line=$*
+	line=$(echo "$line" | sed 's/\//\\\//g')
+	crontab -l | sed "/$line/d" | crontab -
+}
+
+case "$1" in
+  install)
+	addto_crontab "#gcloud DNS update $(basename $0)"
+    addto_crontab "10 6 * * * /bin/bash $(readlink -e $0)"
+    exit
+    ;;
+  remove)
+    delfrom_crontab "$(basename $0)"
+    exit
+    ;;
+esac
+
+###
+HOST=$(basename $0)
+
+if [ $(date +%w) == 6 ]; then
+    echo -e ${GREEN}=== Updating A $HOST.creeper.tw 1min ${NC}
+    /home/sita/script/mis/gcloud.dns.update.sh A creeper-tw $HOST creeper.tw 1min 1min
+    echo -e ${GREEN}=== Updating CNAME mc.creeper.tw = $HOST.creeper.tw 3hour to 1min ${NC}
+    /home/sita/script/mis/gcloud.dns.update.sh CNAME creeper-tw mc creeper.tw $HOST.creeper.tw. 3hour 1min
+    # echo -e ${GREEN}=== Updating CNAME pe.creeper.tw = $HOST.creeper.tw 3hour to 1min ${NC}
+    # /home/sita/script/mis/gcloud.dns.update.sh CNAME creeper-tw pe creeper.tw $HOST.creeper.tw. 3hour 1min
+else
+    echo -e ${GREEN}=== Updating A $HOST.creeper.tw 1min ${NC}
+    /home/sita/script/mis/gcloud.dns.update.sh A creeper-tw $HOST creeper.tw 1min 1min
+    echo -e ${GREEN}=== Updating CNAME mc.creeper.tw = $HOST.creeper.tw 1min to 3hour ${NC}
+    /home/sita/script/mis/gcloud.dns.update.sh CNAME creeper-tw mc creeper.tw $HOST.creeper.tw. 1min 3hour
+    # echo -e ${GREEN}=== Updating CNAME pe.creeper.tw = $HOST.creeper.tw 1min to 3hour ${NC}
+    # /home/sita/script/mis/gcloud.dns.update.sh CNAME creeper-tw pe creeper.tw $HOST.creeper.tw. 1min 3hour
+fi

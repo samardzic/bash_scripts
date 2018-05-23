@@ -1,0 +1,17 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Launch GIMP 2.7.1 from our /opt directory with our library path settings.
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+PATH=/opt/gimp-2.7.1/bin:$PATH
+export PATH
+LD_LIBRARY_PATH=/opt/gimp-2.7.1/lib
+export LD_LIBRARY_PATH
+
+/opt/gimp-2.7.1/bin/gimp-2.7.1 "$@"

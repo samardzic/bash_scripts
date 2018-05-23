@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+#
+# For each input file name, get the header comments and emit rdoc format.
+#
+# Program: ruby-header-comments-to-rdoc
+# Version: 2.0.0
+# Created: 2010-10-16
+# Updated: 2016-02-09
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+##
+
+input_ruby_filename=ARGV[0]
+
+File.exist?(input_ruby_filename) or raise "File #{input_ruby_filename} does not exist"
+input=File.new(input_ruby_filename)
+began=false
+
+input.each_line{|line|
+  break if line=~/^##/ or line=~/^=end/
+  next if (line=~/^#!/ or line=~/^# -\*- (encoding|coding): /)
+  if line=~/^=begin / then began=true; next; end
+  break if !began and (line=~/^$/ and line=~/^\s+/)
+  if !began then line.sub!(/^# /,'') end
+  puts line
+}

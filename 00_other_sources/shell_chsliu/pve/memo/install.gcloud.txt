@@ -1,0 +1,13 @@
+###basic setup for new system
+user$>	sudo apt install -y git sudo ca-certificates
+user$>	git clone https://github.com/chsliu/script.git ~/script
+user$>	~/script/newinstall/newinstall.paas.sh
+
+###bungeeCord
+user$>	~/script/minecraft/gcloud/init.bungee.sh
+
+###uhc
+user$>	~/script/minecraft/gcloud/init.uhc.sh
+
+###www
+user$>	~/script/minecraft/gcloud/init.www.sh

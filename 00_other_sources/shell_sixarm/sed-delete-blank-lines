@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Delete all blank lines, i.e. lines with no characters.
+#
+# From http://sed.sourceforge.net/sed1line.txt
+#
+# Version: 1.1.0
+# Created: 2011-01-02
+# Updated: 2015-01-25
+# License: GPL
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+##
+set -euf
+sed '/^$/d'

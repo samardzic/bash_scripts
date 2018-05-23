@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# xcode-documentation-docsets-fix
+#
+# XCode downloads its own documention to a specific directory.
+# The directory must exist and have read/write permissions.
+#
+# If the directory is missing or not read/write then XCode shows an error:
+#
+#   * Could not download and install Xcode 7.2 Documentation.
+#   * An unexpected error occurred while moving files to the final destination.
+#
+sudo chflags nohidden ~/Library/
+for dir in ~/Library/Developer/Shared/Documentation ~/Library/Developer/Shared/Documentation/DocSets
+do
+    sudo mkdir -p "$dir"
+    sudo chown $USER "$dir"
+    sudo chmod u+rw "$dir"
+done

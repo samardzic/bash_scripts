@@ -1,0 +1,16 @@
+python-yaml
+python-gconf
+python-pyglet
+python-mysqldb
+doc-debian
+debian-faq
+meld
+exuberant-ctags
+bzr-svn
+bzr-email
+bzr-git
+bzr-hg
+bzr-explorer
+csstidy
+vim-nox
+

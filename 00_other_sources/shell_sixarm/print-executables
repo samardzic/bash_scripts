@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# List every executable in PATH.
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+print -l ${^path}/*(-*N)

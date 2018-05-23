@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# Count your history commands.
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+history | cut -c8- | sort | uniq -c | sort -rn | head

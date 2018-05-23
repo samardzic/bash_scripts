@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euf -o pipefail
+out () { printf %s\\n "$*" ; }
+
+##
+# Find (and print) all symbolic links without a target within the current dirtree
+#
+# From http://grml.org/zsh/zsh-lovers.html
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+file **/*(D@) | fgrep broken
+for i in **/*(D@); [[ -f $i || -d $i ]] || out $i
+out **/*(@-^./=%p)
+print -l **/*(-@)

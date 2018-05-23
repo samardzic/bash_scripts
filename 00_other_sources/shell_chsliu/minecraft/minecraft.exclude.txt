@@ -1,0 +1,12 @@
+*.DS_Store
+Buscript/*
+DiscordConsole.log
+ForgeEssentials/Backups/*
+HyperConomy/*.gz
+HyperConomy/error.log*
+HyperConomy/lib/*
+LagMeter/log/*
+logs/*.gz
+mcMMO/backup/*
+orebfuscator_cache/*
+plugins.tried/*

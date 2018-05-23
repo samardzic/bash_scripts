@@ -1,0 +1,76 @@
+#!/bin/bash
+set -euf -o pipefail
+out () { printf %s\\n "$*" ; }
+
+##
+# Download the current ruby stable version,
+# and install it in our preferred directory.
+#
+# Syntax:
+#
+#     ruby-install-easy [vm [version]]
+#
+# Example to install the current typical Ruby:
+#
+#     ruby-install-easy
+#     #=> installs /opt/ruby/mri/2.3.1
+#
+# Example to install the current typical JRuby:
+#
+#     ruby-install-easy jruby
+#     #=> installs /opt/ruby/jruby/1.7.19
+#
+# Example to install an older version:
+#
+#     ruby-install-easy mri 2.0.0
+#     #=> installs /opt/ruby/mri/2.0.0
+#
+# ## Locations
+#
+# We put our Ruby VMs in this directory tree:
+#
+#     /opt/ruby/jruby/x.y.z
+#     /opt/ruby/mri/x.y.z
+#     /opt/ruby/rbx/x.y.z
+#
+# ## Implemenation
+#
+# We use the `ruby-install` tool to do this because it handles
+# many dependencies and in our opinion is better and simpler
+# than other ruby downloaders such as rvm, rbenv, and ruby-build.
+#
+# We clone `ruby-install` in `/opt/ruby-install`.
+# This script does a `git pull` to update the repo,
+# which includes downloading any new VM version info.
+#
+# ## Tracking
+#
+# Command: ruby-install-easy
+# Version: 3.0.0
+# Created: 2014-11-09
+# Updated: 2016-09-02
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+##
+vm=${1-mri}
+
+# Adjust the VM name as needed to be compatible with `ruby-install`:
+# we use the name "mri" whereas `ruby-install` uses the name "ruby".
+case "$vm" in
+    mri) vm2="ruby" ;;
+    *) vm2="$vm" ;;
+esac
+
+out "Update ruby-install versions..."
+(cd /opt/ruby-install && exec git pull)
+
+version=${2-$(tail -1 /opt/ruby-install/share/ruby-install/$vm2/stable.txt)}
+dir="/opt/ruby/$vm/$version"
+
+if [[ -d "$dir" ]]; then
+    out "Ruby is already installed at $dir"
+else
+    set -x
+    ruby-install $vm2 "$version" --install-dir "$dir"
+    set +x
+fi

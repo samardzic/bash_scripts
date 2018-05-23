@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+user=${SMTP_USER:-$USER}
+host=${SMTP_HOST:-localhost}
+port=${SMTP_PORT:-25}
+echo -n "Password:"
+read -s password
+EMAIL=strycore@gmail.com
+USER_HASH=$(printf $user | base64)
+PASSWORD_HASH=$(printf $password | base64)
+
+#echo "Testing saslauthd standalone. Root privileges required"
+# sudo testsaslauthd -u $user -p $SMTP_PASSWORD
+
+cat << EOF
+Opening telnet connection for testing postfix
+The expected result is :
+250-STARTTLS
+250-AUTH LOGIN PLAIN
+250-AUTH=LOGIN PLAIN
+
+Type in :
+ehlo localhost
+auth login
+$USER_HASH
+$PASSWORD_HASH
+mail from: $EMAIL
+rcpt to: $EMAIL
+data
+My message here
+.
+quit
+EOF
+
+echo 'now type: ehlo localhost'
+telnet $host $port

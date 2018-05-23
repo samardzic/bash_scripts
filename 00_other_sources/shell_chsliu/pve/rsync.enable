@@ -1,0 +1,47 @@
+#!/bin/bash
+
+crontab_status() {
+	status=$(crontab -l)
+	return $?
+}
+
+addto_crontab() {
+	cronfile=/var/spool/cron/crontabs/$(whoami)
+
+	if ! crontab_status; then
+		echo "" | sudo tee -a $cronfile
+		sudo chown $(whoami):crontab $cronfile
+	fi
+	
+	if ! sudo grep -Fxq "$*" $cronfile; then
+		echo "$*" | sudo tee -a $cronfile
+	fi
+}
+
+delfrom_crontab() {
+	cronfile=/var/spool/cron/crontabs/$(whoami)
+
+	line=$*
+	line=$(echo "$line" | sed 's/\//\\\//g')
+	sudo sed -i "/$line/d" $cronfile
+}
+
+
+DP0=$(dirname $0)
+
+sudo apt install -y rsync
+
+$DP0/smbshare.enable NetBackup lz4
+
+sudo cp $DP0/etc/init.d/rsync /etc/init.d/rsync
+sudo cp $DP0/etc/rsyncd.conf /etc/rsyncd.conf
+
+sudo update-rc.d rsync start 20 2 3 4 . start 30 5 .
+sudo update-rc.d rsync enable
+
+sudo /etc/init.d/rsync restart
+
+mkdir /tank/Shares/NetBackup/recycle
+sudo cp $DP0/cleanup.py.cmd /tank/Shares/NetBackup/recycle/
+addto_crontab "# $(basename $0): monthly netbackup cleanup"
+addto_crontab "0 5 1 * * sudo python -x /tank/Shares/NetBackup/recycle/cleanup.py.cmd 3 0"

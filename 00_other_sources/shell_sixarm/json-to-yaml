@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+##
+# json-to-yaml converts text from JSON to YAML.
+#
+# Example:
+#
+#     cat example.json | json-to-yaml > example.yaml
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-03-24
+##
+
+require 'json'
+require 'yaml'
+text = ARGF.read
+json = JSON.parse(text)
+yaml = json.to_yaml
+puts yaml

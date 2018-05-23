@@ -1,0 +1,16 @@
+#!/bin/sh
+set -euf -o pipefail
+
+##
+# Prints your gem paths by calling "gem env" then matching
+# the lines between "GEM PATHS" and "GEM CONFIGURATION".
+#
+# Requires the "between" shell script:
+# http://github.com/sixarm/sixarm_unix_shell/tree/master
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+gem env | between 'GEM PATHS' 'GEM CONFIGURATION' | sed 's/^- //'

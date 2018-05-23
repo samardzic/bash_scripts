@@ -1,0 +1,17 @@
+#!/bin/sh
+
+for f in *.deb ; do
+  echo "$f:"
+  dpkg-deb -I $f
+  echo ""
+done
+for f in *.deb ; do
+  echo "$f:"
+  dpkg-deb -c $f
+  echo ""
+done
+for f in *.deb ; do
+  echo "Lintian tags for $f:"
+  lintian $f
+  echo ""
+done

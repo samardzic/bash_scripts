@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# Remove path(s) from the PATH environment variable.
+#
+# Usage: rmpath paths...
+#
+# From http://pastie.org/591350
+#
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+for p in "$@"
+do
+    p=${p%"${p##*[!/]}"} ## remove trailing slashes
+    case $PATH in
+        "$p":*) PATH=${PATH#$p:} ;; ## at beginning of PATH
+        *:"$p") PATH=${PATH%:$p} ;; ## at end of PATH
+        *:"$p":*) PATH=${PATH%":$p"*}${PATH##*"$p"} ;;
+    esac
+done
+export PATH

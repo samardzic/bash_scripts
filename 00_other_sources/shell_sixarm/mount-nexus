@@ -1,0 +1,87 @@
+#!/bin/bash
+set -euf -o pipefail
+out () { printf %s\\n "$*" ; }
+
+##
+# How to mount a Nexus 5 phone on Linux.
+#
+# Enable Developer Options on the Nexus:
+#
+#
+#   * Settings > About Phone
+#   * Tap seven times on "Build Number".
+#
+# Enable USB debugging:
+#
+#   * Settings > Developer options > Debuggins
+#   * Tap "USB debugging"
+#
+# Install necessary MTP modules to your computer:
+#
+#     sudo apt-get install mtp-tools mtpfs
+#
+# Configure 51-android.rules:
+#
+#     sudo gedit /etc/udev/rules.d/51-android.rules
+#
+# Paste the following at the end of the file;
+# if the file does not exist then just paste:
+#
+#     # LG - Nexus 4 phone
+#     SUBSYSTEM=="usb", ATTR{idVendor}=="1004", MODE="0666"
+#
+#     # LG - Nexus 5 phone
+#     SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666"
+#
+#     # Samsung - Nexus 7 & 10
+#     SUBSYSTEM=="usb", SYSFS{idVendor}=="18d1", MODE="0666"
+#
+# Make the file executable:
+#
+#     sudo chmod +x /etc/udev/rules.d/51-android.rules
+#
+# Restart udev:
+#
+#     sudo service udev restart
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+if [ `lsusb |grep Google |wc -l` == 0 ]; then
+  out "Please plug in the device"
+  exit 1
+fi
+
+if [ `dpkg -l mtpfs |wc -l` == "0" ]; then
+  out "Installing MTP: Media Transfer Protocol"
+  sudo apt-get update && sudo apt-get install mtpfs
+fi
+
+rules_file=/etc/udev/rules.d/60-android.rules
+if [ ! -f $rules_file ]; then
+  vp=`lsusb|grep Google|cut -d " " -f 6`
+  vendor=`out $vp | cut -d ':' -f 1`
+  product=`out $vp | cut -d ':' -f 2`
+  rule="SUBSYSTEM==\"usb\", ATTR{idVendor}==\"$vendor\", ATTR{idProduct}==\"$product\", MODE=\"0600\", GROUP=\"plugdev\" OWNER=\"$USER\""
+  out "Creating $rules_file"
+  out "For user $USER"
+  out "---"
+  out $rule
+  out "---"
+  sudo bash -c "out $rule > $rules_file"
+  sudo chmod +x $rules_file
+  sudo service udev restart
+fi
+
+mount_point=/media/nexus
+if [ ! -d $mount_point ]; then
+  sudo mkdir $mount_point
+  sudo chmod 775 $mount_point
+fi
+sudo mtpfs -o allow_other $mount_point
+out "Mounting $mount_point"
+out "This may take a minute..."
+out "To change to this directory:"
+out "   cd $mount_point"

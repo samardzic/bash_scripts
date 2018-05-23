@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euf -o pipefail
+out () { printf %s\\n "$*" ; }
+
+##
+# inotifywait example script that monitors a directory for changes.
+#
+# Syntax:
+#
+#     inotifywait <dir>
+#
+# Example:
+#
+#     $ inotifywait /home/me
+#     $ echo "hello" > hello.txt
+#     /home/me CREATE hello.txt
+#
+# ## Contact
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Created: 2015-08-30
+# Updated: 2015-09-21
+# Version: 1.2
+##
+
+watch="$1"
+
+notify(){
+    dir=$1
+    action=$2
+    file=$3
+    out "$dir $action $file"
+}
+
+while true; do
+  inotifywait "$watch" -e create -e delete -e move |
+  while read dir action file; do notify "$dir" "$action" "$file"; done
+done

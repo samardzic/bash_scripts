@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# Convert from a typical Rails 4 schema to a Rails 4 scaffold.
+#
+# This script suitable for a first pass;
+# we always proof the results and tune them.
+#
+# Sample input:
+#
+#    create_table "foos", :force => true do |t|
+#      t.string   "name"
+#      t.integer  "age"
+#    end
+#
+# Sample output:
+#
+#     rails generate scaffold foos \
+#     name:string \
+#     age:integer \
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+sed 's/^ *create_table "\?\(\w\+\).*/rails generate scaffold \1 \\/; s/^ *t.\(\w\+\) \+\"\?\(\w\+\).*/\2:\1 \\/; s/^ *end *$//; s/ \+$//' | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}'

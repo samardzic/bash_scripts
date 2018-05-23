@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euf -o pipefail
+
+##
+# Run rcov on our typical test files.
+#
+#
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+# License: GPL
+# Updated: 2015-01-25
+##
+
+rcov -Ilib test/*.rb

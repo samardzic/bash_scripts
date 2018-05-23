@@ -1,0 +1,328 @@
+#!/bin/bash
+
+[ $mcver ] || [ "$0" == "-bash" ] || mcver=$(basename $0)
+
+. /home/sita/script/include/console.color
+. /home/sita/script/minecraft/alias/minecraft.color
+
+# showstat() {
+
+# [ ! -d "$MCPATH/logs" ] || LASTLOGS=(`ls -at $MCPATH/logs/*.log.gz`) >/dev/null
+# [ ! $LASTLOGS ] || LOGLAST=${LASTLOGS[0]}
+# [ $LASTLOGS ] || LOGLAST=/tmp/notexist
+# LOGNOW="$MCPATH/logs/latest.log"
+# [ -f $LOGNOW ] || LOGNOW=$LOG
+
+# echo LASTLOGS=$LASTLOGS
+# echo LOGLAST=$LOGLAST
+# echo LOGNOW=$LOGNOW
+
+# [ ! -f $LOGLAST ] || echo Last: $LOGLAST ...
+# [ ! -f $LOGNOW ] || echo  Now: $LOGNOW ...
+
+# echo -e "${GREEN}List of players joined/left time last time:${NC}"
+# [ ! -f $LOGLAST ] || zcat $LOGLAST | grep 'joined\|left' 
+# echo "-----"
+# [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep 'joined\|left'
+
+# echo -e "${GREEN}List of players joined last time:${NC}"
+# [ ! -f $LOGLAST ] || zcat $LOGLAST | grep joined | awk '{ printf ("%s %s\n", $4, $5) }' | sort | uniq
+# echo "-----"
+# [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep joined | awk '{ printf ("%s %s\n", $4, $5) }' | sort | uniq
+
+# echo -e "${GREEN}List of players slained last time:${NC}"
+# [ ! -f $LOGLAST ] || zcat $LOGLAST | grep 'was\|burned\|fell\|swim\|blew\|suffocated\|swim\|hit the ground'
+# echo "-----"
+# [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep 'was\|burned\|fell\|swim\|blew\|suffocated\|swim\|hit the ground'
+
+# echo -e "${GREEN}List of players teleported last time:${NC}"
+# [ ! -f $LOGLAST ] || zcat $LOGLAST | grep Teleported
+# echo "-----"
+# [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep Teleported
+
+# }
+
+showstat() {
+echo -e "${GREEN}List of players joined/left time last time:${NC}"
+logs 0 | grep.left
+echo "-----"
+logs | grep.left
+echo -e "${GREEN}List of players joined last time:${NC}"
+logs 0 | grep.logged
+echo "-----"
+logs | grep.logged
+echo -e "${GREEN}List of players slained last time:${NC}"
+logs 0 | grep.slain
+echo "-----"
+logs | grep.slain
+echo -e "${GREEN}List of players cheated last time:${NC}"
+logs 0 | grep.cheater
+echo "-----"
+logs | grep.cheater
+}
+
+get_date() {
+	echo $(stat -c %y "$1" | awk '{ printf ("[%s]\n", $1) }')
+}
+
+prefix_pipe() {
+	sed -e "s/^/$1/"
+}
+
+date_prefix_cat() {
+	prefix=$(stat -c %y $1 | awk '{ printf ("[%s]\n", $1) }')
+	sed -e "s/^/$prefix/" $1
+}
+
+logs() {
+	if [ -z ${1+x} ]; then 
+		LOG=/mnt/runtimes/$mcver/logs/latest.log
+		
+		if [ -f $LOG ]; then 
+			date_prefix_cat $LOG
+		else
+			LOG=/mnt/runtimes/$mcver/server.log
+			if [ -f $LOG ]; then 
+				cat $LOG
+			fi
+		fi
+	else
+		LASTLOGS=(`ls -at /mnt/runtimes/$mcver/logs/*.log.gz`)
+		LOG=${LASTLOGS[$1]}
+		# echo $LOG
+
+		if [ -f "$LOG" ]; then 
+			prefix=$(get_date $LOG)
+			# zcat $LOG
+			zcat $LOG | prefix_pipe $prefix
+		fi
+	fi
+}
+
+remove_ansi_color() {
+    sed "s/\x1b\[[0-9;]*m//g"
+}
+
+# 
+grep.player() {
+	inputlog=`cat`
+	linecnt=$(echo "${inputlog[*]}" | wc -l)
+	# echo $linecnt, "${inputlog[*]}"
+	if [ $linecnt -lt 2 ]; then return; fi
+
+	players=$(echo "${inputlog[*]}" | grep -A 4 'players online\|玩家在線' | tail -n +2 | remove_ansi_color | sed 's/\[[^]]*\]//g' | sed "s/[a-zA-Z]*://g" | sed 's/,//g')
+	for player in $players
+	do
+		echo $player
+	done
+}
+
+grep.logged() {
+	grep logged | awk '{ printf ("%s %s\n", $4, $5) }' | sed 's/\[[^]]*\]//g' | sort | uniq
+}
+
+grep.left() {
+	grep 'logged\|left'
+}
+
+# grep.teams() {
+	# grep 'lost the achievement' | awk '{ printf ("%s\n", $4) }' | sort | uniq
+# }
+
+file.replace.teamtag() {
+	[ -f $1 ] || { echo no file; return 1; }
+	sed -i "s/$off//g" $1
+	sed -i "s/$black/[黑隊]/g" $1
+	sed -i "s/$dark_blue/[B5深藍隊]/g" $1
+	sed -i "s/$dark_green/[B3深綠隊]/g" $1
+	sed -i "s/$dark_aqua/[B4深青隊]/g" $1
+	sed -i "s/$dark_red/[B1深紅隊]/g" $1
+	sed -i "s/$dark_purple/[B6深紫隊]/g" $1
+	sed -i "s/$gold/[B2橘隊]/g" $1
+	sed -i "s/$gray/[A7灰隊]/g" $1
+	sed -i "s/$dark_gray/[B7深灰隊]/g" $1
+	sed -i "s/$blue/[A5藍隊]/g" $1
+	sed -i "s/$green/[A3綠隊]/g" $1
+	sed -i "s/$aqua/[A4青隊]/g" $1
+	sed -i "s/$red/[A1紅隊]/g" $1
+	sed -i "s/$light_purple/[A6亮紫隊]/g" $1
+	sed -i "s/$yellow/[A2黃隊]/g" $1
+	sed -i "s/$white/[白隊]/g" $1
+}
+
+file.cleanup() {
+	[ -f $1 ] || { echo no file; return 1; }
+	sed -i "s/ \[Server thread\/INFO\]//g" $1
+}
+
+file.replace.cause() {
+	[ -f $1 ] || { echo no file; return 1; }
+	sed -i "s/ using /，使用/g" $1
+	sed -i "s/ blew up/被炸死了/g" $1
+	sed -i "s/ burned to death/被燒死/g" $1
+	sed -i "s/ fell from a high place/從高處墜落/g" $1
+	sed -i "s/ fell out of the world/離開了人世/g" $1
+	sed -i "s/ hit the ground too hard/撞擊地面太大力/g" $1
+	sed -i "s/ suffocated in a wall/窒息在牆裡/g" $1
+	sed -i "s/ tried to swim in lava to escape /在熔岩裡游泳,為了逃避/g" $1
+	sed -i "s/ tried to swim in lava/在熔岩裡游泳/g" $1
+	sed -i "s/ was killed by Witch using magic/被女巫用魔法殺死/g" $1
+	sed -i "s/ was killed by magic/被魔法殺死/g" $1
+	sed -i "s/ was pricked to death/被刺死了/g" $1
+	sed -i "s/ was burnt to a crisp whilst fighting /在戰鬥中被燒死,對手是/g" $1
+	sed -i "s/ was shot by /被射殺了,射手是/g" $1
+	sed -i "s/ was slain by /被殺了,殺手是/g" $1
+	sed -i "s/ left the game/不玩了/g" $1
+	sed -i "s/ drowned/淹死了/g" $1
+	sed -i "s/ was blown up by Creeper/被苦力怕炸飛了/g" $1
+}
+
+file.replace.mob() {
+	[ -f $1 ] || { echo no file; return 1; }
+	sed -i "s/Cave Spider/洞穴蜘蛛/g" $1
+	sed -i "s/Enderman/安德/g" $1
+	sed -i "s/Husk/屍殼/g" $1
+	sed -i "s/Silverfish/蠹魚/g" $1
+	sed -i "s/Skeleton/骷髏/g" $1
+	sed -i "s/Spider/蜘蛛/g" $1
+	sed -i "s/Zombie Villager/殭屍村民/g" $1
+	sed -i "s/Zombie/殭屍/g" $1
+	sed -i "s/Creeper/苦力怕/g" $1
+	sed -i "s/Witch/女巫/g" $1
+}
+
+file.replace.escape() {
+	[ -f $1 ] || { echo no file; return 1; }
+	sed -i "s/\[0;30;1m//g" $1
+    sed -i "s/\[0;31;1m//g" $1
+    sed -i "s/\[0;32;1m//g" $1
+    sed -i "s/\[0;33;1m//g" $1
+    sed -i "s/\[0;34;1m//g" $1
+    sed -i "s/\[0;35;1m//g" $1
+    sed -i "s/\[0;36;1m//g" $1
+    sed -i "s/\[0;37;1m//g" $1
+    sed -i "s/\[0;30;22m//g" $1
+    sed -i "s/\[0;31;22m//g" $1
+    sed -i "s/\[0;32;22m//g" $1
+    sed -i "s/\[0;33;22m//g" $1
+    sed -i "s/\[0;34;22m//g" $1
+    sed -i "s/\[0;35;22m//g" $1
+    sed -i "s/\[0;36;22m//g" $1
+    sed -i "s/\[0;37;22m//g" $1    
+	sed -i "s/\[m//g" $1
+	sed -i "s/\[21m//g" $1
+}
+
+grep.teams() {
+	# list=$(grep 'lost the achievement' | awk '{ printf ("%s\n", $4) }' | sort | uniq)
+	# list=$(grep achievement | grep § | grep -v -x $black | awk '{ printf ("%s\n", $4) }' | sort | uniq | grep -v $black)
+	list=$(grep § | grep -v -x $black | awk '{ printf ("%s\n", $4) }' | sort | uniq | grep -v $black)
+	list=$(echo $list | sed "s/$off//g")
+	list=$(echo $list | sed "s/$black/[黑隊]/g")
+	list=$(echo $list | sed "s/$dark_blue/[B5深藍隊]/g")
+	list=$(echo $list | sed "s/$dark_green/[B3深綠隊]/g")
+	list=$(echo $list | sed "s/$dark_aqua/[B4深青隊]/g")
+	list=$(echo $list | sed "s/$dark_red/[B1深紅隊]/g")
+	list=$(echo $list | sed "s/$dark_purple/[B6深紫隊]/g")
+	list=$(echo $list | sed "s/$gold/[B2橘隊]/g")
+	list=$(echo $list | sed "s/$gray/[A7灰隊]/g")
+	list=$(echo $list | sed "s/$dark_gray/[B7深灰隊]/g")
+	list=$(echo $list | sed "s/$blue/[A5藍隊]/g")
+	list=$(echo $list | sed "s/$green/[A3綠隊]/g")
+	list=$(echo $list | sed "s/$aqua/[A4青隊]/g")
+	list=$(echo $list | sed "s/$red/[A1紅隊]/g")
+	list=$(echo $list | sed "s/$light_purple/[A6亮紫隊]/g")
+	list=$(echo $list | sed "s/$yellow/[A2黃隊]/g")
+	list=$(echo $list | sed "s/$white/[白隊]/g")
+	for item in $list
+	do
+		echo $item
+	done
+}
+
+grep.slain() {
+## blew up
+## burned to death
+## fell from a high place
+## fell out of the world
+## hit the ground too hard
+## suffocated in a wall
+## tried to swim in lava
+## was burnt to a crisp
+## was killed by magic
+## was pricked to death
+## was shot by 
+## was slain by 
+## left the game
+## drowned
+## was killed by Witch using magic
+## was blown up by Creeper 
+    # grep left\|
+	grep 'blew\|burned\|fell from\|hit the ground\|suffocated\|swim\|burnt\|killed by magic\|pricked\|shot\|slain\|drowned\|using magic\|blown up\|傳送倒數計時'
+}
+
+grep.winner() {
+	inputlog=`cat`
+	# left=/tmp/left.txt
+	slainlist=/tmp/slain.txt
+	# playerlist=/tmp/players.txt
+	teamlist=/tmp/teams.txt
+	
+	# echo "${inputlog[*]}" | grep left | awk '{ printf ("%s\n", $4) }' | sort | uniq > $left
+	echo "${inputlog[*]}" | grep.slain | awk '{ printf ("%s\n", $4) }' | sed 's/§.//g' > $slainlist
+	# echo "${inputlog[*]}" | grep logged | awk '{ printf ("%s\n", $4) }' | sed 's/\[[^]]*\]//g' | sort | uniq > $playerlist
+	echo "${inputlog[*]}" | grep.teams | sed 's/\[[^]]*\]//g' > $teamlist
+	# echo "${inputlog[*]}" | grep.teams | awk '{ printf ("%s\n", $4) }' | sed 's/\[[^]]*\]//g' | sort | uniq > $playerlist
+	# winners=$(cat $playerlist | grep -v -x -f $slainlist)
+	cat $teamlist | grep -v -x -f $slainlist
+	# for winner in $winners
+	# do
+		# echo $winner
+		# echo "${inputlog[*]}" | grep $winner | grep.left
+	# done
+	
+	rm $slainlist $teamlist
+}
+
+grep.cheater() {
+	grep 'Teleported\|give'
+}
+
+grep.lag() {
+	grep 'overloaded\|TPS has dropped\|free memory pool'
+}
+
+logs.grep() {
+  case "$1" in
+    list)
+		mc_command list | grep.player
+		;;
+    logged)
+		logs | grep.logged
+		;;
+    teams)
+		logs | grep.teams | sort
+		;;
+    slain)
+		logfile=/tmp/slain.log
+		logs | grep.slain >$logfile
+		file.cleanup $logfile
+		file.replace.teamtag $logfile
+		file.replace.cause $logfile
+		file.replace.mob $logfile
+		file.replace.escape $logfile
+		cat $logfile
+		;;
+    winner)
+		logs | grep.winner
+		;;
+    cheater)
+		logs | grep.cheater
+		;;
+    lag)
+		logs | grep.lag
+		;;
+    *)
+    ;;
+  esac
+}

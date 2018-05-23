@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Dropbox
+function install_dropbox {
+	# Variables
+	NAME="Dropbox"
+	PACKAGE="dropbox_2.10.0"
+	REMOTE="https://linux.dropbox.com/packages/ubuntu"
+	install_remote_package $NAME $PACKAGE $REMOTE install_thirdparty
+}

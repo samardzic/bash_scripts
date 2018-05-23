@@ -1,0 +1,133 @@
+#!/bin/bash
+#set -x
+
+REMOVE_ODEX_IF_EXISTS=false
+FACTORY_RESET=false
+FIND_EXISTS=false
+API=$(adb shell getprop ro.build.version.sdk | tr -d '\r')
+FIND=$(adb shell ls /system/ | tr -d '\015'|grep '^find$')
+FULL_PATH=
+ARCH=
+REBOOT="reboot"
+
+show_help()
+{
+    echo "$0 [options] apk"
+    echo "       options:"
+    echo "              -d : if the odex should be removed from the system for the application (if exists)"
+    echo "              -w : if data should be wiped in recovery when rebooting"
+    echo ""
+}
+
+wipedata()
+{
+    echo "--wipe_data" > command
+    adb push command /data/local/tmp
+    adb shell su -c 'dd if=/data/local/tmp/command of=/cache/recovery/command'
+    adb shell su -c 'chmod 644 /cache/recovery/command'
+    adb reboot recovery
+    rm -rf command
+}
+
+get_apk_path()
+{
+    if [ $FIND_EXISTS == true ]; then
+        FULL_PATH=$(find system -name $APK)
+    else
+        FULL_PATH=$(adb shell ls /system/app | grep -w $NAME | tr -d '\r')
+        if [ -z $FULL_PATH ]; then
+            FULL_PATH=$(adb shell ls /system/priv-app | grep -w $NAME | tr -d '\r')
+            if [ -z $FULL_PATH ]; then
+                FULL_PATH=$(adb shell ls /system/framework | grep -w $NAME | tr -d '\r')
+                if [ -z $FULL_PATH ]; then
+                    echo "Unable to determine app's location"
+                    echo "Please enter the full path to the directory containing the apk"
+                    read path
+                    FULL_PATH=$path
+                else
+                    FULL_PATH=/system/framework
+                fi
+            else
+                if [ $API -ge  21 ]; then
+                    FULL_PATH=/system/priv-app/$NAME
+                else
+                    FULL_PATH=/system/priv-app
+                fi
+            fi
+        else
+            if [ $API -ge 21 ]; then
+                FULL_PATH=/system/app/$NAME
+            else
+                FULL_PATH=/system/app
+            fi
+        fi
+    fi
+}
+
+get_apk_arch()
+{
+    if [ $API -ge 21 ]; then
+        if [ $FIND_EXISTS == true ]; then
+            ARCH=$(find $FULL_PATH -name arm)
+        else
+            ARCH=$(adb shell ls $FULL_PATH | grep -w arm | tr -d '\r')
+            if [ -z $ARCH ]; then
+                ARCH=$(adb shell ls $FULL_PATH | grep -w arm64 | tr -d '\r')
+            fi
+        fi
+    fi
+}
+
+if [ $# -eq 0 ]; then
+   show_help
+   exit 1
+fi
+
+OPTIND=1
+while getopts ":dw" opt; do
+    case $opt in
+        d) REMOVE_ODEX_IF_EXISTS=true ;;
+        w) FACTORY_RESET=true ;;
+    esac
+done
+
+shift $((OPTIND-1))
+APK=$1
+NAME=${APK%%.*}
+
+if [ ! -z $FIND ]; then
+    FIND_EXISTS=true
+fi
+
+get_apk_path
+echo "---- Found apk's location at $FULL_PATH ----"
+
+get_apk_arch
+
+echo "---- Pushing apk to device ----"
+adb push $APK /data/local/tmp
+
+echo "---- Mounting system r/w ----"
+adb shell su -c 'mount -o remount,rw /system'
+
+echo "---- Moving app to $FULL_PATH/$APK ----"
+adb shell su -c "dd if=/data/local/tmp/$APK of=$FULL_PATH/$APK"
+if [ $REMOVE_ODEX_IF_EXISTS == true ]; then
+    echo "---- Removing odex ----"
+    if [ ! -z $ARCH ]; then
+        adb shell su -c "rm -rf $FULL_PATH/$ARCH"
+    else
+        adb shell su -c 'rm -rf $FULL_PATH/$NAME.odex'
+    fi
+fi
+
+echo "---- Setting permissions ----"
+adb shell su -c "chmod 644 $FULL_PATH/$APK"
+
+if [ $FACTORY_RESET == true ]; then
+    wipedata
+    REBOOT="reboot recovery"
+fi
+
+echo "---- Rebooting - ($REBOOT) ----"
+adb $REBOOT
