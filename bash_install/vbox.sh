@@ -1,12 +1,15 @@
 #!/bin/sh
 
 
-// Then I should make the above script executable chmod +x <script_name>. 
-// Then to use it, I could type: 
-// ./install <package_name>. 
-// Example: ./install my_apps.sh
+# Docker related envinronment setup
+# Author: Nenad Samardzic
 
- 
+
+
+# TMake the above script executable chmod +x <script_name>. 
+# To use the script type: ./<script_name>. 
+# Example: ./my_apps.sh
+
 # To get the latest package lists
 sudo apt-get update
 
