@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # **************************************
 # Initial developement setup for Linux *
@@ -8,170 +8,361 @@
 
 
 
-# TMake the above script executable chmod +x <script_name>. 
+# To Make the above script executable chmod +x <script_name>. 
 # To use the script type: ./<script_name>. 
 # Example: ./my_apps.sh
 
+
+echo "\n\n----------------------------------------------------------------"
+echo "-------------------------  Variables  --------------------------"
+echo "----------------------------------------------------------------"
+
+
 #Install Location
+
+LINUX_USER=ime
+
 INSTALL_LOCATION=~/Applications
 
 
+# **************************************
+# This conditional checks if theres existing POSTMAN LOCATION folder, and if not it creates it
+# Also, folder is chown to home user privilages - user is defined in LINUX_USER varijable
+
+if [ ! -d "$POSTMAN_LOCATION" ]; 
+then
+	mkdir -p $POSTMAN_LOCATION
+fi
+
+chown $LINUX_USER $POSTMAN_LOCATION
+
+# **************************************
+
+
 # Add PPA sources
-echo "----------------------------------------------------------------"
+echo "\n\n----------------------------------------------------------------"
 echo "----------------------  Adding PPA Sources  --------------------"
 echo "----------------------------------------------------------------"
 
-echo "######################  JAVA PPA  #####################"
+echo "\n\n######################  JAVA PPA  #####################\n"
 sudo add-apt-repository -y ppa:webupd8team/java
 
-echo "######################  Brackets PPA  #####################"
+echo "\n\n######################  Brackets PPA  #####################\n"
 sudo add-apt-repository -y ppa:webupd8team/brackets
 
-echo "######################  Atom PPA  #####################"
+echo "\n\n######################  Atom PPA  #####################\n"
 sudo add-apt-repository -y ppa:webupd8team/atom
 
-echo "######################  LibreOffice PPA  #####################"
+echo "\n\n######################  LibreOffice PPA  #####################\n"
 sudo add-apt-repository -y ppa:libreoffice/ppa
 
+echo "\n\n######################  DOCKER apt repo  #####################\n"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
 
 # To get the latest package lists
-echo "######################  Updating Repositories  #####################"
+echo "\n\n######################  Updating Repositories  #####################\n"
 sudo apt-get update
 
-# To get the latest package lists
-echo "######################  Packages Upgrade  #####################"
-sudo apt-get upgrade
+# Upgrade to latest package lists
+echo "\n\n######################  Packages Upgrade  #####################\n"
+# sudo apt-get -y upgrade
+
+
 
 
 
 
 # Install Essential tools
-echo "----------------------------------------------------------------"
+echo "\n\n----------------------------------------------------------------"
 echo "-----------------  Installing Essential tools  -----------------"
 echo "----------------------------------------------------------------"
 
-echo "######################  Installing build-essential  #####################"
-sudo apt-get install build-essential -y
+echo "\n\n######################  Installing build-essential  #####################\n"
+sudo apt-get install -y build-essential
 
-echo "######################  Installing software-properties-common  #####################"
-sudo apt-get install software-properties-common -y
+echo "\n\n######################  Installing software-properties-common  #####################\n"
+sudo apt-get install -y software-properties-common
 
-echo "######################  Installing python-software-properties  #####################"
-sudo apt-get install python-software-properties -y
+echo "\n\n######################  Installing python-software-properties  #####################\n"
+sudo apt-get install -y python-software-properties
 
-echo "######################  Installing openssh-server & openssh-client  #####################"
-sudo apt-get install openssh-server openssh-client -y
+echo "\n\n######################  Installing openssh-server & openssh-client  #####################\n"
+sudo apt-get install -y openssh-server openssh-client
 
-echo "######################  Installing GIT  #####################"
-sudo apt-get install git -y
+echo "\n\n######################  Installing openssl  #####################\n"
+sudo apt-get install -y openssl
+sudo apt-get install -y zlib1g zlib1g-dev libpcre3 libpcre3-dev libssl-dev
 
-echo "######################  Installing Curl  #####################"
-sudo apt-get install curl -y
+echo "\n\n######################  Installing GIT  #####################\n"
+sudo apt-get install -y git
 
-echo "######################  Installing python-pip  #####################"
-sudo apt-get install python-pip -y
+echo "\n\n######################  Installing Curl  #####################\n"
+sudo apt-get install -y curl
+
+echo "\n\n######################  Installing python-pip  #####################\n"
+sudo apt-get install -y python-pip
 pip -V
 
 
 # Multimedia
-echo "----------------------------------------------------------------"
+echo "\n\n----------------------------------------------------------------"
 echo "----------------  Installing Multimedia tools  -----------------"
 echo "----------------------------------------------------------------"
-echo "######################  Installing ubuntu-restricted-extras  #####################"
-sudo apt install ubuntu-restricted-extras -y
 
-echo "######################  Installing flashplugin-installer  #####################"
-sudo apt-get install flashplugin-installer -y
+echo "\n\n######################  Installing ubuntu-restricted-extras  #####################\n"
+sudo apt install -y ubuntu-restricted-extras
 
-echo "######################  Installing DVD libdvdread4  #####################"
-sudo apt-get install -y libdvdread4
+echo "\n\n######################  Installing flashplugin-installer  #####################\n"
+sudo apt-get install -y flashplugin-installer
+
+echo "\n\n######################  Installing DVD libdvdread4  #####################\n"
+sudo apt-get install -y libdvdcss2 libdvdread4 libdvdnav4
 sudo /usr/share/doc/libdvdread4/install-css.sh
 
-echo "######################  Installing VLC Player  #####################"
-sudo apt install vlc -y
+echo "\n\n######################  Installing VLC Player  #####################\n"
+sudo apt install -y vlc
 
-echo "######################  Installing SMPlayer  #####################"
-sudo apt install smplayer -y
+echo "\n\n######################  Installing SMPlayer  #####################\n"
+sudo apt install -y smplayer
 
 
 
 
 # MQTT tools
-echo "----------------------------------------------------------------"
+echo "\n\n----------------------------------------------------------------"
 echo "---------------=---  Installing MQTT Tools  --------------------"
 echo "----------------------------------------------------------------"
-echo "######################  Installing mosquitto & mosquitto-clients  #####################"
+echo "\n\n######################  Installing mosquitto & mosquitto-clients  #####################\n"
 sudo apt-get install mosquitto mosquitto-clients -y
 
-echo "######################  Installing paho-mqtt  #####################"
-pip install -y paho-mqtt
+echo "\n\n######################  Installing paho-mqtt  #####################\n"
+sudo -H pip install paho-mqtt
 
 
 
 # Install Oracle Java
-echo "----------------------------------------------------------------"
+echo "\n\n----------------------------------------------------------------"
 echo "-------------------  Installing Oracle JAVA  -------------------"
 echo "----------------------------------------------------------------"
-echo "######################  Installing Oracle Java  #####################"
+
+echo "\n\n######################  Installing Oracle Java  #####################\n"
 sudo apt-get install -y oracle-java8-installer
 
-echo "######################  Installing Java Set-default #####################"
+echo "\n\n######################  Installing Java Set-default #####################\n"
 sudo apt-get install -y oracle-java8-set-default
-echo "----------------------------------------------------------------"
+echo "------------------------------------------------------"
 java -version
 which java
 
-echo "######################  Installing General Compression tools #####################"
-sudo apt-get install -y p7zip-rar p7zip-full unace unrar zip unzip sharutils rar uudeview mpack arj cabextract file-rolle
 
 
 
+echo "\n\n----------------------------------------------------------------"
+echo "---------------  Installing Compression Tools  -----------------"
+echo "----------------------------------------------------------------"
+
+echo "\n\n######################  Installing General Compression tools #####################\n"
+sudo apt-get install -y p7zip-rar p7zip-full unace unrar zip unzip sharutils rar uudeview mpack arj cabextract file-roller
+
+
+
+echo "\n\n----------------------------------------------------------------"
+echo "------------------  Installing HTTPS Addons  -------------------"
+echo "----------------------------------------------------------------"
 
 # Install Packages to allow apt to use a repository over HTTPS
-echo "######################  Installing apt-transport-https #####################"
-sudo apt-get install apt-transport-https -y
+echo "\n\n######################  Installing apt-transport-https #####################\n"
+sudo apt-get install -y apt-transport-https
 
-echo "######################  Installing ca-certificates #####################"
-sudo apt-get install ca-certificates -y
+echo "\n\n######################  Installing ca-certificates #####################\n"
+sudo apt-get install -y ca-certificates
+
+
+
+
+
+# Install Various Tools
+echo "\n\n----------------------------------------------------------------"
+echo "-----------------  Installing Tools & Soft  ------------------"
+echo "----------------------------------------------------------------"
+
+echo "\n\n######################  Installing dconf #####################\n"
+sudo apt-get install -y dconf-cli dconf-editor
+
+echo "\n\n######################  Installing KeePassX #####################\n"
+sudo apt-get install -y keepassx
+
+echo "\n\n######################  Installing DropBox #####################\n"
+sudo apt-get install -y dropbox
+
+
+echo "\n\n######################  Installing Krusader #####################\n"
+sudo apt-get install -y krusader
+sudo apt-get install -y krename
+
+echo "\n\n######################  Installing Gparted #####################\n"
+sudo apt-get install -y gparted
+sudo apt-get install -y udftools
+sudo apt-get install -y reiser4progs
+sudo apt-get install -y hfsutils
+sudo apt-get install -y f2fs-tools
+sudo apt-get install -y f2fs-tools
+sudo apt-get install -y nilfs-tools
+sudo apt-get install -y exfat-utils exfat-fuse
+
+
+echo "\n\n######################  Installing HardInfo #####################\n"
+sudo apt-get install -y hardinfo
+
+echo "\n\n######################  Installing ScreenFetch #####################\n"
+sudo apt-get install -y screenfetch
+
+echo "\n\n######################  Installing Shutter #####################\n"
+sudo apt-get install -y shutter
+
+echo "\n\n######################  Installing SreenRuller #####################\n"
+sudo apt-get install -y screenruler
+
+echo "\n\n######################  Installing Konsole #####################\n"
+sudo apt-get install -y konsole
+
+echo "\n\n######################  Installing Terminator #####################\n"
+sudo apt-get install -y terminator
 
 
 
 
 # Install Editors
-echo "----------------------------------------------------------------"
+echo "\n\n----------------------------------------------------------------"
 echo "-----------------  Installing Editors & IDEs  ------------------"
 echo "----------------------------------------------------------------"
 
-echo "######################  Installing Geany editor #####################"
-sudo apt-get install geany -y
+echo "\n\n######################  Installing Geany editor #####################\n"
+sudo apt-get install -y geany
 
-echo "######################  Installing MC Editor #####################"
-sudo apt-get install mc -y
+echo "\n\n######################  Installing MC Editor #####################\n"
+sudo apt-get install -y mc
 
-echo "######################  Installing ATOM Editor #####################"
-sudo apt-get install atom -y
+echo "\n\n######################  Installing ATOM Editor #####################\n"
+sudo apt-get install -y atom
 
-echo "######################  Installing Brackets editor #####################"
-sudo apt-get install brackets -y
+echo "\n\n######################  Installing Brackets editor #####################\n"
+sudo apt-get install -y brackets
+
+echo "\n\n######################  Installing Visual Code editor #####################\n"
+echo "-----------------  VS Curl Download  ------------------"
+# curl -L "https://go.microsoft.com/fwlink/?LinkID=760868" > vscode_package.deb
+
+echo "-----------------  VS wget Download  ------------------"
+wget -r -l1 --no-parent --no-directories -e robots=off '*amd64.deb' https://go.microsoft.com/fwlink/?LinkID=760868 
+mv index.html* vscode_package.deb
+
+sudo dpkg -i vscode_package.deb
+rm vscode_package.deb
+
+
+
+
+echo "\n\n----------------------------------------------------------------"
+echo "-----------------  Installing DataBase Toosl  ------------------"
+echo "----------------------------------------------------------------"
 
 # Database
-sudo apt-get install mysql-server -y
-sudo apt-get install mysql-workbench -y
+echo "\n\n######################  Installing mysql-server #####################\n"
+sudo apt-get install -y mysql-server
+
+echo "\n\n######################  Installing mysql-workbench #####################\n"
+sudo apt-get install -y mysql-workbench
+
+
+
+# DOCKER
+echo "\n\n----------------------------------------------------------------"
+echo "------------  Installing Docker & Docker Compose  --------------"
+echo "----------------------------------------------------------------"
+
+echo "\n\n######################  Removing previous Docker Instllations  #####################\n"
+sudo apt-get remove docker docker-engine docker.io
+
+echo "\n\n######################  Installing docker-ce docker-compose  #####################\n"
+sudo apt-get install -y docker-ce docker-compose
+
+
+
+echo "\n\n----------------------------------------------------------------"
+echo "--------------------  Installing Browsers  ---------------------"
+echo "----------------------------------------------------------------"
 
 # Install Browsers
-sudo apt install chromium-browser -y
-sudo apt install opera -y
+echo "\n\n######################  Installing CHROMIUM #####################\n"
+sudo apt-get install -y chromium-browser
+
+echo "\n\n######################  Installing OPERA #####################\n"
+sudo apt-get install -y opera
+
+echo "\n\n######################  Installing CHROME #####################\n"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb -y
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
+
+echo "\n\n######################  Installing OPERA #####################\n"
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
+
+
+# NODE.js setup
+echo "\n\n----------------------------------------------------------------"
+echo "----------------------  NODE.js setup  -----------------------"
+echo "----------------------------------------------------------------"
+
+echo "\n\n######################  Downloading NODE.js #####################\n"
+wget -r -l1 --no-parent --no-directories -e robots=off -A '*linux-x64.tar.gz' https://nodejs.org/download/release/latest/
+
+echo "\n\n######################  Extracting NODE.js to INSTALL_LOCATION #####################\n"
+sudo tar -xzf *linux-x64.tar.gz -C $POSTMAN_LOCATION/
+
+echo "\n\n######################  Renaming to  NODE_INSTALL #####################\n"
+mv $POSTMAN_LOCATION/node-* $POSTMAN_LOCATION/node_install
+
+chown -R $LINUX_USER $POSTMAN_LOCATION/node* 
+
+echo "\n\n######################  Deleting POSTMAN #####################\n"
+rm *linux-x64.tar.gz
+#sudo ln -s $POSTMAN_LOCATION/Postman/Postman /usr/bin/postman
+
+
+
+
+
+
+
 
 # Postman
+echo "\n\n----------------------------------------------------------------"
+echo "----------------------  Installing IDEs  -----------------------"
+echo "----------------------------------------------------------------"
+
+echo "\n\n######################  Downloading POSTMAN #####################\n"
 wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
-sudo tar -xzf postman.tar.gz -C /opt
+
+echo "\n\n######################  Extracting POSTMAN #####################\n"
+sudo tar -xzf postman.tar.gz -C $POSTMAN_LOCATION/
 rm postman.tar.gz
-sudo ln -s /opt/Postman/Postman /usr/bin/postman
+sudo ln -s $POSTMAN_LOCATION/Postman/Postman /usr/bin/postman
+
+# echo "\n\n######################  Downloading Android Studio #####################\n"
+# wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+# https://dl.google.com/dl/android/studio/ide-zips/3.1.4.0/android-studio-ide-173.4907809-linux.zip
+
+# echo "\n\n######################  Extracting Android Studio #####################\n"
+
+
 
 # Installation cleanup
 sudo apt autoremove -y
-
+sudo apt-get -y autoclean
 
 
