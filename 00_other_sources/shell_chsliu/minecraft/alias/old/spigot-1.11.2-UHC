@@ -3,7 +3,7 @@
 mc1112us=spigot-1.11.2-UHC
 
 mc1112us() {
-	export mcver=$mc1112us && echo mcver=$mcver
+	export mcver=$mc1112us && echo -e mcver=$mcver
 }
 
 alias v11us=mc1112us

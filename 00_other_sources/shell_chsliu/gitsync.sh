@@ -2,7 +2,7 @@
 
 #=================================
 if [ "root" = $(whoami) ]; then
-	echo "no sync while been root"
+	echo -e "no sync while been root"
 	exit
 fi
 
@@ -15,10 +15,10 @@ DP0=$(dirname "$DIR")
 
 #=================================
 if [ -z "$1" ]; then
-	# echo Working in $DP0
+	# echo -e Working in $DP0
 	pushd "$DP0"
 else
-	# echo Working in $1
+	# echo -e Working in $1
 	pushd "$1"
 fi
 

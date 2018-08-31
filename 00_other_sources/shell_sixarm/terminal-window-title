@@ -34,4 +34,4 @@ set -euf -o pipefail
 # Updated: 2015-02-18
 ##
 
-echo -ne "\033]1;$@\007"
+echo -e -ne "\033]1;$@\007"

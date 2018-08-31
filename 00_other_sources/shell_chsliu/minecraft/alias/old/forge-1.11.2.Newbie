@@ -3,7 +3,7 @@
 mc1112n=forge-1.11.2.Newbie
 
 mc1112n() {
-	export mcver=$mc1112n && echo mcver=$mcver
+	export mcver=$mc1112n && echo -e mcver=$mcver
 	cd /mnt/runtimes/$mcver
 }
 

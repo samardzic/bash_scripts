@@ -5,7 +5,7 @@
 
 # Display message for the user
 printf "\n-------------------------------------------------------------\n"
-echo "Enter the FILE NAME (with extension) that you want to create:"
+echo -e "Enter the FILE NAME (with extension) that you want to create:"
 
 # Store  user entered text to "filename" variable
 read filename
@@ -17,4 +17,4 @@ touch $filename && chmod +x $filename
 nano $filename 
 
 # Create BASH SCRIPT definition
-# echo -e "#!/bin/bash"
+# echo -e -e "#!/bin/bash"

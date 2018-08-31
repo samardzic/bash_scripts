@@ -12,7 +12,7 @@ alias connectwear='adb forward tcp:4444 localabstract:/adb-hub; adb connect loca
 function bloatzip()
 {
    if [ -z $1 -o $2 ]; then
-       echo "Please provide the zip name and directory to be zipped"
+       echo -e "Please provide the zip name and directory to be zipped"
        exit 1
    fi
    zip -rn *:: $1 $2
@@ -28,8 +28,8 @@ function add-dex()
     local APK=$1
     local DEX=$2
     if [ -z $APK -o -z $DEX ]; then
-        echo "Must provide an apk and classes.dex"
-        echo "add-dex <apk> <dex to add/update>"
+        echo -e "Must provide an apk and classes.dex"
+        echo -e "add-dex <apk> <dex to add/update>"
         return 1
     fi
     zip -gjq $APK $DEX
@@ -43,7 +43,7 @@ function add-resource()
     RESOURCE_PATH=$2
     DIR=$(pwd)
 
-    echo "Adding $RESOURCE_PATH to $APK"
+    echo -e "Adding $RESOURCE_PATH to $APK"
     (cd apk/$APK_NAME/build/apk; zip -g $DIR/$APK $RESOURCE_PATH)
 }
 
@@ -53,8 +53,8 @@ function add-arsc()
     local APK=$1
     local ARSC=$2
     if [ -z $APK -o -z $ARSC ]; then
-        echo "Must provide an apk and resources.arsc"
-        echo "add-arsc <apk> <arsc to add/update>"
+        echo -e "Must provide an apk and resources.arsc"
+        echo -e "add-arsc <apk> <arsc to add/update>"
         return 1
     fi
     zip -gjq $APK $ARSC
@@ -80,7 +80,7 @@ function lz4unpack()
     INPUT_LZ4=$1
     OUTPUT_LZ4=${INPUT_LZ4%%.*}
     if [ -z $INPUT_LZ4 ]; then
-        echo "Please provide the lz4 compressed ramdisk"
+        echo -e "Please provide the lz4 compressed ramdisk"
         exit 1
     fi
     lz4 -d $INPUT_LZ4 $OUTPUT_LZ4
@@ -93,7 +93,7 @@ function lz4repack()
     OUTPUT_LZ4=${INPUT_LZ4}.gz
 
     if [ -z $INPUT_LZ4 ]; then
-        echo "Please provide the ramdisk to be lz4 compressed"
+        echo -e "Please provide the ramdisk to be lz4 compressed"
         exit 1
     fi
     lz4 -l -9 $INPUT_LZ4 $OUTPUT_LZ4
@@ -103,7 +103,7 @@ function lz4repack()
 function create-ramdisk()
 {
     if [ ! -f init ]; then
-        echo "No ramdisk directory found."
+        echo -e "No ramdisk directory found."
         exit 1
     fi
     find . | cpio -o -H newc | gzip > ../ramdisk.gz
@@ -114,7 +114,7 @@ function extract-ramdisk()
 {
     RAMDISK=$(find ../ -name ramdisk*)
     if [ -z "$RAMDISK" ]; then
-        echo "No ramdisk found in parent directory"
+        echo -e "No ramdisk found in parent directory"
         exit 1
     fi
     gunzip -c $RAMDISK | cpio -i

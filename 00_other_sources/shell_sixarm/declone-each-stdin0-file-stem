@@ -20,7 +20,7 @@ out () { printf %s\\n "$*" ; }
 #
 # Example:
 #
-#     echo "a\0b\0c\0" | declone-each-stdin0-file-stem /originals /clones
+#     echo -e "a\0b\0c\0" | declone-each-stdin0-file-stem /originals /clones
 #
 # The example compares these pairs:
 #

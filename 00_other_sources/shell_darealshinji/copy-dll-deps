@@ -38,8 +38,8 @@ case "$(uname -o)" in
 esac
 
 function errorExit() {
-	echo ""
-	echo "error: $1"
+	echo -e ""
+	echo -e "error: $1"
 	exit 1
 }
 
@@ -55,12 +55,12 @@ function copy_dlls() {
 		export PATH="$dir:$PATH"
 		printf "analyzing \`$file'... "
 		depends -c -oc:"$txt" "$file"
-		echo "done"
+		echo -e "done"
 	fi
 
 	dlls="$(grep '^,.*\.DLL' "$txt" | cut -d '"' -f2 | tr [A-Z] [a-z])"
 	mkdir -p "$outdir"
-	echo "copy dependencies:"
+	echo -e "copy dependencies:"
 	for f in $dlls; do
 		# don't rely on depends.exe to print full paths
 		f="$(basename "$f")"
@@ -69,7 +69,7 @@ function copy_dlls() {
 			cp -vf "$dll" "$outdir"
 		else
 			dll="$(which $f)"
-			if ! $(echo "$dll" | grep -q '/c/Windows/'); then 
+			if ! $(echo -e "$dll" | grep -q '/c/Windows/'); then 
 				cp -vf "$dll" "$outdir"
 			fi
 		fi
@@ -92,7 +92,7 @@ function get_depends_exe() {
 		errorExit "\`wget' or \`curl' not in PATH"
 	fi
 
-	(echo "675ca981ddf557eb7d4550624157dbe5 *$zip" | \
+	(echo -e "675ca981ddf557eb7d4550624157dbe5 *$zip" | \
 	 md5sum -c - 2>/dev/null 1>/dev/null) || \
 		errorExit "incorrect checksum"
 
@@ -105,15 +105,15 @@ function get_depends_exe() {
 		errorExit "\`unzip' not in PATH"
 	fi
 
-	echo "done"
-	echo ""
+	echo -e "done"
+	echo -e ""
 }
 
 input="$1"
 outdir="$2"
 
 if [ -z "$input" ]; then
-	echo "usage: $0 <EXE|DLL|DIR> [<OUTDIR>]"
+	echo -e "usage: $0 <EXE|DLL|DIR> [<OUTDIR>]"
 	exit 1
 fi
 
@@ -140,7 +140,7 @@ if [ -d "$1" ]; then
 	fi
 	for f in "$1"/*.exe "$1"/*.dll ; do
 		copy_dlls "$f" "$outdir"
-		echo ""
+		echo -e ""
 	done
 elif [ -f "$1" ]; then
 	if [ "x$outdir" = "x" ]; then

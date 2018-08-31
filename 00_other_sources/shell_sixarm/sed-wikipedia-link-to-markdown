@@ -8,7 +8,7 @@
 #
 # Example:
 #
-#   $ echo "https://wikipedia.org/wiki/Foo" |
+#   $ echo -e "https://wikipedia.org/wiki/Foo" |
 #     sed-wikipedia-link-to-markdown
 #   [Foo_Bar](https://wikipedia.org/wiki/Foo)
 #

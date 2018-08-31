@@ -2,7 +2,7 @@
 
 ### 
 addto_root_crontab() {
-	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo \"$*\") | crontab -"
+	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo -e \"$*\") | crontab -"
 }
 
 ### 
@@ -29,8 +29,8 @@ mcserver restore
 gcloud auth login
 
 ### 
-echo !!!!!!!!!!!!!!
-echo vi ~/start.mc.sh
-# echo 74
-# echo mcrestore
-echo !!!!!!!!!!!!!!
+echo -e !!!!!!!!!!!!!!
+echo -e vi ~/start.mc.sh
+# echo -e 74
+# echo -e mcrestore
+echo -e !!!!!!!!!!!!!!

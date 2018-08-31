@@ -21,7 +21,7 @@ show_brightness() {
     ACTUAL_LEVEL=`cat $BRIGHTNESS_FILE`
     MAX_LEVEL=`cat $MAX_BRIGHTNESS_FILE`
     killall -9 -q osd_cat &>/dev/null
-    osd_cat     --font="$FONT"     --shadow=1     --color=green     --pos=middle     --align=center     --delay=2 --text "$( [ "z$1" = "z"  ] && echo "Brightness: ${ACTUAL_PERCENTAGE}% ($ACTUAL_LEVEL of $MAX_LEVEL)" || echo $1  )"    --barmode=percentage --percentage=$ACTUAL_PERCENTAGE
+    osd_cat     --font="$FONT"     --shadow=1     --color=green     --pos=middle     --align=center     --delay=2 --text "$( [ "z$1" = "z"  ] && echo -e "Brightness: ${ACTUAL_PERCENTAGE}% ($ACTUAL_LEVEL of $MAX_LEVEL)" || echo -e $1  )"    --barmode=percentage --percentage=$ACTUAL_PERCENTAGE
 }
 
 case "$action" in
@@ -29,6 +29,6 @@ case "$action" in
         show_brightness
         ;;
     *)
-        echo "Usage: $0 {show}"
+        echo -e "Usage: $0 {show}"
         ;;
 esac

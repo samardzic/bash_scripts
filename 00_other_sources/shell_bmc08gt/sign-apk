@@ -8,8 +8,8 @@ KEYSTORE=$2
 ALIAS=$3
 
 if [ -z $APK ] || [ -z $KEYSTORE ] || [ -z $ALIAS ]; then
-    echo "All required info not provided"
-    echo "path to apk, path to keystore, keystore alias"
+    echo -e "All required info not provided"
+    echo -e "path to apk, path to keystore, keystore alias"
     exit
 fi
 

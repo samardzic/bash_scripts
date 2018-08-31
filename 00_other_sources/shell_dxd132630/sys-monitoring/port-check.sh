@@ -29,7 +29,7 @@ LOG_FILE="/var/log/port-check.log"
 # Message Function
 #
 function message {
-echo "
+echo -e "
 ------------: Sys Info :---------------
               
 Hostname : $HOSTNAME 
@@ -55,6 +55,6 @@ if [ $? != 0 ]; then #I am down restarting and telling you about it.
 	touch $LOG_FILE
 	message >> $LOG_FILE
 else # Im fine doing nothing.
-	echo "port $PORT on server $HOSTNAME is up at $(date)" >> /dev/null
+	echo -e "port $PORT on server $HOSTNAME is up at $(date)" >> /dev/null
 fi
 # EOF

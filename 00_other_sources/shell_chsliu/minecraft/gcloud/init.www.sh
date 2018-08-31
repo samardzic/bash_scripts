@@ -2,7 +2,7 @@
 
 ###
 addto_root_crontab() {
-	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo \"$*\") | crontab -"
+	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo -e \"$*\") | crontab -"
 }
 
 ### 
@@ -24,8 +24,8 @@ gcsfuse --key-file /home/sita/.gcloud/chsliu@gmail.com.json creeper-tw-backup /m
 gcloud auth login
 
 ### 
-echo !!!!!!!!!!!!!!
-echo sudo ~/script/newinstall/install_ssl.sh <domain>
-echo !!!!!!!!!!!!!!
-echo vi ~/start.mc.sh
-echo !!!!!!!!!!!!!!
+echo -e !!!!!!!!!!!!!!
+echo -e sudo ~/script/newinstall/install_ssl.sh <domain>
+echo -e !!!!!!!!!!!!!!
+echo -e vi ~/start.mc.sh
+echo -e !!!!!!!!!!!!!!

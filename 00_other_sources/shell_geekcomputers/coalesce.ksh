@@ -18,7 +18,7 @@
 funct_check_params()
 {
 if [ ${NARG} -ne 2 ]; then
-echo "Not Enough Parameters Passed - Please Supply Username and Password for connection to the database" 
+echo -e "Not Enough Parameters Passed - Please Supply Username and Password for connection to the database" 
 exit 1
 fi
 }
@@ -31,7 +31,7 @@ SET PAUSE OFF
 SET HEADING OFF
 SET TERMOUT OFF
 SET FEEDBACK OFF
-SET ECHO OFF
+SET echo -e OFF
 
 COLUMN tablespace_name FORMAT A30
 

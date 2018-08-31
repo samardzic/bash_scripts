@@ -28,7 +28,7 @@ DATE=$(date)
 NUMBERS=$(cat $YUMTMP | egrep '(.i386|.x86_64|.noarch|.src)' | wc -l)
 UPDATES=$(cat $YUMTMP | egrep '(.i386|.x86_64|.noarch|.src)')
 
-echo "
+echo -e "
 There are $NUMBERS updates available on host $HOSTNAME at $DATE
 
 The available updates are:

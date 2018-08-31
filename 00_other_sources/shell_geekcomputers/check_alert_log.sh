@@ -25,7 +25,7 @@ case "$1" in
 'start')
 # Start the perl script
 if [ -f /admin/scripts/check_alert_log.pl ]; then
-  echo "Starting check_alert_log.pl"
+  echo -e "Starting check_alert_log.pl"
   su - oracle -c "nohup /admin/scripts/check_alert_log.pl &"
 fi
 ;;
@@ -39,7 +39,7 @@ fi
 ;;
 
 *)
-echo "usage: /etc/init.d/check_alert_log.sh {start|stop}"
+echo -e "usage: /etc/init.d/check_alert_log.sh {start|stop}"
 ;;
 
 esac

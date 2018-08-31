@@ -19,36 +19,36 @@ do
 #
 	case $ASK_COUNT in # IF user gives no answer in time alloted
 	2)
-		echo
-		echo "Please answer the question."
-		echo
+		echo -e
+		echo -e "Please answer the question."
+		echo -e
 		
 	;;
 	3)
-		echo
-		echo "One last try... please answer the question."
-		echo
+		echo -e
+		echo -e "One last try... please answer the question."
+		echo -e
 		
 	;;
 	4)
-		echo
-		echo "Since you refuse to answer the question..."
-		echo "exiting program."
-		echo
+		echo -e
+		echo -e "Since you refuse to answer the question..."
+		echo -e "exiting program."
+		echo -e
 		#
 		exit
 		
 	;;
 	esac
 #
-	echo
+	echo -e
 #
 	if [ -n "$LINE2" ] 
 	then	# print 2 lines
-		echo $LINE1
-		echo -e $LINE2" \c"
+		echo -e $LINE1
+		echo -e -e $LINE2" \c"
 	else	#  print 1 line
-		echo -e $LINE1" \c"
+		echo -e -e $LINE1" \c"
 	fi
 #
 # Allow 60 seconds to answer before time-out
@@ -71,10 +71,10 @@ y|Y|YES|yes|Yes|yEs|yeS|YEs|yES )
 ;;
 *)
 # IF user answers anything but "yes", exit script
-	echo
-	echo $EXIT_LINE1
-	echo $EXIT_LINE2
-	echo
+	echo -e
+	echo -e $EXIT_LINE1
+	echo -e $EXIT_LINE2
+	echo -e
 	exit
 ;;
 esac
@@ -92,8 +92,8 @@ unset EXIT_LINE2
 ################: Main Script :##############
 # Get name of User Account to check
 #
-echo "Step #1 - Determine User Account to Delete "
-echo
+echo -e "Step #1 - Determine User Account to Delete "
+echo -e
 LINE1="Please enter the username of the user "
 LINE2="account you wish to delete from system:"
 get_answer
@@ -119,15 +119,15 @@ USER_ACCOUNT_RECORD=$(cat /etc/passwd | grep -w $USER_ACCOUNT)
 #
 if [ $? -eq 1 ]		# If the account is not found, exit script
 then	
-echo "Account, $USER_ACCOUNT, not found. "
-	echo "Leaving the Script..."
-	echo
+echo -e "Account, $USER_ACCOUNT, not found. "
+	echo -e "Leaving the Script..."
+	echo -e
 	exit 
 fi
-	echo
-	echo "I found the record:"
-	echo $USER_ACCOUNT_RECORD
-	echo
+	echo -e
+	echo -e "I found the record:"
+	echo -e $USER_ACCOUNT_RECORD
+	echo -e
 #
 LINE1="Is this the correct User Account? [y/n]"
 get_answer
@@ -143,19 +143,19 @@ process_answer
 ##################################################################
 # Search for any running processes that belong to the User Account
 #
-echo
-echo "Step #2 - Find process on system belonging to user account"
-echo
-echo "$USER_ACCOUNT has the following process running: "
-echo
+echo -e
+echo -e "Step #2 - Find process on system belonging to user account"
+echo -e
+echo -e "$USER_ACCOUNT has the following process running: "
+echo -e
 #
 ps -u $USER_ACCOUNT	#List user processes running.
 
 case $? in
 1)	# No processes running for this account currently running."
 	 #
-	echo "There are no processes for this account currently running."
-	echo
+	echo -e "There are no processes for this account currently running."
+	echo -e
 ;;
 0)	# Processes running for this User Account.
 # Ask Script User if wants us to kill the processes.
@@ -168,7 +168,7 @@ get_answer
 	y|Y|YES|yes|Yes|yEs|yeS|YEs|yES ) #If user answers "yes".
 				# Kill User Account processes.
    	#
-	echo
+	echo -e
 	#
 	# Clean-up temp file upon signals
 	trap "rm $USER_ACCOUNT_Running_Process.rpt" SIGTERM SIGINT SIGOUT
@@ -184,19 +184,19 @@ get_answer
 	while [ $? -eq0 ]
 		do
 		# obtain PID
-		USER_PID=$(echo $USER_PROCESS_REC | cut -d " " -f1)
+		USER_PID=$(echo -e $USER_PROCESS_REC | cut -d " " -f1)
 		kill -9 $USER_PID
-		echo "Killed process $USER_PID"
+		echo -e "Killed process $USER_PID"
 		read USER_PROCESS_REC
 		done
 		#
-		echo
+		echo -e
 		rm $USER_ACCOUNT_Running_Process.rpt	#Remove temp report.
 	;;
 	*)	# If user answers anything but "yes", do not kill.
-		echo
-		echo "Will not kill the process(es)"
-		echo
+		echo -e
+		echo -e "Will not kill the process(es)"
+		echo -e
 		
 	;;
 	esac
@@ -205,33 +205,33 @@ esac
 ##################################################################
 # Create a report of all files owned by the User Account
 #
-echo
-echo "Step #3 - Find files on system belonging to user account"
-echo
-echo "Creating a report of all files owned by $USER_ACCOUNT."
-echo
-echo "It is recommended that you backup/archive these files."
-echo "and then do one of two things:"
-echo " 1) Delete the files"
-echo " 2) Change the files' ownership to a current user account."
-echo
-echo "Please wait. This may take a while..."
+echo -e
+echo -e "Step #3 - Find files on system belonging to user account"
+echo -e
+echo -e "Creating a report of all files owned by $USER_ACCOUNT."
+echo -e
+echo -e "It is recommended that you backup/archive these files."
+echo -e "and then do one of two things:"
+echo -e " 1) Delete the files"
+echo -e " 2) Change the files' ownership to a current user account."
+echo -e
+echo -e "Please wait. This may take a while..."
 #
 REPORT_DATE=`date +%y%m%d`
 REPORT_FILE=$USER_ACCOUNT"_Files_"$REPORT_DATE".rpt"
 #
 find / -user $USER_ACCOUNT > $REPORT_FILE 2>/dev/null
 #
-echo
-echo "Report is complete."
-echo "Name of report:	$REPORT_FILE"
-echo "Location of report:	`pwd`"
-echo
+echo -e
+echo -e "Report is complete."
+echo -e "Name of report:	$REPORT_FILE"
+echo -e "Location of report:	`pwd`"
+echo -e
 #############################################
 # - Remove User Account
-echo
-echo "Step #4 - Remove user account"
-echo
+echo -e
+echo -e "Step #4 - Remove user account"
+echo -e
 #
 LINE1="Do you wish to remove $USER_ACCOUNT's account from system? [y/n]"
 get_answer
@@ -244,6 +244,6 @@ EXIT_LINE2="$USER_ACCOUNT at this time, exiting script..."
 process_answer
 #
 userdel $USER_ACCOUNT	# delete user account
-echo "User account, $USER_ACCOUNT, has been removed"
-echo
+echo -e "User account, $USER_ACCOUNT, has been removed"
+echo -e
 # EOF

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USERNAME=sita
-export mcecho_off=1 
+export mcecho -e_off=1 
 cron_min='24'
 cron_hour='*/6'
 cron_day='*'
@@ -31,7 +31,7 @@ as_user() {
 mc_command() {
   command="$1";
   if mc_status; then
-    [ $mcecho_off ] || echo "$JARFILE is running... executing command"
+    [ $mcecho -e_off ] || echo -e "$JARFILE is running... executing command"
     # as_user "screen -p 0 -S minecraft -X eval 'stuff \"$command\"\015'"
     as_user "screen -p 0 -X eval 'stuff \"$command\"\015'"
   fi
@@ -39,13 +39,13 @@ mc_command() {
 
 mc_backup() {
   if mc_status; then
-    echo "Backing up minecraft files"
+    echo -e "Backing up minecraft files"
 	# as_user "tar zcf $BACKUPPATH/MCBKUP_`date "+%Y.%m.%d-%H"`.tar.gz $MCSTORE"
 	# as_user "$MCSTORE/backup.sh"
 	as_user "$DP0/backup.sh $MCSTORE"
-	echo "Backup complete"
+	echo -e "Backup complete"
   else
-    echo "$JARFILE was not running. No need to backup."
+    echo -e "$JARFILE was not running. No need to backup."
   fi
 }
 

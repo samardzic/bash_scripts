@@ -2,7 +2,7 @@
 
 json_encoding() {
     IFS='%'
-    echo $(echo $*|uni2ascii -a U -q)
+    echo -e $(echo -e $*|uni2ascii -a U -q)
     unset IFS
 }
 

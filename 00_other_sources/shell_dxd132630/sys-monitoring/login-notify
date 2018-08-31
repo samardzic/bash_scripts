@@ -20,23 +20,23 @@ LOG_FILE=/var/log/login.log
 #
 KNOWN_IPS="127.0.0.1" # IPs you do not want to be notified about.
 WHO=`w -si`
-loginip=`echo $SSH_CLIENT | awk '{print $1}'`
+loginip=`echo -e $SSH_CLIENT | awk '{print $1}'`
 authorized=false;
 ###################################################
 # message Function
 #
 function message {
-                echo "${msgheader}`hostname`"
-                echo
-                echo "------------: Login Info :---------------"
-                echo
-                echo "Login IP : $loginip"
-                echo "Login User: `whoami`"
-                echo "Date-Time:`date`"
-                echo
-                echo "------------: Logged in users :----------"
-                echo
-                echo "$WHO"
+                echo -e "${msgheader}`hostname`"
+                echo -e
+                echo -e "------------: Login Info :---------------"
+                echo -e
+                echo -e "Login IP : $loginip"
+                echo -e "Login User: `whoami`"
+                echo -e "Date-Time:`date`"
+                echo -e
+                echo -e "------------: Logged in users :----------"
+                echo -e
+                echo -e "$WHO"
                 }
 # End message Function
 ###################################################

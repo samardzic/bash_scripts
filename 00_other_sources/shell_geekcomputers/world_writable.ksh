@@ -18,7 +18,7 @@ funct_check_user()
 {
   ID=$(/usr/ucb/whoami)
   if [ $ID != "root" ]; then
-    echo "$ID, You must be root to run"
+    echo -e "$ID, You must be root to run"
     exit 1
   fi
 }

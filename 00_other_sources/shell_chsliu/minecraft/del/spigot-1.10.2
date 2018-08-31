@@ -43,32 +43,32 @@ mc_status() {
 
 mc_start() {
   if mc_status; then
-    echo "Tried to start but $JARFILE was already running!"
+    echo -e "Tried to start but $JARFILE was already running!"
   else
-    echo "$JARFILE was not running... starting."
+    echo -e "$JARFILE was not running... starting."
     if [ -d $MCSTORE/$WORLD.bak ]; then
-      echo "last $WORLD.bak still exist, crashed warning! manual check required!!!"
+      echo -e "last $WORLD.bak still exist, crashed warning! manual check required!!!"
       exit 1
     fi
     # cd $MCPATH
     if [ ! -f "$MCPATH/$JARFILE" ]; then 
-      echo "Ram drive empty...  prepping."
+      echo -e "Ram drive empty...  prepping."
       # as_user "cp -R $MCSTORE/* $MCPATH/"
 	  as_user "rsync $RSYNCOPT $MCSTORE/ $MCPATH/"
     fi
     as_user "cd $MCPATH && screen -dmS minecraft $INVOCATION"
     sleep 7
     if mc_status; then
-      echo "$JARFILE is now running."
+      echo -e "$JARFILE is now running."
     else
-      echo "Could not start $JARFILE."
+      echo -e "Could not start $JARFILE."
     fi
   fi
 }
 
 mc_stop() {
   if mc_status; then
-    echo "$JARFILE is running... stopping."
+    echo -e "$JARFILE is running... stopping."
     TO_SCREEN="screen -p 0 -S minecraft -X eval 'stuff "
     as_user "$TO_SCREEN \"say SERVER SHUTTING DOWN IN 5 SECONDS. Saving map...\"\015'"
     as_user "$TO_SCREEN \"save-all\"\015'"
@@ -76,25 +76,25 @@ mc_stop() {
     as_user "$TO_SCREEN \"stop\"\015'"
     sleep 5
   else
-    echo "$JARFILE was not running."
+    echo -e "$JARFILE was not running."
   fi
 
   if mc_status; then
-    echo "$JARFILE could not be shut down... still running."
+    echo -e "$JARFILE could not be shut down... still running."
   else
-    echo "$JARFILE is shut down."
+    echo -e "$JARFILE is shut down."
   fi
 }
 
 mc_update() {
    if mc_status; then
-    echo "$JARFILE is running! Will not start update."
+    echo -e "$JARFILE is running! Will not start update."
    else
      as_user "cd $MCPATH && wget -q -O $MCPATH/versions http://s3.amazonaws.com/Minecraft.Download/versions/versions.json"
         snap=`awk -v linenum=3 'NR == linenum {print; exit}' "$MCPATH/versions"`
-        snapVersion=`echo $snap | awk -F'\"' '{print $4}'`
+        snapVersion=`echo -e $snap | awk -F'\"' '{print $4}'`
         re=`awk -v linenum=4 'NR == linenum {print; exit}' "$MCPATH/versions"`
-        reVersion=`echo $re | awk -F'\"' '{print $4}'`
+        reVersion=`echo -e $re | awk -F'\"' '{print $4}'`
         as_user "rm $MCPATH/versions"
         if [ "$1" == "snapshot" ]; then
         MC_SERVER_URL=http://s3.amazonaws.com/Minecraft.Download/versions/$snapVersion/minecraft_server.$snapVersion.jar
@@ -106,32 +106,32 @@ mc_update() {
      then
        if `diff $MCPATH/$JARFILE $MCPATH/minecraft_server.jar.update >/dev/null`
        then 
-         echo "You are already running the latest version of $JARFILE."
+         echo -e "You are already running the latest version of $JARFILE."
 		 as_user "rm $MCPATH/minecraft_server.jar.update"
        else
          as_user "mv $MCPATH/minecraft_server.jar.update $MCPATH/$JARFILE"
-         echo "Minecraft successfully updated."
+         echo -e "Minecraft successfully updated."
        fi
      else
-       echo "Minecraft update could not be downloaded."
+       echo -e "Minecraft update could not be downloaded."
      fi
    fi
  }
 
 mc_savetodisk_offline() {
-   echo "Saving ramdrive to disk."
+   echo -e "Saving ramdrive to disk."
    if [ ! -f $MCPATH/$JARFILE ]; then 
-     echo "Error.. Minecraft not in ram"
+     echo -e "Error.. Minecraft not in ram"
    else
      if [ -d $MCSTORE/$WORLD.bak ]; then
-        echo "last $WORLD.bak still exist, crashed warning! manual check required!!!"
+        echo -e "last $WORLD.bak still exist, crashed warning! manual check required!!!"
         exit 1
      fi
      if [ -d $MCSTORE/$WORLD ]; then
        as_user "mv $MCSTORE/$WORLD $MCSTORE/$WORLD.bak"
      fi
 
-     echo "Saving, screen session closed"
+     echo -e "Saving, screen session closed"
      # as_user "cp -R $MCPATH/* $MCSTORE/"
 	 as_user "rsync $RSYNCOPT $MCPATH/ $MCSTORE/"
 
@@ -143,12 +143,12 @@ mc_savetodisk_offline() {
 
 mc_savetodisk_online() {
   if mc_status; then
-    echo "Saving ramdrive to disk."
+    echo -e "Saving ramdrive to disk."
     if [ ! -f $MCPATH/$JARFILE ]; then
-      echo "Error.. Minecraft not in ram"
+      echo -e "Error.. Minecraft not in ram"
     else
       if [ -d $MCSTORE/$WORLD.bak ]; then
-        echo "last $WORLD.bak still exist, crashed warning! manual check required!!!"
+        echo -e "last $WORLD.bak still exist, crashed warning! manual check required!!!"
         exit 1
       fi
       if [ -d $MCSTORE/$WORLD ]; then
@@ -167,14 +167,14 @@ mc_savetodisk_online() {
       fi
     fi
   else
-    echo "Service is not running"
+    echo -e "Service is not running"
  fi
 
 }
 
 mc_saveoff() {
   if mc_status; then
-    echo "$JARFILE is running... suspending saves"
+    echo -e "$JARFILE is running... suspending saves"
     TO_SCREEN="screen -p 0 -S minecraft -X eval 'stuff "
     as_user "$TO_SCREEN \"say SERVER BACKUP STARTING. Server going readonly...\"\015'"
     as_user "$TO_SCREEN \"save-off\"\015'"
@@ -182,50 +182,50 @@ mc_saveoff() {
     sync
     sleep 10
   else
-    echo "$JARFILE was not running. Not suspending saves."
+    echo -e "$JARFILE was not running. Not suspending saves."
   fi
 }
 
 mc_saveon() {
   if mc_status; then
-    echo "$JARFILE is running... re-enabling saves"
+    echo -e "$JARFILE is running... re-enabling saves"
     TO_SCREEN="screen -p 0 -S minecraft -X eval 'stuff "
     as_user "$TO_SCREEN \"save-on\"\015'"
     as_user "$TO_SCREEN \"say SERVER BACKUP ENDED. Server going read-write...\"\015'"
   else
-    echo "$JARFILE was not running. Not resuming saves."
+    echo -e "$JARFILE was not running. Not resuming saves."
   fi
 }
 
 mc_backup() {
   if mc_status; then
-    echo "Backing up minecraft files"
+    echo -e "Backing up minecraft files"
 	# as_user "tar zcf $BACKUPPATH/MCBKUP_`date "+%Y.%m.%d-%H"`.tar.gz $MCSTORE"
 	as_user "$MCSTORE/backup.sh"
-	echo "Backup complete"
+	echo -e "Backup complete"
   else
-    echo "$JARFILE was not running. No need to backup."
+    echo -e "$JARFILE was not running. No need to backup."
   fi
 }
 
 mc_restore() {
-   echo "Restoring minecraft files to disk"
+   echo -e "Restoring minecraft files to disk"
    as_user "$MCSTORE/restore.sh $1"
-   echo "Restore complete"
+   echo -e "Restore complete"
 }
 
 mc_load() {
-   echo "Loading minecraft files to Ramdisk"
+   echo -e "Loading minecraft files to Ramdisk"
    # as_user "cp -R $MCSTORE/* $MCPATH/"
    as_user "rsync $RSYNCOPT $MCSTORE/ $MCPATH/"
-   echo "Load complete"
+   echo -e "Load complete"
 }
 
 mc_command() {
   command="$1";
   if mc_status; then
     pre_log_len=`wc -l "$MCPATH/logs/latest.log" | awk '{print $1}'`
-    echo "$JARFILE is running... executing command"
+    echo -e "$JARFILE is running... executing command"
     as_user "screen -p 0 -S minecraft -X eval 'stuff \"$command\"\015'"
     sleep .1 # assumes that the command will run and print to the log file in less than .1 seconds
     # print output
@@ -242,12 +242,12 @@ addto_crontab() {
 	cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	if ! crontab_status; then
-		echo "" | sudo tee -a $cronfile
+		echo -e "" | sudo tee -a $cronfile
 		sudo chown $(whoami):crontab $cronfile
 	fi
 	
 	if ! sudo grep -Fxq "$*" $cronfile; then
-		echo "$*" | sudo tee -a $cronfile
+		echo -e "$*" | sudo tee -a $cronfile
 	fi
 }
 
@@ -255,20 +255,20 @@ delfrom_crontab() {
 	cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	line=$*
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	sudo sed -i "/$line/d" $cronfile
 }
 
 delfile() {
 	if [ -e $1 ]; then
-		echo Removing $1
+		echo -e Removing $1
 		sudo rm $1
 	fi
 }
 
 deldir() {
 	if [ -d $1 ]; then
-		echo Removing $1
+		echo -e Removing $1
 		sudo rm -rf $1
 	fi
 }
@@ -277,9 +277,9 @@ deldir() {
 case "$1" in
   status)
     if mc_status; then
-      echo "$JARFILE is running."
+      echo -e "$JARFILE is running."
     else
-      echo "$JARFILE is not running."
+      echo -e "$JARFILE is not running."
     fi
     ;;
   start)
@@ -299,7 +299,7 @@ case "$1" in
     # mc_stop
     # mc_update
     # mc_start
-	echo "Not Supported."
+	echo -e "Not Supported."
     ;;
   save_offline)
     mc_savetodisk_offline
@@ -338,7 +338,7 @@ case "$1" in
       shift
       mc_command "$*"
     else
-      echo "Must specify server command (try 'help'?)"
+      echo -e "Must specify server command (try 'help'?)"
     fi
 	;;
   log)
@@ -361,7 +361,7 @@ case "$1" in
 	delfrom_crontab "$(basename $0)"
 	;;
   *)
-  echo "Usage: /etc/init.d/$0 {start|stop|update|backup|restore|status|restart|save|load|do|log}"
+  echo -e "Usage: /etc/init.d/$0 {start|stop|update|backup|restore|status|restart|save|load|do|log}"
   exit 1
   ;;
 esac

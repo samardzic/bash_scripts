@@ -27,4 +27,4 @@ tar -xaf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${SAUCE_DIR}"
 ${SAUCE_DIR}/bin/sc -u "${SAUCE_USER}" -k "${SAUCE_API_KEY}" -f "${SAUCE_DIR}/sc_ready" 2>&1 &
 while [ ! -e "${SAUCE_DIR}/sc_ready" ]; do sleep 1; done
 
-echo "Sauce is now ready to connect..."
+echo -e "Sauce is now ready to connect..."

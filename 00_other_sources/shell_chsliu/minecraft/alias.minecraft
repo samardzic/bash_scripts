@@ -21,20 +21,20 @@ load_alias() {
 
 #=================================
 mcserver() { 
-#	echo /home/sita/script/minecraft/$mcver $*
+#	echo -e /home/sita/script/minecraft/$mcver $*
 #	/home/sita/script/minecraft/$mcver $*
 
 	if [ -z ${mcver+x} ]; then
-		echo mcver not set
+		echo -e mcver not set
 	else
 		tempsh=/tmp/$mcver
 		if [ ! -f $tempsh ]; then
-			# echo 'echo /home/sita/script/minecraft/minecraft.server $*' > $tempsh
-			echo "#!/bin/bash" > $tempsh
-			echo . /home/sita/script/minecraft/minecraft.server '$*' >> $tempsh
+			# echo -e 'echo -e /home/sita/script/minecraft/minecraft.server $*' > $tempsh
+			echo -e "#!/bin/bash" > $tempsh
+			echo -e . /home/sita/script/minecraft/minecraft.server '$*' >> $tempsh
 			chmod +x $tempsh
 		fi
-		[ $mcecho_off ] || echo -e "${GREEN}=== $mcver $*${NC}"
+		[ $mcecho -e_off ] || echo -e -e "${GREEN}=== $mcver $*${NC}"
 		$tempsh $*
 	fi
 }
@@ -49,8 +49,8 @@ chmc() {
 		export mcver=$1
 		
 		mcpath=/mnt/runtimes/$mcver
-		[ ! -d "$mcpath" ] && { echo -e "${YELLOW}$mcpath not installed${NC}"; }
-		# [   -d "$mcpath" ] && { echo -e ${YELLOW}mcver=$mcver${NC}; cd $mcpath; }
+		[ ! -d "$mcpath" ] && { echo -e -e "${YELLOW}$mcpath not installed${NC}"; }
+		# [   -d "$mcpath" ] && { echo -e -e ${YELLOW}mcver=$mcver${NC}; cd $mcpath; }
 		[   -d "$mcpath" ] && { cd $mcpath; }
 	fi
 }
@@ -64,7 +64,7 @@ filehas() {
 #=================================
 pause() {
 	read -p "Press any key to continue... " -n1 -s
-	echo 
+	echo -e 
 }
 
 #=================================
@@ -72,7 +72,7 @@ game_list_maxplayer() {
     basedir=$1
     for dir in "$basedir"/*; do
         if test -d "$dir"; then            
-            [ -f $dir/server.properties ] && echo $dir && cat $dir/server.properties | grep 'max-players'
+            [ -f $dir/server.properties ] && echo -e $dir && cat $dir/server.properties | grep 'max-players'
         fi
     done
 }
@@ -80,7 +80,7 @@ game_list_maxplayer() {
 #=================================
 geolocation() {
     myIP=$(curl -s https://api.ipify.org)
-    echo -e ${GREEN}$(curl freegeoip.net/xml/$myIP 2>/dev/null | grep RegionName | sed 's/<[\/]*\w*>//g' | xargs), myIP=${myIP} ${NC}
+    echo -e -e ${GREEN}$(curl freegeoip.net/xml/$myIP 2>/dev/null | grep RegionName | sed 's/<[\/]*\w*>//g' | xargs), myIP=${myIP} ${NC}
 }
 
 #=================================
@@ -92,13 +92,13 @@ digthis() {
 check_creeper_ip() {
     geolocation
     digthis home.changen.com.tw
-    echo =================================
+    echo -e =================================
     digthis mc.creeper.tw
     digthis tp1.creeper.tw
     digthis gem.creeper.tw
     digthis wiki.creeper.tw
     # digthis r53.creeper.tw
-    echo =================================
+    echo -e =================================
     # digthis lb.creeper.tw
     digthis uhc.creeper.tw
     digthis www.creeper.tw
@@ -110,16 +110,16 @@ ping_accept_onoff() {
     
     if [ -z "$ping_accept" ]; then
         ping_accept=1; export ping_accept
-        echo -e ${GREEN}Disable ping response${NC}
-        sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
-        sudo ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-request -j DROP
+        echo -e -e ${GREEN}Disable ping response${NC}
+        sudo iptables -A INPUT -p icmp --icmp-type echo -e-request -j DROP
+        sudo ip6tables -A INPUT -p icmpv6 --icmpv6-type echo -e-request -j DROP
         sudo iptables-save | sudo tee /etc/iptables.conf
         sudo ip6tables-save | sudo tee /etc/ip6tables.conf
     else
         unset ping_accept
-        echo -e ${YELLOW}Enable ping response${NC}
-        sudo iptables -D INPUT -p icmp --icmp-type echo-request -j DROP
-        sudo ip6tables -D INPUT -p icmpv6 --icmpv6-type echo-request -j DROP
+        echo -e -e ${YELLOW}Enable ping response${NC}
+        sudo iptables -D INPUT -p icmp --icmp-type echo -e-request -j DROP
+        sudo ip6tables -D INPUT -p icmpv6 --icmpv6-type echo -e-request -j DROP
         sudo rm /etc/iptables.conf
         sudo rm /etc/ip6tables.conf
     fi
@@ -149,7 +149,7 @@ alias start='~/script/init.d/hosts/$(hostname) start'
 help_add 'mcstart' '開啟主機'
 alias mcstart='~/script/init.d/hosts/$(hostname) mcstart'
 help_add 'stop' '關閉主機'
-alias stop='sudo echo && ~/script/init.d/hosts/$(hostname) stop && sudo screen -dmS off shutdown -h now && exit'
+alias stop='sudo echo -e && ~/script/init.d/hosts/$(hostname) stop && sudo screen -dmS off shutdown -h now && exit'
 help_add 'stop2' '關閉主機2'
 alias stop2='~/script/init.d/hosts/$(hostname) stop2'
 

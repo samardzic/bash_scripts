@@ -7,7 +7,7 @@ gbl_proxy_path=`dirname $0`/proxy
 gbl_wait_seconds=30
 
 print_help_msg () {
-    echo "You see, I'm nothing ..."
+    echo -e "You see, I'm nothing ..."
     exit 0
 }
 touch_ssh_proxy () {
@@ -22,7 +22,7 @@ touch_ssh_proxy () {
         sleep 1 && l_wait_sec=$((l_wait_sec+1))
         if [ $l_wait_sec -gt $gbl_wait_seconds ]; then
             l_pid=`ps aux|grep -v grep|grep -P "\stmux\snew-session\s.*\s${gbl_session_name}\s"|awk '{print $2}'`
-            test -n $l_pid && kill -9 $l_pid && echo "Session $gbl_session_name killed."
+            test -n $l_pid && kill -9 $l_pid && echo -e "Session $gbl_session_name killed."
             break
         fi
     done
@@ -30,8 +30,8 @@ touch_ssh_proxy () {
 }
 touch_http_proxy () {
     raw_line=`grep -P "^proxyPort\s*=" $gbl_proxy_conf`
-    [ $? -eq -1 ] && echo "Cannot find proxyPort in $gbl_proxy_conf" && exit 1
-    http_port=`echo ${raw_line##*=}|tr -d [:space:]`
+    [ $? -eq -1 ] && echo -e "Cannot find proxyPort in $gbl_proxy_conf" && exit 1
+    http_port=`echo -e ${raw_line##*=}|tr -d [:space:]`
     if lsof -i tcp:$http_port -n|grep polipo > /dev/null 2>&1 ; then
         gbl_finger_print=1
     else
@@ -41,64 +41,64 @@ touch_http_proxy () {
 open_socks () {
     touch_ssh_proxy
     if [ $gbl_finger_print -eq 1 ]; then
-        echo 'SOCKS proxy has already been established !'
+        echo -e 'SOCKS proxy has already been established !'
         return 0
     fi
 
-    echo 'Starting SOCKS proxy ...'
+    echo -e 'Starting SOCKS proxy ...'
     tmux new-session -d -s "$gbl_session_name" "$gbl_proxy_script"
 
     touch_ssh_proxy
     if [ $gbl_finger_print -eq -1 ]; then
-        echo 'Failed to start socks proxy.'
+        echo -e 'Failed to start socks proxy.'
         return 1
     else
-        echo 'SOCKS proxy is started .'
+        echo -e 'SOCKS proxy is started .'
         return 0
     fi
 }
 close_socks () {
     touch_ssh_proxy
     if [ $gbl_finger_print -eq -1 ]; then
-        echo 'SOCKS proxy is not running !'
+        echo -e 'SOCKS proxy is not running !'
         return 0
     fi
 
     killall "${gbl_session_name}.sh"
-    test $? -eq 0 && echo 'SOCKS proxy is stopped .' || \
-        echo 'Failed to stop SOCKS proxy.' >&2
+    test $? -eq 0 && echo -e 'SOCKS proxy is stopped .' || \
+        echo -e 'Failed to stop SOCKS proxy.' >&2
 }
 restart_socks () {
-    echo 'Restarting SOCKS proxy ...'
+    echo -e 'Restarting SOCKS proxy ...'
     close_socks
     open_socks
 }
 open_http () {
     touch_http_proxy
     if [ $gbl_finger_print -eq 1 ]; then
-        echo 'HTTP proxy has already been established !'
+        echo -e 'HTTP proxy has already been established !'
         return 0
     fi
 
-    echo 'Starting HTTP proxy ...'
+    echo -e 'Starting HTTP proxy ...'
     tmux new-session -d -s "proxy_http" "polipo -c $gbl_proxy_conf"
 
     touch_http_proxy
-    echo 'HTTP proxy is started .'
+    echo -e 'HTTP proxy is started .'
 }
 close_http () {
     touch_http_proxy
     if [ $gbl_finger_print -eq 0 ]; then
-        echo 'HTTP proxy is not running !'
+        echo -e 'HTTP proxy is not running !'
         return 0
     fi
 
     killall polipo
-    test $? -eq 0 && echo 'HTTP proxy is stopped .' || \
-        echo 'Failed to stop HTTP proxy.' >&2
+    test $? -eq 0 && echo -e 'HTTP proxy is stopped .' || \
+        echo -e 'Failed to stop HTTP proxy.' >&2
 }
 restart_http () {
-    echo 'Restarting HTTP proxy ...'
+    echo -e 'Restarting HTTP proxy ...'
     close_http
     open_http
 }
@@ -144,8 +144,8 @@ gbl_proxy_script="${gbl_proxy_path}/${gbl_session_name}.sh"
 gbl_proxy_conf="${gbl_proxy_path}/http_${l_proxy_name}.conf"
 gbl_finger_print=0
 
-[[ "$l_proxy_type" =~ (bundle|socks) ]] && ! test -f "$gbl_proxy_script" && echo "$gbl_proxy_script not found." && exit 1
-[[ "$l_proxy_type" =~ (bundle|http) ]] && ! test -f "$gbl_proxy_conf" && echo "$gbl_proxy_conf not found." && exit 1
+[[ "$l_proxy_type" =~ (bundle|socks) ]] && ! test -f "$gbl_proxy_script" && echo -e "$gbl_proxy_script not found." && exit 1
+[[ "$l_proxy_type" =~ (bundle|http) ]] && ! test -f "$gbl_proxy_conf" && echo -e "$gbl_proxy_conf not found." && exit 1
 [[ "$l_proxy_type" =~ (bundle|socks) ]] && gbl_local_port=`grep "set l_local_port" "$gbl_proxy_script"|awk '{print $3}'`
 
 eval "${l_action_type}_${l_proxy_type}"

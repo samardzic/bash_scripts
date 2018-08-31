@@ -17,12 +17,12 @@ addto_crontab() {
 	cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	if ! crontab_status; then
-		echo "" | sudo tee -a $cronfile
+		echo -e "" | sudo tee -a $cronfile
 		sudo chown $(whoami):crontab $cronfile
 	fi
 	
 	if ! sudo grep -Fxq "$*" $cronfile; then
-		echo "$*" | sudo tee -a $cronfile
+		echo -e "$*" | sudo tee -a $cronfile
 	fi
 }
 
@@ -30,7 +30,7 @@ delfrom_crontab() {
 	cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	line=$*
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	sudo sed -i "/$line/d" $cronfile
 }
 
@@ -55,7 +55,7 @@ main() {
 	DST=$DSTROOT/$filename
 	checkdir "$DST"
 	
-	# echo Entering Dir "$DST"
+	# echo -e Entering Dir "$DST"
 	cd "$DST"
 	
 	# ~/script/youtube/y720best.sh "$DST" --download-archive archive.txt "https://www.youtube.com/playlist?list=PLL7H7U6zd1f0df68ySccybaTThFdcQCaZ" &>log.txt

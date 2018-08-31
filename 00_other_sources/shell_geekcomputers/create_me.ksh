@@ -17,7 +17,7 @@
 funct_check_user()
 {
   if [ `/usr/ucb/whoami` != root ]
-    then echo 'You Must be ROOT to execute this script !!!'
+    then echo -e 'You Must be ROOT to execute this script !!!'
     exit 99
   fi
 }

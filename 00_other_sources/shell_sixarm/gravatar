@@ -19,4 +19,4 @@ set -euf -o pipefail
 # Updated: 2015-01-25
 ##
 
-echo -n 'http://www.gravatar.com/avatar/' && echo -n "$1" | md5sum | sed 's/ -$//'
+echo -e -n 'http://www.gravatar.com/avatar/' && echo -e -n "$1" | md5sum | sed 's/ -$//'

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export mcecho_off=1 
+export mcecho -e_off=1 
 cron_min='00'
 cron_hour='20'
 cron_day='*'

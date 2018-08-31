@@ -14,11 +14,11 @@ infile=$1
 shift
 cmd=$1
 
-echo "To invoke cmd: $cmd"
+echo -e "To invoke cmd: $cmd"
 
 for line in `cat $infile`;
 do
-    echo "$line "; 
+    echo -e "$line "; 
     ssh $line "$cmd";
 done
 

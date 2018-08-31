@@ -13,16 +13,16 @@ checkmd5()
 {
 	md5_result=$(md5sum $1 | awk '{ print $1 }')
 	if [ "$md5_result" = "$2" ] ; then
-		echo "ok"
+		echo -e "ok"
 	else
-		echo "bad_checksum"
+		echo -e "bad_checksum"
 	fi
 }
 
 valid=$(checkmd5 $geoip_path $geoip_md5)
 
 if [ $valid = "bad_checksum" ] ; then
-	echo "Corrupt file"
+	echo -e "Corrupt file"
 	exit 2
 fi
 

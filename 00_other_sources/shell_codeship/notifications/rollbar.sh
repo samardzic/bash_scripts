@@ -23,10 +23,10 @@ ROLLBAR_LOCAL_USER=${ROLLBAR_LOCAL_USER:-$CI_COMMITTER_USERNAME}
 ROLLBAR_COMMENT=${ROLLBAR_COMMENT:-$CI_MESSAGE}
 
 #sanitize semicolons, remove newlines, and replace multiple spaces with a single space
-ROLLBAR_ENVIRONMENT=$(echo ${ROLLBAR_ENVIRONMENT//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-ROLLBAR_REVISION=$(echo ${ROLLBAR_REVISION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-ROLLBAR_LOCAL_USER=$(echo ${ROLLBAR_LOCAL_USER//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-ROLLBAR_COMMENT=$(echo ${ROLLBAR_COMMENT//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+ROLLBAR_ENVIRONMENT=$(echo -e ${ROLLBAR_ENVIRONMENT//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+ROLLBAR_REVISION=$(echo -e ${ROLLBAR_REVISION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+ROLLBAR_LOCAL_USER=$(echo -e ${ROLLBAR_LOCAL_USER//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+ROLLBAR_COMMENT=$(echo -e ${ROLLBAR_COMMENT//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
 
 curl https://api.rollbar.com/api/1/deploy/ \
   -F access_token="${ROLLBAR_TOKEN}" \

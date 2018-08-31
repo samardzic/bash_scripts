@@ -10,13 +10,13 @@
 #
 ##################################################################################################################
 
-echo "deb https://dl.bintray.com/getinsomnia/Insomnia /" | sudo tee -a /etc/apt/sources.list.d/insomnia.list
+echo -e "deb https://dl.bintray.com/getinsomnia/Insomnia /" | sudo tee -a /etc/apt/sources.list.d/insomnia.list
 
 wget --quiet -O - https://insomnia.rest/keys/debian-public.key.asc | sudo apt-key add -
 
 sudo apt-get update
 sudo apt-get install insomnia
 
-echo "################################################################"
-echo "#####################  insomnia installed  #####################"
-echo "################################################################"
+echo -e "################################################################"
+echo -e "#####################  insomnia installed  #####################"
+echo -e "################################################################"

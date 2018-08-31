@@ -10,7 +10,7 @@ out () { printf %s\\n "$*" ; }
 # https://github.com/apankrat/now.sh/blob/master/README.md
 #
 # A simple shell script that prints current date/time while waiting
-# for an input and echoing it to the stdout.
+# for an input and echo -eing it to the stdout.
 #
 # It is particularly useful with [`tail`](http://en.wikipedia.org/wiki/Tail_%28Unix%29)
 # when following log files. Instead of -

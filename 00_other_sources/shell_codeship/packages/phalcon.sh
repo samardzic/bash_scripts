@@ -18,7 +18,7 @@ tar -xaf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${PHALCON_DIR}"
 # compile and enable the extension
 cd "${PHALCON_DIR}/build"
 ./install >/dev/null
-echo "extension=phalcon.so" >> "/home/rof/.phpenv/versions/${PHP_VERSION}/etc/php.ini"
+echo -e "extension=phalcon.so" >> "/home/rof/.phpenv/versions/${PHP_VERSION}/etc/php.ini"
 
 cd "${CWD}"
 php -m | grep phalcon

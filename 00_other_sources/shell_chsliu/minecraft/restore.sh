@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -d "$1" ]; then
-	echo $1 is not a directory, mkdir it.
+	echo -e $1 is not a directory, mkdir it.
 	# exit
 	mkdir "$1"
 fi
@@ -15,23 +15,23 @@ ZIPDIR=/mnt/backup
 . /home/sita/script/include/console.color
 
 BASE=$(basename $DP1)
-ZIPDIR=$(echo $ZIPDIR/$BASE)
+ZIPDIR=$(echo -e $ZIPDIR/$BASE)
 
 
 listfile() {
 	# ZIPLIST=(`ls -at $ZIPDIR/${BASE:0:5}*.zip`)
 	ZIPLIST=(`ls -at $ZIPDIR/*.zip`)
 
-	echo -e "${GREEN}===== Content of $ZIPDIR =====${NC}"
+	echo -e -e "${GREEN}===== Content of $ZIPDIR =====${NC}"
 
 	cnt=0
 	for zip in ${ZIPLIST[@]}
 	do
-		echo $cnt: $(basename $zip)
+		echo -e $cnt: $(basename $zip)
 		cnt=$((cnt + 1))
 	done
 
-	echo -e "${GREEN}=====${NC}"
+	echo -e -e "${GREEN}=====${NC}"
 }
 
 restore() {
@@ -46,7 +46,7 @@ restore() {
 	# ZIPFILE=$(ls -at $ZIPDIR/$BASE*.zip|head -1)
 	ZIPFILE=${ZIPLIST[$index]}
 
-	echo -e "${GREEN}Restore from $ZIPFILE${NC}"
+	echo -e -e "${GREEN}Restore from $ZIPFILE${NC}"
 
 	IGNORE=logs*
 

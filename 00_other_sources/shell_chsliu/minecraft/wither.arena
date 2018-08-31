@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# export mcecho_off=1 
+# export mcecho -e_off=1 
 # console_color=$white
 
 
@@ -34,7 +34,7 @@ get_first_user() {
 	users=$(mcdo list | tail -1 | awk '{ printf ("%s\n", $4) }')
 	for user in $users
 	do
-		echo $user
+		echo -e $user
 		return
 	done
 }
@@ -101,11 +101,11 @@ witherArenaStart() {
     # mcserver do 'execute yozliu ~5 ~5 ~5 summon wither ~ ~ ~' #呼叫凋零怪
 	firstuser=$(get_first_user)
 	if [[ ! -z "${firstuser// }" ]]; then
-		# echo $firstuser
+		# echo -e $firstuser
 		# mcdo "execute $firstuser" '~ ~10 ~ summon wither ~ ~ ~' #呼叫凋零怪
 		mcdo 'summon wither 8578 76 6425' #呼叫凋零怪
 	else
-		echo nobody online, no wither summoned
+		echo -e nobody online, no wither summoned
 	fi
 		
 	mcdo gamerule sendCommandFeedback true		
@@ -120,9 +120,9 @@ witherArenaStart() {
 witherArenaTest() {
 	firstuser=$(get_first_user)
 	if [[ ! -z "${firstuser// }" ]]; then
-		echo $firstuser
+		echo -e $firstuser
 	else
-		echo nobody online
+		echo -e nobody online
 	fi
 }
 

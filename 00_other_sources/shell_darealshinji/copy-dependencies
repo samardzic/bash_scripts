@@ -2,7 +2,7 @@
 
 file="${1}"
 test -z "${file}" && \
-echo "usage: ${0} <elf-file>" && exit 0
+echo -e "usage: ${0} <elf-file>" && exit 0
 
 dependencies=$(\
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/i386-linux-gnu/mesa:/usr/lib/x86_64-linux-gnu/mesa" \
@@ -17,5 +17,5 @@ for f in ${dependencies} ${interpreter} ; do
     destdir="${dirname}/$(dirname "${f}")"
     mkdir -p "${destdir}"
     cp -f "${f}" "${destdir}"
-    echo "copy ${f}"
+    echo -e "copy ${f}"
 done

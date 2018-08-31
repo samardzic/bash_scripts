@@ -35,13 +35,13 @@ LIBRATO_LINK_LABEL=${LIBRATO_LINK_LABEL:-$CI_NAME}
 LIBRATO_LINK_HREF=${LIBRATO_LINK_HREF:-$CI_BUILD_URL}
 
 #sanitize semicolons, remove newlines, and replace multiple spaces with a single space
-LIBRATO_STREAM=$(echo ${LIBRATO_STREAM//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-LIBRATO_TITLE=$(echo ${LIBRATO_TITLE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-LIBRATO_DESCRIPTION=$(echo ${LIBRATO_DESCRIPTION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-LIBRATO_SOURCE=$(echo ${LIBRATO_SOURCE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-LIBRATO_LINK_REL=$(echo ${LIBRATO_LINK_REL//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-LIBRATO_LINK_LABEL=$(echo ${LIBRATO_LINK_LABEL//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-LIBRATO_LINK_HREF=$(echo ${LIBRATO_LINK_HREF//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_STREAM=$(echo -e ${LIBRATO_STREAM//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_TITLE=$(echo -e ${LIBRATO_TITLE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_DESCRIPTION=$(echo -e ${LIBRATO_DESCRIPTION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_SOURCE=$(echo -e ${LIBRATO_SOURCE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_LINK_REL=$(echo -e ${LIBRATO_LINK_REL//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_LINK_LABEL=$(echo -e ${LIBRATO_LINK_LABEL//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+LIBRATO_LINK_HREF=$(echo -e ${LIBRATO_LINK_HREF//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
 
 curl \
   -u ${LIBRATO_USERID}:${LIBRATO_TOKEN} \

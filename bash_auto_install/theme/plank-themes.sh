@@ -19,8 +19,8 @@
 ########################                     lsb-release present                        ##########################
 ##################################################################################################################
 
-echo "################################################################"
-echo "Checking presence of lsb-release and install it when missing"
+echo -e "################################################################"
+echo -e "Checking presence of lsb-release and install it when missing"
 
 	if ! location="$(type -p "lsb_release")" || [ -z "lsb_release" ]; then
 
@@ -50,8 +50,8 @@ echo "Checking presence of lsb-release and install it when missing"
 
 DISTRO=$(lsb_release -si)
 
-echo "################################################################"
-echo "You are working on " $DISTRO
+echo -e "################################################################"
+echo -e "You are working on " $DISTRO
 
 
 
@@ -65,14 +65,14 @@ case $DISTRO in
 
 		if ! location="$(type -p "git")" || [ -z "git" ]; then
 
-			echo "################################################################"
-			echo "installing git for this script to work"
+			echo -e "################################################################"
+			echo -e "installing git for this script to work"
 
 		  	sudo apt-get install -y git
 
 		  else
-		  	echo "################################################################"
-		  	echo "Git was installed. Proceeding..."
+		  	echo -e "################################################################"
+		  	echo -e "Git was installed. Proceeding..."
 		fi
 
 		;;
@@ -81,14 +81,14 @@ case $DISTRO in
 
 		if ! location="$(type -p "git")" || [ -z "git" ]; then
 
-			echo "################################################################"
-			echo "installing git for this script to work"
+			echo -e "################################################################"
+			echo -e "installing git for this script to work"
 
 		  	sudo pacman -S --noconfirm git
 
 		  else
-		  	echo "################################################################"
-		  	echo "git was installed. Proceeding..."
+		  	echo -e "################################################################"
+		  	echo -e "git was installed. Proceeding..."
 
 
 		fi
@@ -99,19 +99,19 @@ case $DISTRO in
 
 		if ! location="$(type -p "git")" || [ -z "git" ]; then
 
-			echo "################################################################"
-			echo "installing git for this script to work"
+			echo -e "################################################################"
+			echo -e "installing git for this script to work"
 
 		  	sudo eopkg install -y git
 
 		  else
-		  	echo "git was installed. Proceeding..."
+		  	echo -e "git was installed. Proceeding..."
 		fi
 
 		;;
 
 	*)
-		echo "No installation lines for your system."
+		echo -e "No installation lines for your system."
 
 		;;
 esac
@@ -147,6 +147,6 @@ rm -rf /tmp/Plank-Themes
 
 
 
-echo "################################################################"
-echo "###################  plank themes installed   ##################"
-echo "################################################################"
+echo -e "################################################################"
+echo -e "###################  plank themes installed   ##################"
+echo -e "################################################################"

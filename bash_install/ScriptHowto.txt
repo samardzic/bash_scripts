@@ -2,7 +2,7 @@
 
 #!/bin/bash
 clear
-echo "Good morning, world."
+echo -e "Good morning, world."
 
 
 - After saving this plain text file

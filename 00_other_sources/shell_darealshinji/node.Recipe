@@ -21,12 +21,12 @@ mkdir $APP.AppDir
 cd $APP.AppDir
 
 tar xf ../$tarball
-mv $(echo $tarball | sed 's|\.tar\.xz$||') usr
+mv $(echo -e $tarball | sed 's|\.tar\.xz$||') usr
 rm -rf ./usr/include
 
 if [ "$APP" = "node" ]; then
   rm -rf ./usr/lib/node_modules/npm ./usr/bin/npm ./usr/bin/npx
-  VERSION=$(echo $tarball | cut -d- -f2)
+  VERSION=$(echo -e $tarball | cut -d- -f2)
 else
   if [ -z "$npm_pkg" ]; then
     npm_pkg=$APP

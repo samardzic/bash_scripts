@@ -9,7 +9,7 @@ while getopts 'o' OPT; do
     esac
 done
 if [ $# -ne 2 ] || ! [ -d "$1" ] || ([ -e "$2" ] && ! [ -d "$2" ]); then
-    echo "Usage: $0 [OPTIONS] SRC_DIR TARGET_DIR" >&2
+    echo -e "Usage: $0 [OPTIONS] SRC_DIR TARGET_DIR" >&2
     exit 1
 fi
 ! test -e "$2" && mv "$1" "$2" && exit 0

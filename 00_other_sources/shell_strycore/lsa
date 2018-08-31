@@ -12,5 +12,5 @@ apache_dir="/etc/apache2/sites-enabled/"
 for file in $(ls $apache_dir); do
     srvname=$(grep ServerName $apache_dir$file | sed 's|ServerName\s*|http://|') 
     root=$(grep DocumentRoot $apache_dir$file | sed 's|DocumentRoot\s*||') 
-    echo $file : $srvname " stored in " $root
+    echo -e $file : $srvname " stored in " $root
 done

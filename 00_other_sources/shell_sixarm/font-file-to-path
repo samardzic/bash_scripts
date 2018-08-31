@@ -31,4 +31,4 @@ src="$1"
 family=`font-file-to-family "$src"`
 fullname=`font-file-to-full-name "$src"`
 ext=`font-file-to-ext "$src"`
-echo "$family/$fullname.$ext"
+echo -e "$family/$fullname.$ext"

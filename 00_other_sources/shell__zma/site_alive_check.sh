@@ -13,7 +13,7 @@ wget --tries=3 --timeout=10 ${testurl} -O ${testfileaddr}
 if [[ -f ${testfileaddr}  ]]
 then
     date;
-    echo "ok";
+    echo -e "ok";
 else
     date | mailx -S smtp="smtp://smtp.ust.hk" -s "fclose.com test failed." -r "zma@fclose.com" zma@fclose.com
 fi

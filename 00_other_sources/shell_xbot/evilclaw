@@ -5,7 +5,7 @@
 
 print_help_msg()
 {
-    echo "You see, I'm nothing ."
+    echo -e "You see, I'm nothing ."
     exit 0
 }
 
@@ -19,7 +19,7 @@ check_param()
 check_m3u()
 {
     if ! [ -a p.m3u ] || [ `wc -l p.m3u|awk '{ print $1 }'` -eq 0 ]; then
-        echo '#EXTM3U' > p.m3u
+        echo -e '#EXTM3U' > p.m3u
     fi
 }
 
@@ -30,7 +30,7 @@ maketmpdir()
         dirname='evilclaw_'`date +%s`
     done
     mkdir -p /tmp/${dirname}
-    echo $dirname
+    echo -e $dirname
 }
 
 export LC_ALL=en_US.UTF-8
@@ -39,11 +39,11 @@ export LC_ALL=en_US.UTF-8
 while getopts t: opt; do
     case $opt in
         t)
-            echo $OPTARG
+            echo -e $OPTARG
             shift 2
             ;;
         *)
-            echo '*'
+            echo -e '*'
             ;;
     esac
 done
@@ -56,14 +56,14 @@ curpath=`pwd`
 cd $tmppath
 
 # Parse downloading URLs and put them in meta.html
-ue=$(php -r "echo urlencode('$1');")
+ue=$(php -r "echo -e urlencode('$1');")
 parser="http://www.flvcd.com/parse.php?flag=&format=high&kw=$ue&sbt=%BF%AA%CA%BCGO%21"
 if ! wget $parser -U mozilla -O meta.html ; then
-    echo "Unable to touch the parser, check network status for the cause ."
+    echo -e "Unable to touch the parser, check network status for the cause ."
     exit 1
 fi
 if ! enca -L zh_CN -x utf-8 meta.html > /dev/null 2>&1; then
-    echo 'Error: Failed encoding meta.html !'
+    echo -e 'Error: Failed encoding meta.html !'
     exit 1
 fi
 
@@ -80,17 +80,17 @@ sed -i 's/<U>//g' url.lst
 l1=`wc -l title.lst|awk '{ print $1 }'`
 l2=`wc -l url.lst|awk '{ print $1 }'`
 if [ "$l1" != "$l2" ]; then
-    echo "Error: Title.lst has $l1 lines, but url.lst got $l2."
+    echo -e "Error: Title.lst has $l1 lines, but url.lst got $l2."
     exit 1
 fi
 if [ $l1 -eq 0 ]; then
-    echo "Error: Nothing got from the parser, check meta.html for detail info."
+    echo -e "Error: Nothing got from the parser, check meta.html for detail info."
     exit 1
 fi
 
 # Make the album directory
 if [ -e "${curpath}/${album}" ]; then
-    echo "Error: Target directory exists !"
+    echo -e "Error: Target directory exists !"
     exit 1
 fi
 mkdir -p "${curpath}/${album}"
@@ -110,12 +110,12 @@ while [ $idx -lt $l1 ]; do
     url=${arrURL[$idx]}
     idx=$((idx+1))
     if ! wget $url -U mozilla -O "${title}.flv" ; then
-        echo "Failed fetching ${title}.flv, maybe its URL has been changed !"
+        echo -e "Failed fetching ${title}.flv, maybe its URL has been changed !"
         exit 0
     fi
     cmd="sed -i '\$a\\${title}.flv' p.m3u"
     eval $cmd
 done
 
-echo 'done !'
+echo -e 'done !'
 exit 0

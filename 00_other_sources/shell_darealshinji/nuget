@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ ! "$(which mono)" ]; then
-	echo "'mono' is not in PATH"
+	echo -e "'mono' is not in PATH"
 	exit 1
 fi
 
@@ -19,11 +19,11 @@ if [ ! -f "$NuGet" ]; then
 	if [ "$(which mozroots)" ]; then
 		printf "Import and sync trusted root certificates ... " && mozroots --import --sync --quiet && printf "done\n"
 	else
-		echo "'mozroots' is not in PATH. Cannot import and sync trusted root certificates."
+		echo -e "'mozroots' is not in PATH. Cannot import and sync trusted root certificates."
 	fi
 
 	# layout
-	echo ""
+	echo -e ""
 fi
 
 mono "$NuGet" "$@"

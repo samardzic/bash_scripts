@@ -8,10 +8,10 @@ set -euf -o pipefail
 #
 # Examples:
 #
-#     $ command-is-installed ls && echo "true" || echo "false"
+#     $ command-is-installed ls && echo -e "true" || echo -e "false"
 #     true
 #
-#     $ command-is-installed whatever && echo "true" || echo "false"
+#     $ command-is-installed whatever && echo -e "true" || echo -e "false"
 #     false
 #
 # Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)

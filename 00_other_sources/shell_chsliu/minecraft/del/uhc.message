@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export mcecho_off=1 
+export mcecho -e_off=1 
 cron_min='51-59'
 cron_hour='19'
 cron_day='*'
@@ -87,5 +87,5 @@ message2hr() {
 quiet_run message1hr
 # quiet_run message2hr
 
-# echo $0 >> /tmp/debug
-# echo $mcver >> /tmp/debug
+# echo -e $0 >> /tmp/debug
+# echo -e $mcver >> /tmp/debug

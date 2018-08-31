@@ -27,6 +27,6 @@ do
         fi
     done
     if [ $needed = 1 ]; then
-        echo "Missing $l"
+        echo -e "Missing $l"
     fi
 done

@@ -57,27 +57,27 @@ done
 error_state=0;
 
 if [ "$mysql_user" = '' ] ; then
-    echo "You MUST specify MySQL user !"
+    echo -e "You MUST specify MySQL user !"
     error_state=1
 fi
 
 if [ "$mysql_password" = '' ] ; then
-    echo "You MUST specify MySQL password !"
+    echo -e "You MUST specify MySQL password !"
     error_state=1
 fi
 
 if [ "$mysql_database" = '' ] ; then
-    echo "You MUST specify MySQL database !"
+    echo -e "You MUST specify MySQL database !"
     error_state=1
 fi
 
 if [ ! -d "$destdir" ] ; then
-    echo "Destination directory doesn't exist !"
+    echo -e "Destination directory doesn't exist !"
     error_state=1
 fi
 
 if [ "$error_state" = 1 ] ; then
-    echo "There are errors in your arguments, exiting."
+    echo -e "There are errors in your arguments, exiting."
     exit 2
 fi
 
@@ -97,5 +97,5 @@ if [ $gzip_enable ] ; then
 fi
 
 #Finish
-echo $dumpfile
+echo -e $dumpfile
 exit 0

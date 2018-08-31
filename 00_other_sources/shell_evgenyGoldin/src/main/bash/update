@@ -4,23 +4,23 @@ clear
 
 git  checkout dev
 git  status
-echo Press Enter to continue ..
+echo -e Press Enter to continue ..
 read
 
 git remote update
 git fetch
 git --no-pager log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -20
 
-echo
-echo
-echo Press Enter to continue ..
+echo -e
+echo -e
+echo -e Press Enter to continue ..
 read
 
 git pull origin dev
 
 git  checkout master
 git  status
-echo Press Enter to continue ..
+echo -e Press Enter to continue ..
 read
 
 git pull origin master

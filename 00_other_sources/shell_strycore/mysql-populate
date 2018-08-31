@@ -9,7 +9,7 @@ password=admin
 
 dump=$1
 
-echo "SET foreign_KEY_CHECKS=0;" > /tmp/nocheck.sql
+echo -e "SET foreign_KEY_CHECKS=0;" > /tmp/nocheck.sql
 cat /tmp/nocheck.sql $1 > /tmp/mysql_import.sql
 
 mysql -u $user -p $password $database < /tmp/mysql_import.sql

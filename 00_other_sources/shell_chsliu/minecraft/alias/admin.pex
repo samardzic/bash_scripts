@@ -12,7 +12,7 @@ group_list() {
     
     while test ${#} -gt 0
     do
-        echo -e "${GREEN}=== $mcver pex group $1 users ${NC}"
+        echo -e -e "${GREEN}=== $mcver pex group $1 users ${NC}"
         export LOG_DELAY=.3
         mcserver do pex group $1 users | tail -n +4 | awk 'BEGIN {FS="/"}; {printf("%s\n", $3)}' | sed 's/\[m//g' >>$idlist
         export LOG_DELAY=.1
@@ -23,7 +23,7 @@ group_list() {
 }
 
 group_add() {
-    [ -z "$2" ] && echo need groupname and idlist && return
+    [ -z "$2" ] && echo -e need groupname and idlist && return
     idfile=$idlist
     [ ! -z "$2" ] && [ -f "$2" ] && idfile=$2
     [ -f $idfile ] && ids=`cat $idfile`
@@ -34,7 +34,7 @@ group_add() {
 }
 
 group_clear() {
-    [ -z "$2" ] && echo need groupname and idlist && return
+    [ -z "$2" ] && echo -e need groupname and idlist && return
     idfile=$idlist
     [ ! -z "$2" ] && [ -f "$2" ] && idfile=$2
     [ -f $idfile ] && ids=`cat $idfile`
@@ -45,8 +45,8 @@ group_clear() {
 }
 
 group_set() {
-    [ -z "$1" ] && echo need groupname && return
-    [ ! -f ~/$1 ] && echo need preset list ~/$1 && return
+    [ -z "$1" ] && echo -e need groupname && return
+    [ ! -f ~/$1 ] && echo -e need preset list ~/$1 && return
     group_list $1
     group_clear $1 $idlist
     group_add $1 ~/$1
@@ -54,7 +54,7 @@ group_set() {
 
 #=================================
 op_list() {
-    echo -e "${GREEN}=== $mcver op list ${NC}"
+    echo -e -e "${GREEN}=== $mcver op list ${NC}"
     cat /mnt/runtimes/$mcver/ops.json | grep name | awk 'BEGIN {FS="\""}; {printf("%s\n", $4)}' | sed 's/\[m//g' >$idlist
     cat $idlist
 }
@@ -84,12 +84,12 @@ op_clear() {
 #=================================
 whitelist_list() {
     [ -f $idlist ] && rm $idlist
-    echo -e "${GREEN}=== $mcver whitelist list ${NC}"
+    echo -e -e "${GREEN}=== $mcver whitelist list ${NC}"
     
     # ids=$(mcserver do whitelist list | tail -n +4 | awk '{$1=$2=$3=""; print $0;}' | sed 's/and/ /g' | sed 's/,/ /g')
     # for id in $ids
     # do
-        # echo $id >>$idlist
+        # echo -e $id >>$idlist
     # done
     
     cat /mnt/runtimes/$mcver/whitelist.json | grep name | awk 'BEGIN {FS="\""}; {printf("%s\n", $4)}' | sed 's/\[m//g' >$idlist

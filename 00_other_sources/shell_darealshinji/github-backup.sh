@@ -46,6 +46,6 @@ done
 
 set +x
 
-echo ""
-echo "Done!"
+echo -e ""
+echo -e "Done!"
 

@@ -12,5 +12,5 @@ if [ "$TMP" != "" -a -d "$TMP" ]; then
     convmv --notest -f gbk -t utf8 *
     cnt=`ls|wc -l`
     [ $cnt -eq 1 ] && mv * .. && cd .. && rmdir "$TMP"
-    [ $cnt -gt 1 ] && ! [ -d $DIR ] && cd .. && mv "$TMP" "$DIR" || echo "$DIR already exists or failed renaming the temp dir." >&2
+    [ $cnt -gt 1 ] && ! [ -d $DIR ] && cd .. && mv "$TMP" "$DIR" || echo -e "$DIR already exists or failed renaming the temp dir." >&2
 fi

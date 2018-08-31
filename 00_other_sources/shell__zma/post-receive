@@ -48,7 +48,7 @@
 #   "%s" replaced with the commit id.  Defaults to "git rev-list -1
 #   --pretty %s", displaying the commit id, author, date and log
 #   message.  To list full patches separated by a blank line, you
-#   could set this to "git show -C %s; echo".
+#   could set this to "git show -C %s; echo -e".
 #
 # Notes
 # -----
@@ -139,14 +139,14 @@ generate_email()
             # tracking branch
             refname_type="tracking branch"
             short_refname=${refname##refs/remotes/}
-            echo >&2 "*** Push-update of tracking branch, $refname"
-            echo >&2 "***  - no email generated."
+            echo -e >&2 "*** Push-update of tracking branch, $refname"
+            echo -e >&2 "***  - no email generated."
             exit 0
             ;;
         *)
             # Anything else (is there anything else?)
-            echo >&2 "*** Unknown type of update to $refname ($rev_type)"
-            echo >&2 "***  - no email generated"
+            echo -e >&2 "*** Unknown type of update to $refname ($rev_type)"
+            echo -e >&2 "***  - no email generated"
             exit 1
             ;;
     esac
@@ -161,8 +161,8 @@ generate_email()
                 config_name="hooks.mailinglist"
                 ;;
         esac
-        echo >&2 "*** $config_name is not set so no email will be sent"
-        echo >&2 "*** for $refname update $oldrev->$newrev"
+        echo -e >&2 "*** $config_name is not set so no email will be sent"
+        echo -e >&2 "*** for $refname update $oldrev->$newrev"
         exit 0
     fi
 
@@ -243,16 +243,16 @@ EOF
 generate_create_branch_email()
 {
 	# This is a new branch and so oldrev is not valid
-	echo "        at  $newrev ($newrev_type)"
-	echo ""
+	echo -e "        at  $newrev ($newrev_type)"
+	echo -e ""
 
-	echo $LOGBEGIN
+	echo -e $LOGBEGIN
     # avoid very large emails.
 	# show_new_revisions
     # show at most 20 log entries
 	show_n_new_revisions 20
 
-	echo $LOGEND
+	echo -e $LOGEND
 }
 
 #
@@ -340,7 +340,7 @@ generate_update_branch_email()
     for rev in $(git rev-list $newrev..$oldrev)
     do
         revtype=$(git cat-file -t "$rev")
-        echo "  discards  $rev ($revtype)"
+        echo -e "  discards  $rev ($revtype)"
     done
     if [ -z "$rev" ]; then
         fast_forward=1
@@ -354,11 +354,11 @@ generate_update_branch_email()
     for rev in $(git rev-list $oldrev..$newrev)
     do
         revtype=$(git cat-file -t "$rev")
-        echo "       via  $rev ($revtype)"
+        echo -e "       via  $rev ($revtype)"
     done
 
     if [ "$fast_forward" ]; then
-        echo "      from  $oldrev ($oldrev_type)"
+        echo -e "      from  $oldrev ($oldrev_type)"
     else
         #  1. Existing revisions were removed.  In this case newrev
         #     is a subset of oldrev - this is the reverse of a
@@ -370,56 +370,56 @@ generate_update_branch_email()
         # happened, we set a flag to indicate that no log printout
         # is required.
 
-        echo ""
+        echo -e ""
 
         # Find the common ancestor of the old and new revisions and
         # compare it with newrev
         baserev=$(git merge-base $oldrev $newrev)
         rewind_only=""
         if [ "$baserev" = "$newrev" ]; then
-            echo "This update discarded existing revisions and left the branch pointing at"
-            echo "a previous point in the repository history."
-            echo ""
-            echo " * -- * -- N ($newrev)"
-            echo "            \\"
-            echo "             O -- O -- O ($oldrev)"
-            echo ""
-            echo "The removed revisions are not necessarilly gone - if another reference"
-            echo "still refers to them they will stay in the repository."
+            echo -e "This update discarded existing revisions and left the branch pointing at"
+            echo -e "a previous point in the repository history."
+            echo -e ""
+            echo -e " * -- * -- N ($newrev)"
+            echo -e "            \\"
+            echo -e "             O -- O -- O ($oldrev)"
+            echo -e ""
+            echo -e "The removed revisions are not necessarilly gone - if another reference"
+            echo -e "still refers to them they will stay in the repository."
             rewind_only=1
         else
-            echo "This update added new revisions after undoing existing revisions.  That is"
-            echo "to say, the old revision is not a strict subset of the new revision.  This"
-            echo "situation occurs when you --force push a change and generate a repository"
-            echo "containing something like this:"
-            echo ""
-            echo " * -- * -- B -- O -- O -- O ($oldrev)"
-            echo "            \\"
-            echo "             N -- N -- N ($newrev)"
-            echo ""
-            echo "When this happens we assume that you've already had alert emails for all"
-            echo "of the O revisions, and so we here report only the revisions in the N"
-            echo "branch from the common base, B."
+            echo -e "This update added new revisions after undoing existing revisions.  That is"
+            echo -e "to say, the old revision is not a strict subset of the new revision.  This"
+            echo -e "situation occurs when you --force push a change and generate a repository"
+            echo -e "containing something like this:"
+            echo -e ""
+            echo -e " * -- * -- B -- O -- O -- O ($oldrev)"
+            echo -e "            \\"
+            echo -e "             N -- N -- N ($newrev)"
+            echo -e ""
+            echo -e "When this happens we assume that you've already had alert emails for all"
+            echo -e "of the O revisions, and so we here report only the revisions in the N"
+            echo -e "branch from the common base, B."
         fi
     fi
 
-    echo ""
+    echo -e ""
     if [ -z "$rewind_only" ]; then
-        # echo "Those revisions listed above that are new to this repository have"
-        # echo "not appeared on any other notification email; so we list those"
-        # echo "revisions in full, below."
+        # echo -e "Those revisions listed above that are new to this repository have"
+        # echo -e "not appeared on any other notification email; so we list those"
+        # echo -e "revisions in full, below."
 
-        echo ""
-        echo $LOGBEGIN
+        echo -e ""
+        echo -e $LOGBEGIN
         show_new_revisions
 
         # XXX: Need a way of detecting whether git rev-list actually
         # outputted anything, so that we can issue a "no new
         # revisions added by this update" message
 
-        echo $LOGEND
+        echo -e $LOGEND
     else
-        echo "No new revisions were added by this update."
+        echo -e "No new revisions were added by this update."
     fi
 
     # The diffstat is shown from the old revision to the new revision.
@@ -429,8 +429,8 @@ generate_update_branch_email()
     # point - the user will be interested in what this revision changed
     # - including the undoing of previous revisions in the case of
     # non-fast forward updates.
-    echo ""
-    echo "Summary of changes:"
+    echo -e ""
+    echo -e "Summary of changes:"
     git diff-tree --stat --summary --find-copies-harder $oldrev..$newrev
 }
 
@@ -439,11 +439,11 @@ generate_update_branch_email()
 #
 generate_delete_branch_email()
 {
-    echo "       was  $oldrev"
-    echo ""
-    echo $LOGEND
+    echo -e "       was  $oldrev"
+    echo -e ""
+    echo -e $LOGEND
     git show -s --pretty=oneline $oldrev
-    echo $LOGEND
+    echo -e $LOGEND
 }
 
 # --------------- Annotated tags
@@ -453,7 +453,7 @@ generate_delete_branch_email()
 #
 generate_create_atag_email()
 {
-    echo "        at  $newrev ($newrev_type)"
+    echo -e "        at  $newrev ($newrev_type)"
 
     generate_atag_email
 }
@@ -464,8 +464,8 @@ generate_create_atag_email()
 #
 generate_update_atag_email()
 {
-    echo "        to  $newrev ($newrev_type)"
-    echo "      from  $oldrev (which is now obsolete)"
+    echo -e "        to  $newrev ($newrev_type)"
+    echo -e "      from  $oldrev (which is now obsolete)"
 
     generate_atag_email
 }
@@ -484,7 +484,7 @@ generate_atag_email()
     tagged=%(taggerdate)' $refname
     )
 
-    echo "   tagging  $tagobject ($tagtype)"
+    echo -e "   tagging  $tagobject ($tagtype)"
     case "$tagtype" in
         commit)
 
@@ -494,24 +494,24 @@ generate_atag_email()
             prevtag=$(git describe --abbrev=0 $newrev^ 2>/dev/null)
 
             if [ -n "$prevtag" ]; then
-                echo "  replaces  $prevtag"
+                echo -e "  replaces  $prevtag"
             fi
             ;;
         *)
-            echo "    length  $(git cat-file -s $tagobject) bytes"
+            echo -e "    length  $(git cat-file -s $tagobject) bytes"
             ;;
     esac
-    echo " tagged by  $tagger"
-    echo "        on  $tagged"
+    echo -e " tagged by  $tagger"
+    echo -e "        on  $tagged"
 
-    echo ""
-    echo $LOGBEGIN
+    echo -e ""
+    echo -e $LOGBEGIN
 
     # Show the content of the tag message; this might contain a change
     # log or release notes so is worth displaying.
     git cat-file tag $newrev | sed -e '1,/^$/d'
 
-    echo ""
+    echo -e ""
     case "$tagtype" in
         commit)
             # Only commit tags make sense to have rev-list operations
@@ -531,7 +531,7 @@ generate_atag_email()
             ;;
     esac
 
-    echo $LOGEND
+    echo -e $LOGEND
 }
 
 #
@@ -539,11 +539,11 @@ generate_atag_email()
 #
 generate_delete_atag_email()
 {
-    echo "       was  $oldrev"
-    echo ""
-    echo $LOGEND
+    echo -e "       was  $oldrev"
+    echo -e ""
+    echo -e $LOGEND
     git show -s --pretty=oneline $oldrev
-    echo $LOGEND
+    echo -e $LOGEND
 }
 
 # --------------- General references
@@ -554,7 +554,7 @@ generate_delete_atag_email()
 #
 generate_create_general_email()
 {
-    echo "        at  $newrev ($newrev_type)"
+    echo -e "        at  $newrev ($newrev_type)"
 
     generate_general_email
 }
@@ -565,8 +565,8 @@ generate_create_general_email()
 #
 generate_update_general_email()
 {
-    echo "        to  $newrev ($newrev_type)"
-    echo "      from  $oldrev"
+    echo -e "        to  $newrev ($newrev_type)"
+    echo -e "      from  $oldrev"
 
     generate_general_email
 }
@@ -585,17 +585,17 @@ generate_general_email()
     # Note this section also catches any other reference type (although
     # there aren't any) and deals with them in the same way.
 
-    echo ""
+    echo -e ""
     if [ "$newrev_type" = "commit" ]; then
-        echo $LOGBEGIN
+        echo -e $LOGBEGIN
         git show --no-color --root -s --pretty=medium $newrev
-        echo $LOGEND
+        echo -e $LOGEND
     else
         # What can we do here?  The tag marks an object that is not
         # a commit, so there is no log for us to display.  It's
         # probably not wise to output git cat-file as it could be a
         # binary blob.  We'll just say how big it is
-        echo "$newrev is a $newrev_type, and is $(git cat-file -s $newrev) bytes long."
+        echo -e "$newrev is a $newrev_type, and is $(git cat-file -s $newrev) bytes long."
     fi
 }
 
@@ -604,11 +604,11 @@ generate_general_email()
 #
 generate_delete_general_email()
 {
-    echo "       was  $oldrev"
-    echo ""
-    echo $LOGEND
+    echo -e "       was  $oldrev"
+    echo -e ""
+    echo -e $LOGEND
     git show -s --pretty=oneline $oldrev
-    echo $LOGEND
+    echo -e $LOGEND
 }
 
 # --------------- Miscellaneous utilities
@@ -647,9 +647,9 @@ show_new_revisions()
         if [ $msg_count == 5 ]
         then
             emailsubject="$onerev"
-            echo "$emailsubject" > "$emailsubject_tmp_file"
+            echo -e "$emailsubject" > "$emailsubject_tmp_file"
         fi
-        echo "$onerev"
+        echo -e "$onerev"
     done
 }
 #
@@ -693,20 +693,20 @@ show_n_new_revisions()
         if [ $msg_count == 5 ]
         then
             emailsubject="$onerev"
-            echo "$emailsubject" > "$emailsubject_tmp_file"
+            echo -e "$emailsubject" > "$emailsubject_tmp_file"
         fi
         if [ $msg_count -lt $n ]
         then
-            echo "$onerev"
+            echo -e "$onerev"
         fi
     done
 
     if [ $all_msg_count -gt $n ]
     then
-        echo ""
-        echo "..."
-        echo ""
-        echo "Shows only the latest $n log entries."
+        echo -e ""
+        echo -e "..."
+        echo -e ""
+        echo -e "Shows only the latest $n log entries."
     fi
 }
 
@@ -735,7 +735,7 @@ LOGEND="-----------------------------------------------------------------------"
 # variable.
 GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
 if [ -z "$GIT_DIR" ]; then
-    echo >&2 "fatal: post-receive: GIT_DIR not set"
+    echo -e >&2 "fatal: post-receive: GIT_DIR not set"
     exit 1
 fi
 
@@ -751,7 +751,7 @@ recipients=$(git config hooks.mailinglist)
 senderemail=$(git config hooks.senderemail)
 announcerecipients=$(git config hooks.announcelist)
 envelopesender=$(git config hooks.envelopesender)
-emailprefix=$(git config hooks.emailprefix || echo '[GIT]')
+emailprefix=$(git config hooks.emailprefix || echo -e '[GIT]')
 custom_showrev=$(git config hooks.showrev)
 
 # --- Main loop

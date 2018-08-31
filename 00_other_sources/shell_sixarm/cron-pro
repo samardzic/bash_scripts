@@ -23,7 +23,7 @@ now () { out $( date -u "+%Y-%m-%dT%H:%M:%SZ" ) }
 #         nice /command/to/run &&
 #         date -u "+%Y-%m-%dT%H:%M:%SZ" > /var/run/last_successful_run
 #       ) 2>&1 200> /var/run/cron_job_lock |
-#     while read line ; echo `date -u "+%Y-%m-%dT%H:%M:%SZ"` "$line" ; done > /path/to/the/log || true
+#     while read line ; echo -e `date -u "+%Y-%m-%dT%H:%M:%SZ"` "$line" ; done > /path/to/the/log || true
 
 
 NAME=${NAME:-$1}

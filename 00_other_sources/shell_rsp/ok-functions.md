@@ -49,5 +49,5 @@ They should work on any Linux distro after changing the paths to sounds.
 
 To find good sounds on your system try:
 ```
-for i in /usr/share/sounds/*/stereo/*; do echo $i; paplay $i; sleep 1; done
+for i in /usr/share/sounds/*/stereo/*; do echo -e $i; paplay $i; sleep 1; done
 ```

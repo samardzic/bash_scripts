@@ -2,7 +2,7 @@
 
 ### 
 addto_root_crontab() {
-	su - root -c "(crontab -l; echo \"$*\") | crontab -"
+	su - root -c "(crontab -l; echo -e \"$*\") | crontab -"
 }
 
 ### 
@@ -16,8 +16,8 @@ sudo mkdir /mnt/backup/65-bungeeCord-azure
 sudo chown sita:sita /mnt/backup/65-bungeeCord-azure
 
 cp ~/script/init.d/start.mc.sh ~/
-echo !!!!!!!!!!!!!!
-echo vi start.mc.sh
-echo 65
-echo mcrestore
-echo !!!!!!!!!!!!!!
+echo -e !!!!!!!!!!!!!!
+echo -e vi start.mc.sh
+echo -e 65
+echo -e mcrestore
+echo -e !!!!!!!!!!!!!!

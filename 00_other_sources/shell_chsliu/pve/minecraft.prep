@@ -3,28 +3,28 @@
 rpool=mnt/tank
 
 if [ ! -f "/sbin/zfs" ]; then
-	echo ZFS not install, aborting
+	echo -e ZFS not install, aborting
 	exit
 fi
 
 if [ ! -d "/$rpool" ]; then
-        echo zpool $rpool not created, aborting
+        echo -e zpool $rpool not created, aborting
         exit
 fi
 
 if [ "root" = $(whoami) ]; then        
-        echo "no sync while been root" 
+        echo -e "no sync while been root" 
         exit                           
 fi                                     
 
 sudo apt install bc
-swapsize=$(grep MemTotal /proc/meminfo | awk '{print $2 }' | xargs -I {} echo "1+{}/1024^2" | bc)
+swapsize=$(grep MemTotal /proc/meminfo | awk '{print $2 }' | xargs -I {} echo -e "1+{}/1024^2" | bc)
 
 addto_fstab() {
 	fsfile=/etc/fstab
 
 	if ! sudo grep -Fxq "$*" $fsfile; then
-		echo $* | sudo tee -a $fsfile
+		echo -e $* | sudo tee -a $fsfile
 	fi
 }
 
@@ -41,12 +41,12 @@ addto_crontab() {
 	cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	if ! crontab_status; then
-		echo "" | sudo tee -a $cronfile
+		echo -e "" | sudo tee -a $cronfile
 		sudo chown $(whoami):crontab $cronfile
 	fi
 	
 	if ! sudo grep -Fxq "$*" $cronfile; then
-		echo "$*" | sudo tee -a $cronfile
+		echo -e "$*" | sudo tee -a $cronfile
 	fi
 }
 
@@ -54,7 +54,7 @@ delfrom_crontab() {
 	cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	line=$*
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	sudo sed -i "/$line/d" $cronfile
 }
 
@@ -65,10 +65,10 @@ swap_prep() {
 
 	sudo mkswap -f /dev/zvol/$1/swap
 
-	# echo Manual remove original swap in /etc/fstab
+	# echo -e Manual remove original swap in /etc/fstab
 	delfrom_fstab swap
 	
-	# echo /dev/zvol/$1/swap none swap defaults 0 0 >> /etc/fstab
+	# echo -e /dev/zvol/$1/swap none swap defaults 0 0 >> /etc/fstab
 	addto_fstab /dev/zvol/$1/swap none swap defaults 0 0
 	
 	sudo swapon -s	
@@ -79,14 +79,14 @@ swap_prep() {
 zfs_create() {
 	if [ -d "/$1" ]; then return; fi
 	
-	echo Creating $*
+	echo -e Creating $*
 	sudo zfs create -o xattr=sa -o compression=lz4 $*
 }
 
 move_path_zfs() {
 	if [ -d "/$2/$1" ]; then return; fi
 
-	echo moving /$1 to /$2/$1
+	echo -e moving /$1 to /$2/$1
 
 	zfs_create $2/$1
 	
@@ -102,7 +102,7 @@ addto_sources() {
 	sources=/etc/apt/sources.list
 
 	if ! sudo grep -Fxq "$*" $sources; then
-		echo $* | sudo tee -a $sources
+		echo -e $* | sudo tee -a $sources
 	fi
 }
 
@@ -115,7 +115,7 @@ create_path() {
 move_path() {
 	if [ -d "/$2/$1" ]; then return; fi
 
-	echo moving /$1 to /$2/$1
+	echo -e moving /$1 to /$2/$1
 
 	create_path $2/$1
 	
@@ -127,7 +127,7 @@ move_path() {
 	sudo ln -s /$2/$1 /$1
 }
 
-# echo Create Swap of size $swapsize
+# echo -e Create Swap of size $swapsize
 # swap_prep tank $swapsize
 
 # zfs_create $rpool/var

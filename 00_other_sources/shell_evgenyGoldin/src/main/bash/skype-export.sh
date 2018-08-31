@@ -7,4 +7,4 @@ select * from Contacts;
 .output stdout
 .exit
 EOF
-echo "'skype-contacts.csv' is exported"
+echo -e "'skype-contacts.csv' is exported"

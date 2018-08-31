@@ -108,7 +108,7 @@ prepare() {
 # automatically provide all the typical Debian configurations and buildflags.
 # You can also use dpkg-architecture variables like '${DEB_HOST_MULTIARCH}'.
 # _cmake always requires a source directory, i.e. '_cmake ./src/'.
-# Use a command like 'echo' or 'true' if there's nothing to build or configure.
+# Use a command like 'echo -e' or 'true' if there's nothing to build or configure.
 build() {
   _cmake source
   _make
@@ -122,10 +122,10 @@ build() {
 package() {
   _make_install
 
-  echo "usr/bin" > debian/${pkg}.install
-  echo "doc/reST/build/man/*" > debian/${pkg}.manpages
-  echo "usr/lib/*/*.so.*" > debian/lib${pkg}-${api}.install
-  echo "doc/reST/build/html" > debian/lib${pkg}-doc.docs
+  echo -e "usr/bin" > debian/${pkg}.install
+  echo -e "doc/reST/build/man/*" > debian/${pkg}.manpages
+  echo -e "usr/lib/*/*.so.*" > debian/lib${pkg}-${api}.install
+  echo -e "doc/reST/build/html" > debian/lib${pkg}-doc.docs
   cat <<EOF> debian/lib${pkg}-dev.install
 usr/include
 usr/lib/*/*.so

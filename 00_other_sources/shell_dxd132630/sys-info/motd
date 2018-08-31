@@ -69,7 +69,7 @@ read one five fifteen rest < /proc/loadavg
 ##################################################
 # Display Data to Users
 #
-echo -e "
+echo -e -e "
 \033[0;35m
                    ==== BOOT TIME ====            ==== UPTIME ====
 \033[1;34m      $BTIME        \033[1;34m$UPTIME 
@@ -86,7 +86,7 @@ echo -e "
 \033[0;35m+\033[0;37mHardware Address \033[0;35m= \033[1;34m$HWADDR
 \033[0;35m-------------------------------------: \033[1;32mSystem Data\033[0;35m :----------------------------
 \033[0;35m+\033[0;37mLoad \033[0;35m= \033[0;37m1 Min: \033[1;34m${one} \033[0;37m5 Min: \033[1;34m${five} \033[0;37m15 Min: \033[1;34m${fifteen}
-\033[0;35m+\033[0;37mCPU Avarage \033[0;35m= \033[1;34m`echo $CPUTIME / $CPUCORES | bc`%
+\033[0;35m+\033[0;37mCPU Avarage \033[0;35m= \033[1;34m`echo -e $CPUTIME / $CPUCORES | bc`%
 \033[0;35m+\033[0;37mMemory \033[0;35m= \033[1;34m${MEM} MB \033[0;37mMemory Free \033[0;35m= \033[1;34m${MEMFREE} MB
 \033[0;35m+\033[0;37mSwap \033[0;35m= \033[1;34m${SWAP} MB \033[0;37mSwap Free \033[0;35m= \033[1;34m${SWAPFREE} MB
 \033[0;35m+\033[0;37mDisk Space Available - root \033[0;35m= \033[1;34m$ROOT

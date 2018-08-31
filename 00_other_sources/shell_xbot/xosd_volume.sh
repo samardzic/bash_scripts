@@ -46,7 +46,7 @@ mute_volume() {
 # Arg 2: (optional) Text to show above bar
 show_volume() {
     killall -9 -q osd_cat &>/dev/null
-    osd_cat --font="$FONT" --shadow=1 --color=green --pos=middle --align=center --delay=2 --text "$( [ "z$2" = "z"  ] && echo Volume: $1% || echo $2  )" --barmode=percentage --percentage=$1
+    osd_cat --font="$FONT" --shadow=1 --color=green --pos=middle --align=center --delay=2 --text "$( [ "z$2" = "z"  ] && echo -e Volume: $1% || echo -e $2  )" --barmode=percentage --percentage=$1
 }
 
 case "$action" in
@@ -80,6 +80,6 @@ case "$action" in
         esac
         ;;
     *)
-        echo "Usage: $0 {incr|decr|mute|show}"
+        echo -e "Usage: $0 {incr|decr|mute|show}"
         ;;
 esac

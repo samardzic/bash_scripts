@@ -4,7 +4,7 @@
 
 
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 [--exclude <lib_name>]. . . <link_command>"
+    echo -e "Usage: $0 [--exclude <lib_name>]. . . <link_command>"
 fi
 
 exclude=()
@@ -21,20 +21,20 @@ while [ $# -ne 0 ]; do
             fi
 
             lib_path+=("$LPATH")
-            echo -n "\"$LPATH\" "
+            echo -e -n "\"$LPATH\" "
             ;;
 
         -l*)
-            NAME="$(echo $1 | sed 's/-l\(.*\)/\1/')"
+            NAME="$(echo -e $1 | sed 's/-l\(.*\)/\1/')"
 
-            if echo "${exclude[@]}" | grep " $NAME " >/dev/null; then
-                echo -n "$1 "
+            if echo -e "${exclude[@]}" | grep " $NAME " >/dev/null; then
+                echo -e -n "$1 "
             else
                 LIB="$(gcc $lib_path -print-file-name=lib"$NAME".a)"
                 if [ "$LIB" == lib"$NAME".a ]; then
-                    echo -n "$1 "
+                    echo -e -n "$1 "
                 else
-                    echo -n "\"$LIB\" "
+                    echo -e -n "\"$LIB\" "
                 fi
             fi
             ;;
@@ -44,11 +44,11 @@ while [ $# -ne 0 ]; do
             exclude+=(" $1 ")
             ;;
 
-        *) echo -n "$1 "
+        *) echo -e -n "$1 "
     esac
 
     shift
 done
 
-echo
+echo -e
 

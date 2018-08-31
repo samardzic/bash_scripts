@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Fancy colorful echo messages
-function echo_message(){
+# Fancy colorful echo -e messages
+function echo -e_message(){
 	local color=$1;
 	local message=$2;
 	if ! [[ $color =~ '^[0-9]$' ]] ; then
-		case $(echo -e $color | tr '[:upper:]' '[:lower:]') in
+		case $(echo -e -e $color | tr '[:upper:]' '[:lower:]') in
 			# black
 			header) color=0 ;;
 			# red
@@ -28,6 +28,6 @@ function echo_message(){
 	fi
 	tput bold;
 	tput setaf $color;
-	echo '-- '$message;
+	echo -e '-- '$message;
 	tput sgr0;
 }

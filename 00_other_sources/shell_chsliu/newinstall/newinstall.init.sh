@@ -2,14 +2,14 @@
 
 #-------------------------------------------------
 if [ -z ${1+x} ]; then
-	echo "new Hostname is needed"
+	echo -e "new Hostname is needed"
 	exit
 fi
 
 #-------------------------------------------------
 addto_fstab() {
 	if ! sudo grep -Fxq "$*" /etc/fstab; then
-		echo "$*" | sudo tee -a /etc/fstab
+		echo -e "$*" | sudo tee -a /etc/fstab
 	fi
 }
 
@@ -19,7 +19,7 @@ addto_crontab() {
 	sudo touch $cronfile
 
 	if ! sudo grep -Fxq "$*" $cronfile; then
-		echo "$*" | sudo tee -a $cronfile
+		echo -e "$*" | sudo tee -a $cronfile
 	fi
 	
 	sudo chown $(whoami):crontab $cronfile
@@ -31,7 +31,7 @@ addto_anacrontab() {
 	sudo touch $cronfile
 	
 	if ! sudo grep -Fxq "$*" $cronfile; then
-		echo "$*" | sudo tee -a $cronfile
+		echo -e "$*" | sudo tee -a $cronfile
 	fi
 }
 
@@ -68,12 +68,12 @@ addto_anacrontab "#7 30 backup /usr/bin/batch < /home/$(whoami)/script/backup.sh
 #change hostname
 
 # sudo vi /etc/hostname
-echo $1 | sudo tee /etc/hostname
+echo -e $1 | sudo tee /etc/hostname
 
 # sudo vi /etc/hosts
 sudo sed -i "s/$(hostname)/$1/g" /etc/hosts
 
-# echo sudo hostname xxxx
+# echo -e sudo hostname xxxx
 sudo hostname $1
 
 #-------------------------------------------------
@@ -86,7 +86,7 @@ sudo sed -i 's/\[global\]/\[global\]\nprinting = bsd\nprintcap name = \/dev\/nul
 #hosts:          files wins dns
 sudo sed -i 's/hosts:          files dns/hosts:          files wins dns mdns4_minimal/g' /etc/nsswitch.conf
 
-# echo sudo /etc/init.d/samba restart & exit
+# echo -e sudo /etc/init.d/samba restart & exit
 sudo /etc/init.d/samba restart
 
 #-------------------------------------------------
@@ -99,41 +99,41 @@ addto_fstab tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0
 #addto_fstab tmpfs /var/spool tmpfs defaults,noatime,mode=1777 0 0
 addto_fstab tmpfs /var/tmp tmpfs defaults,noatime,mode=1777 0 0
 
-echo ===========================================
-echo For workstation, add this line to /etc/fstab
-echo ===========================================
-echo tmpfs /var/log tmpfs defaults,noatime,mode=0755 0 0
+echo -e ===========================================
+echo -e For workstation, add this line to /etc/fstab
+echo -e ===========================================
+echo -e tmpfs /var/log tmpfs defaults,noatime,mode=0755 0 0
 
 #-------------------------------------------------
 # generate the missing locale
-echo choose "en_US.UTF-8"
+echo -e choose "en_US.UTF-8"
 sudo locale-gen "en_US.UTF-8"
 sudo dpkg-reconfigure locales
 
 #-------------------------------------------------
 #ssh host
 
-echo =====================================
-echo Run tmux before running scripts below
-echo =====================================
-echo tmux
-echo ---------------------------
-echo sh ${BASEDIR}/newinstall.sh
-echo ---------------------------
-echo sh ${BASEDIR}/update.sh
+echo -e =====================================
+echo -e Run tmux before running scripts below
+echo -e =====================================
+echo -e tmux
+echo -e ---------------------------
+echo -e sh ${BASEDIR}/newinstall.sh
+echo -e ---------------------------
+echo -e sh ${BASEDIR}/update.sh
 
 #-------------------------------------------------
 #alias
 cp ${BASEDIR}/.bash_aliases ~/
 
 #-------------------------------------------------
-echo ===============
-echo Host IP for ssh
-echo ===============
+echo -e ===============
+echo -e Host IP for ssh
+echo -e ===============
 ip addr show | grep 192
 
 #-------------------------------------------------
-echo =====================
-echo set password for root
-echo =====================
+echo -e =====================
+echo -e set password for root
+echo -e =====================
 sudo passwd root

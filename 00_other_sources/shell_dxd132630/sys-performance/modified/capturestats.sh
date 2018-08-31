@@ -37,6 +37,6 @@ USR=`df -h /usr | awk '{ a = $4 } END { print a }'`
 ###########################################################
 # Send Statistics to Report File
 #
-echo "$DATE,$TIME,$USERS,$LOAD,$FREE MB,$SWAP MB,$CPU %,$ROOT,$VAR,$USR" >> $REPORT_FILE
+echo -e "$DATE,$TIME,$USERS,$LOAD,$FREE MB,$SWAP MB,$CPU %,$ROOT,$VAR,$USR" >> $REPORT_FILE
 # EOF
 

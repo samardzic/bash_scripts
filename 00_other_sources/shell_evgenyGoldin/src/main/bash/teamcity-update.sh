@@ -9,14 +9,14 @@
 set -e
 set -o pipefail
 
-echo --------------------------------------
-echo Updating TeamCity     : [$TeamCityUrl]
-echo Updating Tomcat       : [$tomcat]
-echo Saving old version in : [$backup]
-echo --------------------------------------
+echo -e --------------------------------------
+echo -e Updating TeamCity     : [$TeamCityUrl]
+echo -e Updating Tomcat       : [$tomcat]
+echo -e Saving old version in : [$backup]
+echo -e --------------------------------------
 
-echo  ========== Downloading ==========
-echo   "##teamcity[progressMessage 'Downloading ..']"
+echo -e  ========== Downloading ==========
+echo -e   "##teamcity[progressMessage 'Downloading ..']"
 
 rm -rf teamcity
 mkdir  teamcity
@@ -31,20 +31,20 @@ newBuild="`ls *.war | cut -f 1 -d '.'`"
 if [ "$oldBuild" = "$newBuild" ];
 then
     rm -rf teamcity
-    echo  "##teamcity[buildStatus status='SUCCESS' text='|[$newBuild|] is already installed']"
+    echo -e  "##teamcity[buildStatus status='SUCCESS' text='|[$newBuild|] is already installed']"
     exit
 else
-    echo  "##teamcity[progressMessage 'Updating |[$oldBuild|] to |[$newBuild|]']"
+    echo -e  "##teamcity[progressMessage 'Updating |[$oldBuild|] to |[$newBuild|]']"
 fi
 
 
-echo  ========== Unpacking ==========
+echo -e  ========== Unpacking ==========
 
 unzip *.war
 rm    *.war
 cd    ..
 
-echo  ========== Stopping Tomcat ==========
+echo -e  ========== Stopping Tomcat ==========
 
 $tomcat/bin/shutdown.sh
 
@@ -54,63 +54,63 @@ rm -rf $tomcat/logs $tomcat/temp $tomcat/work
 mkdir  $tomcat/logs $tomcat/temp $tomcat/work
 
 
-echo  ========== Moving TeamCity ==========
+echo -e  ========== Moving TeamCity ==========
 
 rm    -rf                   $backup/teamcity
 mkdir -p                    $backup
 mv $tomcat/webapps/teamcity $backup
 mv teamcity                 $tomcat/webapps
 
-echo  ========== Killing remaining Tomcat processes ==========
+echo -e  ========== Killing remaining Tomcat processes ==========
 
-echo "Tomcat processes before:"
-echo [`ps -Af | grep java | grep org.apache.catalina.startup.Bootstrap`]
+echo -e "Tomcat processes before:"
+echo -e [`ps -Af | grep java | grep org.apache.catalina.startup.Bootstrap`]
 set +e
 
 ps -Af | grep java | grep org.apache.catalina.startup.Bootstrap | awk '{print $2}' | while read pid;
 do 
-    echo "kill $pid"
+    echo -e "kill $pid"
     kill $pid
 
     sleep 10
 
-    echo "kill -9 $pid"
+    echo -e "kill -9 $pid"
     kill -9 $pid
 done
 
 set -e
-echo "Tomcat processes after:"
-echo [`ps -Af | grep java | grep org.apache.catalina.startup.Bootstrap`]
+echo -e "Tomcat processes after:"
+echo -e [`ps -Af | grep java | grep org.apache.catalina.startup.Bootstrap`]
 
-echo  ========== Starting Tomcat ==========
+echo -e  ========== Starting Tomcat ==========
 
 $tomcat/bin/startup.sh
 
-echo  ========== Tomcat started, sleeping for 2 minutes ==========
+echo -e  ========== Tomcat started, sleeping for 2 minutes ==========
 
 sleep 120
 
-echo  ========== Listing [$tomcat/logs/catalina.out] ==========
+echo -e  ========== Listing [$tomcat/logs/catalina.out] ==========
 
 cat $tomcat/logs/catalina.out
 
-echo  ========== Listing [$tomcat/logs/teamcity-server.log] ==========
+echo -e  ========== Listing [$tomcat/logs/teamcity-server.log] ==========
 
 cat $tomcat/logs/teamcity-server.log
 
-echo  ========== Listing memory and disk usage ==========
+echo -e  ========== Listing memory and disk usage ==========
 
-echo -------
-echo Memory:
-echo -------
+echo -e -------
+echo -e Memory:
+echo -e -------
 
 free -lt
 
-echo -----
-echo Disk:
-echo -----
+echo -e -----
+echo -e Disk:
+echo -e -----
 
 df -h .
 
-echo  ========== Done! Updated to [`curl $TeamCityUrl/app/rest/server/version?guest=1`] ==========
-echo  "##teamcity[buildStatus status='SUCCESS' text='Updated to |[$newBuild|]']"
+echo -e  ========== Done! Updated to [`curl $TeamCityUrl/app/rest/server/version?guest=1`] ==========
+echo -e  "##teamcity[buildStatus status='SUCCESS' text='Updated to |[$newBuild|]']"

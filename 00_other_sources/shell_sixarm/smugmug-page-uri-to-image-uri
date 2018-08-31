@@ -8,7 +8,7 @@
 #
 # Example:
 #
-#     $ echo "http://foo.smugmug.com/goo/i-9999/A" |
+#     $ echo -e "http://foo.smugmug.com/goo/i-9999/A" |
 #       smugmug-page-uri-to-image-uri
 #     http://foo.smugmug.com/goo/i-9999/0/X3/untitled-9980-X3.jpg
 #

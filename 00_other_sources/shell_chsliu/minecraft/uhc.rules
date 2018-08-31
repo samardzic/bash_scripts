@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export mcecho_off=1 
+export mcecho -e_off=1 
 cron_min='51-59'
 cron_hour='19'
 cron_day='*'
@@ -21,7 +21,7 @@ as_user() {
 }
 
 tellraw() {
-	echo "screen -p 0 -S minecraft -X eval 'stuff \"tellraw @p [\"\",{\"text\":\"test\",\"color\":\"yellow\"}]'"
+	echo -e "screen -p 0 -S minecraft -X eval 'stuff \"tellraw @p [\"\",{\"text\":\"test\",\"color\":\"yellow\"}]'"
 	su - $(whoami) -c "screen -p 0 -S minecraft -X eval 'stuff \"tellraw @p [\"\",{\"text\":\"test\",\"color\":\"yellow\"}]'"
 }
 
@@ -30,23 +30,23 @@ map_size=1008
 # shrink_min=39
 [ ! $1 ] || time_total=$1
 
-time_reminder=$(echo $time_total/3 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
-time_shown=$(echo $time_total/3 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
-time_game=$(echo $time_total*.67 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
-time_shrink_duration=$(echo $map_size/20/20*20 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
+time_reminder=$(echo -e $time_total/3 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
+time_shown=$(echo -e $time_total/3 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
+time_game=$(echo -e $time_total*.67 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
+time_shrink_duration=$(echo -e $map_size/20/20*20 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
 # if [ "$time_shrink_duration" -gt "20" ]; then time_shrink_duration=$((($time_shrink_duration/20)*20)); fi 
-time_shrink=$(echo $time_total-$time_shrink_duration-5 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
+time_shrink=$(echo -e $time_total-$time_shrink_duration-5 | bc | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}')
 time_nomob=$(($time_shrink+$time_shrink_duration))
 
 if [ "$time_reminder" -gt "20" ]; then time_reminder=20; fi
 
-echo time_reminder=$time_reminder
-echo time_shown=$time_shown
-echo time_game=$time_game
-echo time_shrink=$time_shrink
-echo time_shrink_duration=$time_shrink_duration
-echo time_nomob=$time_nomob
-echo time_total=$time_total
+echo -e time_reminder=$time_reminder
+echo -e time_shown=$time_shown
+echo -e time_game=$time_game
+echo -e time_shrink=$time_shrink
+echo -e time_shrink_duration=$time_shrink_duration
+echo -e time_nomob=$time_nomob
+echo -e time_total=$time_total
 
 # exit
 

@@ -16,4 +16,4 @@
 set -euf
 basename=`basename "$1"`
 ext=${basename//*.}
-ext=`echo $ext | tr '[:upper:]' '[:lower:]'`
+ext=`echo -e $ext | tr '[:upper:]' '[:lower:]'`

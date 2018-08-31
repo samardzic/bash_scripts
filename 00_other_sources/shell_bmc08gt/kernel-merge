@@ -26,22 +26,22 @@ supported_3_patchlevels="3.0, 3.4, 3.10"
 #####
 
 if [ -z $revision ]; then
-	echo "Desired revision not provided..."
+	echo -e "Desired revision not provided..."
 	exit 0
 fi
 
 function get_kernel_specs() {
-    version=$(echo $revision | cut -d '.' -f1)
-    patchlevel=$(echo $revision | cut -d '.' -f2)
-    sublevel=$(echo $revision | cut -d '.' -f3)
+    version=$(echo -e $revision | cut -d '.' -f1)
+    patchlevel=$(echo -e $revision | cut -d '.' -f2)
+    sublevel=$(echo -e $revision | cut -d '.' -f3)
 
     if [ "$version" != "3" ]; then
-        echo "Supported linux kernel releases are ${supported_releases}"
+        echo -e "Supported linux kernel releases are ${supported_releases}"
         exit 0
     fi
 
     if [ "$patchlevel" != "0" ] && [ "$patchlevel" != "4" ] && [ "$patchlevel" != "10" ]; then
-        echo "Supported patchlevels of linux release $version.x are ${supported_3_patchlevels}"
+        echo -e "Supported patchlevels of linux release $version.x are ${supported_3_patchlevels}"
         exit 0
     fi
 }
@@ -74,7 +74,7 @@ function create_array() {
 
 function print_array() {
     for commit in ${list[@]}; do
-        echo $commit
+        echo -e $commit
     done
 }
 

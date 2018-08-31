@@ -5,10 +5,10 @@
 exec > >(tee -a -i /tmp/log/$(basename $0).log)
 exec 2>&1
 
-echo 
-echo ===================
-echo $(date +%F_%T)
-echo ===================
+echo -e 
+echo -e ===================
+echo -e $(date +%F_%T)
+echo -e ===================
 
 ###
 runscreen=/home/sita/script/mis/run_in_screen.sh
@@ -19,12 +19,12 @@ ME=`whoami`
 
 ### 
 addto_crontab() {
-	(crontab -l; echo "$*") | crontab -
+	(crontab -l; echo -e "$*") | crontab -
 }
 
 delfrom_crontab() {
 	line=$*
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	crontab -l | sed "/$line/d" | crontab -
 }
 

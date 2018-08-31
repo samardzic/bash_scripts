@@ -52,7 +52,7 @@ npcrides() {
 	loc=hub
 	for i in "${npc_ids[@]}"; do
 		if [ $cnt == "$1" ]; then loc=hide; fi
-		# echo "$i is in $loc"
+		# echo -e "$i is in $loc"
 		mcdo npc select $i
 		mcdo npc anchor --assume $loc
 		let cnt=cnt+1 

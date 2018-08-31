@@ -72,7 +72,7 @@ def edit_vhost(widget, site):
     os.system("gksu gedit /etc/apache2/sites-available/%s &" % site)
 
 def clear_log(widget,data):
-    os.system("echo \"\" | gksu tee %s" %  get_apache_info(data)['error_log'])
+    os.system("echo -e \"\" | gksu tee %s" %  get_apache_info(data)['error_log'])
 
 def enable_disable(widget,site,site_item):
     menu_icon = site_item.get_image()

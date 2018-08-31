@@ -18,6 +18,6 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-compose
 
-echo "################################################################"
-echo "######################  docker installed  ######################"
-echo "################################################################"
+echo -e "################################################################"
+echo -e "######################  docker installed  ######################"
+echo -e "################################################################"

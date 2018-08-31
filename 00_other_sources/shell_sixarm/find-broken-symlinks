@@ -11,4 +11,4 @@ set -euf -o pipefail
 # Updated: 2015-01-25
 ##
 
-find $1 -type l | (while read FN ; do test -e "$FN" || echo "$FN"; done)
+find $1 -type l | (while read FN ; do test -e "$FN" || echo -e "$FN"; done)

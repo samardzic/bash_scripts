@@ -2,7 +2,7 @@
 
 ### 
 addto_root_crontab() {
-	su - root -c "(crontab -l; echo \"$*\") | crontab -"
+	su - root -c "(crontab -l; echo -e \"$*\") | crontab -"
 }
 
 ### 
@@ -15,11 +15,11 @@ sudo mkdir /mnt/backup/74-UHC
 sudo chown sita:sita /mnt/backup/74-UHC
 cp ~/script/init.d/start.mc.sh ~/
 
-echo !!!!!!!!!!!!!!
-echo vi start.mc.sh
-echo 74
-echo mcrestore
-echo !!!!!!!!!!!!!!
+echo -e !!!!!!!!!!!!!!
+echo -e vi start.mc.sh
+echo -e 74
+echo -e mcrestore
+echo -e !!!!!!!!!!!!!!
 
 ### 
 # . /home/sita/script/minecraft/alias.minecraft

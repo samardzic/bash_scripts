@@ -17,7 +17,7 @@
 funct_check_user()
 {
   if [ `/usr/ucb/whoami` != oracle ]
-    then echo 'You Must be oracle to execute this script !!!'
+    then echo -e 'You Must be oracle to execute this script !!!'
     exit 99
   fi
 }
@@ -25,7 +25,7 @@ funct_check_user()
 funct_check_params()
 {
         if [ ${NARG} -ne 1 ]; then
-                echo "Check Oracle Failed : Not enough Parameters passed" >> $LOGFILE
+                echo -e "Check Oracle Failed : Not enough Parameters passed" >> $LOGFILE
                 exit 1
         fi
 }
@@ -36,7 +36,7 @@ funct_check_pmon()
   err_log=`tail -100 $ORACLE_BASE/admin/$ORACLE_SID/bdump/alert_$ORACLE_SID.log`
   oracle_num=`expr $check_pmon`
 
-  echo $err_log > /tmp/db_err_$ORACLE_SID.log
+  echo -e $err_log > /tmp/db_err_$ORACLE_SID.log
 
   if [ $oracle_num -lt 1 ]
     then

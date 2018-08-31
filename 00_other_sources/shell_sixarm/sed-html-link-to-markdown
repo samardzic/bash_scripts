@@ -8,7 +8,7 @@
 #
 # Example:
 #
-#   $ echo "<a href="foo">Foo</a> |
+#   $ echo -e "<a href="foo">Foo</a> |
 #     sed-html-link-to-markdown
 #   [Foo](https://foo)
 #

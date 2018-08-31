@@ -15,7 +15,7 @@ function install_shell_extensions {
 # Install Codecs
 function install_gnome {
 	NAME="GNOME Software"
-	echo_message title "Starting $NAME installation..."
+	echo -e_message title "Starting $NAME installation..."
 	# Draw window
 	GNOME=$(eval `resize` && whiptail \
 		--notags \
@@ -29,11 +29,11 @@ function install_gnome {
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
-		echo_message header "Starting '$GNOME' function"
+		echo -e_message header "Starting '$GNOME' function"
 		$GNOME
 	else
 		# Cancelled
-		echo_message info "$NAME installation cancelled."
+		echo -e_message info "$NAME installation cancelled."
 		main
 	fi
 }

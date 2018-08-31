@@ -35,7 +35,7 @@ do
 	else
 	    if [ $show = 1 ]
 	    then
-		echo $x;
+		echo -e $x;
 	    fi
 	fi
     fi

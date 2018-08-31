@@ -6,37 +6,37 @@ set -e
 
 # print usage
 if [ -z "$1" ] ; then
-  echo "Repack Debian package with xz compression."
-  echo "Usage: $0 file.deb"
+  echo -e "Repack Debian package with xz compression."
+  echo -e "Usage: $0 file.deb"
   exit 0
 fi
 
 # check if it's a file
 if [ ! -f "$1" ] ; then
-  echo "'$1' is not a file"
+  echo -e "'$1' is not a file"
   exit 1
 fi
 
 # check for xz compression
 if [ ! -z $(ar t "$1" | grep -e data.tar.xz) ] ; then
-  echo "'$1' is already xz compressed"
+  echo -e "'$1' is already xz compressed"
   exit 0
 fi
 
 
 # extract .deb
-echo "extract '$1'"
+echo -e "extract '$1'"
 ar x "$1"
 
 
 # backup .deb
-echo "move '$1' to '${1}.old'"
+echo -e "move '$1' to '${1}.old'"
 mv "$1" "$1".old
 
 
 # uncompress data.tar
 d=data.tar
-echo "uncompress '`ls ${d}.*`'"
+echo -e "uncompress '`ls ${d}.*`'"
 
 if [ -f ${d}.gz ] ; then
   gunzip -f ${d}.gz
@@ -48,7 +48,7 @@ fi
 
 
 # compress data.tar
-echo "compress (xz) '$d'"
+echo -e "compress (xz) '$d'"
 xz $d
 
 
@@ -56,8 +56,8 @@ xz $d
 
 files="debian-binary control.tar.gz ${d}.xz"
 
-echo "create '$1'"
+echo -e "create '$1'"
 ar rc "$1" $files
 
-echo "remove temporary files"
+echo -e "remove temporary files"
 rm -f $files

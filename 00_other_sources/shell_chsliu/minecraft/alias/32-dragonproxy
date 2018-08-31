@@ -7,8 +7,8 @@ s32=32-dragonproxy
 	# export mcver=$s32 
 	
 	# mcpath=/mnt/runtimes/$mcver
-	# [ ! -d "$mcpath" ] && { echo -e "${YELLOW}$mcpath not installed${NC}"; mcver=$oldmcvar; }
-	# [   -d "$mcpath" ] && { echo mcver=$mcver; cd $mcpath; }
+	# [ ! -d "$mcpath" ] && { echo -e -e "${YELLOW}$mcpath not installed${NC}"; mcver=$oldmcvar; }
+	# [   -d "$mcpath" ] && { echo -e mcver=$mcver; cd $mcpath; }
 # }
 
 s32() {

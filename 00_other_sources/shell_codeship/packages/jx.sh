@@ -6,7 +6,7 @@
 #
 # This script is kept to provide an error message to users still using it and
 # will be removed in the future.
-function error() { echo -e "\033[0;31m$*\033[0m"; }
+function error() { echo -e -e "\033[0;31m$*\033[0m"; }
 
 error "Nubisa stopped active development of the JXcore platform."
 error "This caused the installation script to fail with a 'Could not fetch' error."

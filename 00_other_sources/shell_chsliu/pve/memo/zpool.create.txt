@@ -1,19 +1,19 @@
 #!/bin/bash
 
-echo === config /etc/default/zfs
-echo add ZPOOL_IMPORT_PATH="/dev/disk/by-id"
+echo -e === config /etc/default/zfs
+echo -e add ZPOOL_IMPORT_PATH="/dev/disk/by-id"
 
-echo === create pool
-echo zpool create -o ashift=12 $*
+echo -e === create pool
+echo -e zpool create -o ashift=12 $*
 #sudo zpool create -o ashift=12 $*
 
-echo === zfs stat zdb
-echo zdb -mmm $POOLNAME
+echo -e === zfs stat zdb
+echo -e zdb -mmm $POOLNAME
 
-echo === for creating zvol
-echo zfs create -o xattr=sa -o compression=lz4 -V '$zvolsize' -b $(getconf PAGESIZE) '$zvol'
+echo -e === for creating zvol
+echo -e zfs create -o xattr=sa -o compression=lz4 -V '$zvolsize' -b $(getconf PAGESIZE) '$zvol'
 
-echo === create crontab job
-echo zpool.scrub install
+echo -e === create crontab job
+echo -e zpool.scrub install
 
 cat /etc/zfs/zed.d/zed.rc | grep ZED_EMAIL_ADDR

@@ -10,7 +10,7 @@ grep.perms() {
 
 #=================================
 # alias mcj="mclogdump | grep joined | awk '{ printf (\"%s %s\n\", \$4, \$5) }' | sort | uniq"
-# alias mcjoin="echo $LOG && mclogdump | grep 'joined\|left'"
+# alias mcjoin="echo -e $LOG && mclogdump | grep 'joined\|left'"
 # alias mcj2="mclogdump | grep 'UUID of player' | awk '{ printf (\"%s %s\n\", \$7, \$8) }' | sort | uniq"
 # alias mcslain="mclogdump | grep 'was\|burned\|fell\|swim\|blew\|suffocated\|swim\|hit the ground'"
 # alias mctele="mclogdump | grep Teleported"

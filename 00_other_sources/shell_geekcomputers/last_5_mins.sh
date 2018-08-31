@@ -17,7 +17,7 @@
 funct_check_params()										# Function Name
 {																		# Start of the function
         if [ ${NARG} -ne 1 ]; then							# If no arguments are passed then display the following message
-                echo "last_5_mins FAILED : Not enough Parameters passed, you need to provide a logfile"
+                echo -e "last_5_mins FAILED : Not enough Parameters passed, you need to provide a logfile"
                 exit 1												# Quit the program
         fi
 }																		# End of the function

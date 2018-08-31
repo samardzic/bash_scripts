@@ -27,9 +27,9 @@ fi
 
 if [ -z "$nopassnames" ]
   then
-    echo "Good - All user accounts have a password."
+    echo -e "Good - All user accounts have a password."
   else
-    echo "ERROR: The users listed below have no password set:"\
+    echo -e "ERROR: The users listed below have no password set:"\
          "       ${nopassnames//_NP/}" 1>&2
     exit 1
 fi

@@ -11,5 +11,5 @@ sudo sysctl net.ipv4.tcp_congestion_control
 
 sudo sysctl net.core.default_qdisc
 
-echo lsmod \| grep bbr
+echo -e lsmod \| grep bbr
 lsmod | grep bbr

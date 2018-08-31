@@ -39,7 +39,7 @@ BASE_COMMAND="aws s3 sync ${LOCAL_PATH} s3://${AWS_S3_BUCKET}/"
 for key in "${!AWS_S3_EXTRA_ARGS[@]}"
 do
   if [ -n "${AWS_S3_EXTRA_ARGS[$key]}" ]; then # Checks if not empty
-    echo "Detected AWS_S3 Argument: $key=\"${AWS_S3_EXTRA_ARGS[$key]}\""
+    echo -e "Detected AWS_S3 Argument: $key=\"${AWS_S3_EXTRA_ARGS[$key]}\""
     BASE_COMMAND+=" --$key=\"${AWS_S3_EXTRA_ARGS[$key]}\""
   fi
 done

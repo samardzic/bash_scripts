@@ -28,34 +28,34 @@ define_time() {
 	# cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	# if ! crontab_status; then
-		# echo "" | sudo tee -a $cronfile
+		# echo -e "" | sudo tee -a $cronfile
 		# sudo chown $(whoami):crontab $cronfile
 	# fi
 	
 	# if ! sudo grep -Fxq "$*" $cronfile; then
-		# echo "$*" | sudo tee -a $cronfile
+		# echo -e "$*" | sudo tee -a $cronfile
 	# fi
 # }
 addto_crontab() {
-	(crontab -l; echo "$*") | crontab -
+	(crontab -l; echo -e "$*") | crontab -
 }
 
 # delfrom_crontab() {
 	# cronfile=/var/spool/cron/crontabs/$(whoami)
 
 	# line=$*
-	# line=$(echo "$line" | sed 's/\//\\\//g')
+	# line=$(echo -e "$line" | sed 's/\//\\\//g')
 	# sudo sed -i "/$line/d" $cronfile
 # }
 delfrom_crontab() {
 	line=$*
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	crontab -l | sed "/$line/d" | crontab -
 }
 
 #=================================
 usage() {
-	echo "Usage: $0 {install|uninstall}"
+	echo -e "Usage: $0 {install|uninstall}"
 }
 
 #=================================

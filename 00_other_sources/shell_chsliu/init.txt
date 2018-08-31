@@ -4,7 +4,7 @@ apt install git ca-certificates sudo
 
 adduser <user>
 
-echo "<user> ALL=(ALL) ALL" > /etc/sudoers.d/<user>
+echo -e "<user> ALL=(ALL) ALL" > /etc/sudoers.d/<user>
 
 ssh as <user>
 

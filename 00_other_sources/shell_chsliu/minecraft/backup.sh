@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -d "$1" ]; then
-	echo $1 is not a directory
+	echo -e $1 is not a directory
 	exit
 fi
 
@@ -22,13 +22,13 @@ backup() {
 
 TODAY=$(date +"%Y-%m-%d_%H%M")
 HOST=$(hostname)
-ZIPDIR=$(echo $ZIPDIR/$BASE)
+ZIPDIR=$(echo -e $ZIPDIR/$BASE)
 ZIP=$BASE.$TODAY.$HOST.zip
 [ ! -z "$ZIPTAIL" ] && ZIP=$BASE.$TODAY.$HOST.$ZIPTAIL.zip
 # TEMPZIP=/tmp/$ZIP
 TEMPZIP=~/$ZIP
 
-echo -e "${GREEN}Creating $ZIPDIR/$ZIP${NC}"
+echo -e -e "${GREEN}Creating $ZIPDIR/$ZIP${NC}"
 
 cd "$DP1"
 
@@ -37,11 +37,11 @@ cd "$DP1"
 # IGNORE3=ForgeEssentials/Backups/*
 # IGNORE4=timings/*
 
-# echo zip -x "$IGNORE1" "$IGNORE2" "$IGNORE3" "$IGNORE4" -r $TEMPZIP ./*
+# echo -e zip -x "$IGNORE1" "$IGNORE2" "$IGNORE3" "$IGNORE4" -r $TEMPZIP ./*
 # zip -x "$IGNORE1" "$IGNORE2" "$IGNORE3" "$IGNORE4" -r $TEMPZIP ./* >/dev/null
-# echo zip -x@/home/sita/script/minecraft/minecraft.exclude.txt -r $TEMPZIP ./*
+# echo -e zip -x@/home/sita/script/minecraft/minecraft.exclude.txt -r $TEMPZIP ./*
 # zip -x@/home/sita/script/minecraft/minecraft.exclude.txt -r $TEMPZIP ./* >/dev/null
-echo zip -r $TEMPZIP ./*
+echo -e zip -r $TEMPZIP ./*
 zip -r $TEMPZIP ./* >/dev/null
 
 if [ ! -d $ZIPDIR ]; then mkdir $ZIPDIR; fi
@@ -51,15 +51,15 @@ mv $TEMPZIP $ZIPDIR
 
 purge() {
 
-echo -e "${GREEN}Purge $ZIPDIR/$BASE*.zip, Keeping latest $1 files. ${NC}"
+echo -e -e "${GREEN}Purge $ZIPDIR/$BASE*.zip, Keeping latest $1 files. ${NC}"
 
 ZIP=(`ls -at $ZIPDIR/$BASE*.zip`)
 
 INDEXMAX=$(( ${#ZIP[@]} - 1 ))
 
 for ((i=$1; i<=$INDEXMAX; i++)); do
-	# echo -n "$i: "
-	echo removing ${ZIP[$i]}
+	# echo -e -n "$i: "
+	echo -e removing ${ZIP[$i]}
 	rm ${ZIP[$i]}
 done
 
@@ -68,6 +68,6 @@ done
 
 backup
 
-# echo MAXBACKUP=$MAXBACKUP
+# echo -e MAXBACKUP=$MAXBACKUP
 [ ! $MAXBACKUP ] || purge $MAXBACKUP
 

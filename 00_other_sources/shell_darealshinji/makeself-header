@@ -20,10 +20,10 @@ quiet="n"
 print_cmd_arg=""
 if type printf > /dev/null; then
     print_cmd="printf"
-elif test -x /usr/ucb/echo; then
-    print_cmd="/usr/ucb/echo"
+elif test -x /usr/ucb/echo -e; then
+    print_cmd="/usr/ucb/echo -e"
 else
-    print_cmd="echo"
+    print_cmd="echo -e"
 fi
 
 unset CDPATH
@@ -36,7 +36,7 @@ MS_Printf()
 MS_PrintLicense()
 {
   if test x"\$licensetxt" != x; then
-    echo \$licensetxt
+    echo -e \$licensetxt
     while true
     do
       MS_Printf "Please type y to accept, n otherwise: "
@@ -162,18 +162,18 @@ MS_Check()
     i=1
     for s in \$filesizes
     do
-		crc=\`echo \$CRCsum | cut -d" " -f\$i\`
+		crc=\`echo -e \$CRCsum | cut -d" " -f\$i\`
 		if test -x "\$MD5_PATH"; then
 			if test \`basename \$MD5_PATH\` = digest; then
 				MD5_ARG="-a md5"
 			fi
-			md5=\`echo \$MD5 | cut -d" " -f\$i\`
+			md5=\`echo -e \$MD5 | cut -d" " -f\$i\`
 			if test \$md5 = "00000000000000000000000000000000"; then
-				test x\$verb = xy && echo " \$1 does not contain an embedded MD5 checksum." >&2
+				test x\$verb = xy && echo -e " \$1 does not contain an embedded MD5 checksum." >&2
 			else
 				md5sum=\`MS_dd "\$1" \$offset \$s | eval "\$MD5_PATH \$MD5_ARG" | cut -b-32\`;
 				if test "\$md5sum" != "\$md5"; then
-					echo "Error in MD5 checksums: \$md5sum is different from \$md5" >&2
+					echo -e "Error in MD5 checksums: \$md5sum is different from \$md5" >&2
 					exit 2
 				else
 					test x\$verb = xy && MS_Printf " MD5 checksums are OK." >&2
@@ -182,13 +182,13 @@ MS_Check()
 			fi
 		fi
 		if test \$crc = "0000000000"; then
-			test x\$verb = xy && echo " \$1 does not contain a CRC checksum." >&2
+			test x\$verb = xy && echo -e " \$1 does not contain a CRC checksum." >&2
 		else
 			sum1=\`MS_dd "\$1" \$offset \$s | CMD_ENV=xpg4 cksum | awk '{print \$1}'\`
 			if test "\$sum1" = "\$crc"; then
 				test x\$verb = xy && MS_Printf " CRC checksums are OK." >&2
 			else
-				echo "Error in checksums: \$sum1 is different from \$crc" >&2
+				echo -e "Error in checksums: \$sum1 is different from \$crc" >&2
 				exit 2;
 			fi
 		fi
@@ -196,17 +196,17 @@ MS_Check()
 		offset=\`expr \$offset + \$s\`
     done
     if test "\$quiet" = "n";then
-    	echo " All good."
+    	echo -e " All good."
     fi
 }
 
 UnTAR()
 {
     if test "\$quiet" = "n"; then
-    	tar \$1vf - 2>&1 || { echo Extraction failed. > /dev/tty; kill -15 \$$; }
+    	tar \$1vf - 2>&1 || { echo -e Extraction failed. > /dev/tty; kill -15 \$$; }
     else
 
-    	tar \$1f - 2>&1 || { echo Extraction failed. > /dev/tty; kill -15 \$$; }
+    	tar \$1f - 2>&1 || { echo -e Extraction failed. > /dev/tty; kill -15 \$$; }
     fi
 }
 
@@ -233,39 +233,39 @@ do
 	shift
 	;;
     --info)
-	echo Identification: "\$label"
-	echo Target directory: "\$targetdir"
-	echo Uncompressed size: $USIZE KB
-	echo Compression: $COMPRESS
-	echo Date of packaging: $DATE
-	echo Built with Makeself version $MS_VERSION on $OSTYPE
-	echo Build command was: "$MS_COMMAND"
+	echo -e Identification: "\$label"
+	echo -e Target directory: "\$targetdir"
+	echo -e Uncompressed size: $USIZE KB
+	echo -e Compression: $COMPRESS
+	echo -e Date of packaging: $DATE
+	echo -e Built with Makeself version $MS_VERSION on $OSTYPE
+	echo -e Build command was: "$MS_COMMAND"
 	if test x\$script != x; then
-	    echo Script run after extraction:
-	    echo "    " \$script \$scriptargs
+	    echo -e Script run after extraction:
+	    echo -e "    " \$script \$scriptargs
 	fi
 	if test x"$copy" = xcopy; then
-		echo "Archive will copy itself to a temporary location"
+		echo -e "Archive will copy itself to a temporary location"
 	fi
 	if test x"$KEEP" = xy; then
-	    echo "directory \$targetdir is permanent"
+	    echo -e "directory \$targetdir is permanent"
 	else
-	    echo "\$targetdir will be removed after extraction"
+	    echo -e "\$targetdir will be removed after extraction"
 	fi
 	exit 0
 	;;
     --dumpconf)
-	echo LABEL=\"\$label\"
-	echo SCRIPT=\"\$script\"
-	echo SCRIPTARGS=\"\$scriptargs\"
-	echo archdirname=\"$archdirname\"
-	echo KEEP=$KEEP
-	echo COMPRESS=$COMPRESS
-	echo filesizes=\"\$filesizes\"
-	echo CRCsum=\"\$CRCsum\"
-	echo MD5sum=\"\$MD5\"
-	echo OLDUSIZE=$USIZE
-	echo OLDSKIP=`expr $SKIP + 1`
+	echo -e LABEL=\"\$label\"
+	echo -e SCRIPT=\"\$script\"
+	echo -e SCRIPTARGS=\"\$scriptargs\"
+	echo -e archdirname=\"$archdirname\"
+	echo -e KEEP=$KEEP
+	echo -e COMPRESS=$COMPRESS
+	echo -e filesizes=\"\$filesizes\"
+	echo -e CRCsum=\"\$CRCsum\"
+	echo -e MD5sum=\"\$MD5\"
+	echo -e OLDUSIZE=$USIZE
+	echo -e OLDSKIP=`expr $SKIP + 1`
 	exit 0
 	;;
     --lsm)
@@ -277,7 +277,7 @@ EOLSM
 	exit 0
 	;;
     --list)
-	echo Target directory: \$targetdir
+	echo -e Target directory: \$targetdir
 	offset=\`head -n $SKIP "\$0" | wc -c | tr -d " "\`
 	for s in \$filesizes
 	do
@@ -331,7 +331,7 @@ EOLSM
 	shift
 	;;
     --xwin)
-	finish="echo Press Return to close this window...; read junk"
+	finish="echo -e Press Return to close this window...; read junk"
 	xterm_loop=1
 	shift
 	;;
@@ -343,7 +343,7 @@ EOLSM
 	shift
 	break ;;
     -*)
-	echo Unrecognized flag : "\$1" >&2
+	echo -e Unrecognized flag : "\$1" >&2
 	MS_Help
 	exit 1
 	;;
@@ -353,7 +353,7 @@ EOLSM
 done
 
 if test "\$quiet" = "y" -a "\$verbose" = "y";then
-	echo Cannot be verbose and quiet at the same time. >&2
+	echo -e Cannot be verbose and quiet at the same time. >&2
 	exit 1
 fi
 
@@ -363,11 +363,11 @@ case "\$copy" in
 copy)
     tmpdir=\$TMPROOT/makeself.\$RANDOM.\`date +"%y%m%d%H%M%S"\`.\$\$
     mkdir "\$tmpdir" || {
-	echo "Could not create temporary directory \$tmpdir" >&2
+	echo -e "Could not create temporary directory \$tmpdir" >&2
 	exit 1
     }
     SCRIPT_COPY="\$tmpdir/makeself"
-    echo "Copying to a temporary location..." >&2
+    echo -e "Copying to a temporary location..." >&2
     cp "\$0" "\$SCRIPT_COPY"
     chmod +x "\$SCRIPT_COPY"
     cd "\$TMPROOT"
@@ -391,8 +391,8 @@ if test "\$nox11" = "n"; then
                         break
                     fi
                 done
-                chmod a+x \$0 || echo Please add execution rights on \$0
-                if test \`echo "\$0" | cut -c1\` = "/"; then # Spawn a terminal!
+                chmod a+x \$0 || echo -e Please add execution rights on \$0
+                if test \`echo -e "\$0" | cut -c1\` = "/"; then # Spawn a terminal!
                     exec \$XTERM -title "\$label" -e "\$0" --xwin "\$initargs"
                 else
                     exec \$XTERM -title "\$label" -e "./\$0" --xwin "\$initargs"
@@ -407,7 +407,7 @@ if test "\$targetdir" = "."; then
 else
     if test "\$keep" = y; then
 	if test "\$quiet" = "n";then
-	    echo "Creating directory \$targetdir" >&2
+	    echo -e "Creating directory \$targetdir" >&2
 	fi
 	tmpdir="\$targetdir"
 	dashp="-p"
@@ -416,8 +416,8 @@ else
 	dashp=""
     fi
     mkdir \$dashp \$tmpdir || {
-	echo 'Cannot create target directory' \$tmpdir >&2
-	echo 'You should try option --target dir' >&2
+	echo -e 'Cannot create target directory' \$tmpdir >&2
+	echo -e 'You should try option --target dir' >&2
 	eval \$finish
 	exit 1
     }
@@ -442,16 +442,16 @@ if test "\$quiet" = "n";then
 fi
 res=3
 if test "\$keep" = n; then
-    trap 'echo Signal caught, cleaning up >&2; cd \$TMPROOT; /bin/rm -rf \$tmpdir; eval \$finish; exit 15' 1 2 3 15
+    trap 'echo -e Signal caught, cleaning up >&2; cd \$TMPROOT; /bin/rm -rf \$tmpdir; eval \$finish; exit 15' 1 2 3 15
 fi
 
 leftspace=\`MS_diskspace \$tmpdir\`
 if test -n "\$leftspace"; then
     if test "\$leftspace" -lt $USIZE; then
-        echo
-        echo "Not enough space left in "\`dirname \$tmpdir\`" (\$leftspace KB) to decompress \$0 ($USIZE KB)" >&2
+        echo -e
+        echo -e "Not enough space left in "\`dirname \$tmpdir\`" (\$leftspace KB) to decompress \$0 ($USIZE KB)" >&2
         if test "\$keep" = n; then
-            echo "Consider setting TMPDIR to a directory with more free space."
+            echo -e "Consider setting TMPDIR to a directory with more free space."
         fi
         eval \$finish; exit 1
     fi
@@ -464,14 +464,14 @@ do
 			(PATH=/usr/xpg4/bin:\$PATH; cd "\$tmpdir"; chown -R \`id -u\` .;  chgrp -R \`id -g\` .)
 		fi
     else
-		echo >&2
-		echo "Unable to decompress \$0" >&2
+		echo -e >&2
+		echo -e "Unable to decompress \$0" >&2
 		eval \$finish; exit 1
     fi
     offset=\`expr \$offset + \$s\`
 done
 if test "\$quiet" = "n";then
-	echo
+	echo -e
 fi
 
 cd "\$tmpdir"
@@ -487,7 +487,7 @@ if test x"\$script" != x; then
 		eval \$script \$scriptargs \$*; res=\$?
     fi
     if test \$res -ne 0; then
-		test x"\$verbose" = xy && echo "The program '\$script' returned an error code (\$res)" >&2
+		test x"\$verbose" = xy && echo -e "The program '\$script' returned an error code (\$res)" >&2
     fi
 fi
 if test "\$keep" = n; then

@@ -17,7 +17,7 @@
 funct_check_user()
 {
   if [ `whoami` != root ]
-    then echo 'You Must be root to execute this script !!!'
+    then echo -e 'You Must be root to execute this script !!!'
     exit 99
   fi
 }

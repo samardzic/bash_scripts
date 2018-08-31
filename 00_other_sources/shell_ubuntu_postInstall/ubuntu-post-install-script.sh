@@ -30,7 +30,7 @@ TITLE="Ubuntu Post-Install Script"
 
 # Main
 function main {
-	echo_message header "Starting 'main' function"
+	echo -e_message header "Starting 'main' function"
 	# Draw window
 	MAIN=$(eval `resize` && whiptail \
 		--notags \
@@ -53,7 +53,7 @@ function main {
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
-		echo_message header "Starting '$MAIN' function"
+		echo -e_message header "Starting '$MAIN' function"
 		$MAIN
 	else
 		# Quit
@@ -63,11 +63,11 @@ function main {
 
 # Quit
 function quit {
-	echo_message header "Starting 'quit' function"
-	echo_message title "Exiting $TITLE..."
+	echo -e_message header "Starting 'quit' function"
+	echo -e_message title "Exiting $TITLE..."
 	# Draw window
 	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 8 56) then
-		echo_message welcome 'Thanks for using!'
+		echo -e_message welcome 'Thanks for using!'
 		exit 99
 	else
 		main
@@ -91,7 +91,7 @@ function import_functions {
 # Import main functions
 import_functions
 # Welcome message
-echo_message welcome "$TITLE"
+echo -e_message welcome "$TITLE"
 # Run system checks
 system_checks
 # main

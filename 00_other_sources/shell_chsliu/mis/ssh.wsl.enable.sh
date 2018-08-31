@@ -5,7 +5,7 @@ addto_file() {
         sudo touch $file
 
         if ! sudo grep -Fxq "$2" $file; then
-                echo "$2" | sudo tee -a $file
+                echo -e "$2" | sudo tee -a $file
         fi
 
         sudo chown $(whoami):crontab $file

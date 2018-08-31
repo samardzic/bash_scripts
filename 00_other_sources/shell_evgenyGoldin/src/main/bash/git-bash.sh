@@ -49,7 +49,7 @@ then
     done
 
     if [[ "$curr_branch" =~ "fatal: " ]]; then
-      echo "<not initialized yet>"
+      echo -e "<not initialized yet>"
       exit
     fi
 
@@ -64,10 +64,10 @@ then
     fi
 
     if [[ "$numbers" =~ "fatal: " ]]; then
-      echo "<not initialized yet>"
+      echo -e "<not initialized yet>"
     else
-      echo "<$branch$mark>[$commit][$numbers]"
+      echo -e "<$branch$mark>[$commit][$numbers]"
     fi
 else
-    echo ""
+    echo -e ""
 fi

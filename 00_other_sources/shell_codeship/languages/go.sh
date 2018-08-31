@@ -11,7 +11,7 @@ GO_VERSION=${GO_VERSION:="1.4.2"}
 
 # strip all components from PATH which point to a GO installation and configure the
 # download location
-CLEANED_PATH=$(echo "${PATH}" | sed -r 's|/(usr/local\|tmp)/go(/([0-9]\.)+[0-9])?/bin:||g')
+CLEANED_PATH=$(echo -e "${PATH}" | sed -r 's|/(usr/local\|tmp)/go(/([0-9]\.)+[0-9])?/bin:||g')
 CACHED_DOWNLOAD="${HOME}/cache/go${GO_VERSION}.linux-amd64.tar.gz"
 
 # configure the new GOROOT and PATH

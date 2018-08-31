@@ -12,16 +12,16 @@ REBOOT="reboot"
 
 show_help()
 {
-    echo "$0 [options] apk"
-    echo "       options:"
-    echo "              -d : if the odex should be removed from the system for the application (if exists)"
-    echo "              -w : if data should be wiped in recovery when rebooting"
-    echo ""
+    echo -e "$0 [options] apk"
+    echo -e "       options:"
+    echo -e "              -d : if the odex should be removed from the system for the application (if exists)"
+    echo -e "              -w : if data should be wiped in recovery when rebooting"
+    echo -e ""
 }
 
 wipedata()
 {
-    echo "--wipe_data" > command
+    echo -e "--wipe_data" > command
     adb push command /data/local/tmp
     adb shell su -c 'dd if=/data/local/tmp/command of=/cache/recovery/command'
     adb shell su -c 'chmod 644 /cache/recovery/command'
@@ -40,8 +40,8 @@ get_apk_path()
             if [ -z $FULL_PATH ]; then
                 FULL_PATH=$(adb shell ls /system/framework | grep -w $NAME | tr -d '\r')
                 if [ -z $FULL_PATH ]; then
-                    echo "Unable to determine app's location"
-                    echo "Please enter the full path to the directory containing the apk"
+                    echo -e "Unable to determine app's location"
+                    echo -e "Please enter the full path to the directory containing the apk"
                     read path
                     FULL_PATH=$path
                 else
@@ -100,20 +100,20 @@ if [ ! -z $FIND ]; then
 fi
 
 get_apk_path
-echo "---- Found apk's location at $FULL_PATH ----"
+echo -e "---- Found apk's location at $FULL_PATH ----"
 
 get_apk_arch
 
-echo "---- Pushing apk to device ----"
+echo -e "---- Pushing apk to device ----"
 adb push $APK /data/local/tmp
 
-echo "---- Mounting system r/w ----"
+echo -e "---- Mounting system r/w ----"
 adb shell su -c 'mount -o remount,rw /system'
 
-echo "---- Moving app to $FULL_PATH/$APK ----"
+echo -e "---- Moving app to $FULL_PATH/$APK ----"
 adb shell su -c "dd if=/data/local/tmp/$APK of=$FULL_PATH/$APK"
 if [ $REMOVE_ODEX_IF_EXISTS == true ]; then
-    echo "---- Removing odex ----"
+    echo -e "---- Removing odex ----"
     if [ ! -z $ARCH ]; then
         adb shell su -c "rm -rf $FULL_PATH/$ARCH"
     else
@@ -121,7 +121,7 @@ if [ $REMOVE_ODEX_IF_EXISTS == true ]; then
     fi
 fi
 
-echo "---- Setting permissions ----"
+echo -e "---- Setting permissions ----"
 adb shell su -c "chmod 644 $FULL_PATH/$APK"
 
 if [ $FACTORY_RESET == true ]; then
@@ -129,5 +129,5 @@ if [ $FACTORY_RESET == true ]; then
     REBOOT="reboot recovery"
 fi
 
-echo "---- Rebooting - ($REBOOT) ----"
+echo -e "---- Rebooting - ($REBOOT) ----"
 adb $REBOOT

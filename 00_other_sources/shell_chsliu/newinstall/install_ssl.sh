@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ ! "root" = $(whoami) ]; then
-	echo "only work while been root"
+	echo -e "only work while been root"
 	exit
 fi
 
 ### 
 addto_root_crontab() {
-	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo \"$*\") | crontab -"
+	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo -e \"$*\") | crontab -"
 }
 
 ### 

@@ -124,11 +124,11 @@ _make() {
 _download() {
   # $1 = URL, $2 = file, $3 = MD5 checksum
   if [ -f "${2}" ]; then
-    echo "\`${2}' already in working directory"
+    echo -e "\`${2}' already in working directory"
   else
     wget -O "${2}" "${1}"
   fi
-  echo "${3} ${2}" | md5sum -c
+  echo -e "${3} ${2}" | md5sum -c
 }
 
 
@@ -148,13 +148,13 @@ install_builddeps() {
     fi
   done
   if [ -n "${installdeps}" ]; then
-    echo "The following build-dependencies need to be installed:"
-    echo "${installdeps}"
+    echo -e "The following build-dependencies need to be installed:"
+    echo -e "${installdeps}"
     sudo -k -- sh -c "apt-get install ${installdeps}; apt-mark auto ${installdeps}"
   fi
 }
 
-pkgcount=$(echo ${packages[*]} | wc -w)
+pkgcount=$(echo -e ${packages[*]} | wc -w)
 
 _make_install() {
   mkdir -p "${installsrc}"
@@ -164,8 +164,8 @@ _make_install() {
 gen_debian() {
   mkdir -p debian/source
   cd debian
-  echo "3.0 (quilt)" > source/format
-  echo "9" > compat
+  echo -e "3.0 (quilt)" > source/format
+  echo -e "9" > compat
 
   # changelog
   cat <<EOF > changelog
@@ -176,15 +176,15 @@ ${source} (${epoch}${pkgver}${pkgrev}) unstable; urgency=low
  -- ${maintainer}  $(date -R)
 EOF
   if [ "${epoch}${pkgver}${pkgrev}" != "${pkgver}" -a \
-       "$(echo ${pkgrev} | head -c1)" != "~" -a \
-       "$(echo ${pkgrev} | head -c2)" != "-0" ]; then
+       "$(echo -e ${pkgrev} | head -c1)" != "~" -a \
+       "$(echo -e ${pkgrev} | head -c2)" != "-0" ]; then
   cat <<EOF >> changelog
 
 ${source} (${pkgver}) unstable; urgency=low
 
   * Release version ${pkgver}
 
- -- ${maintainer}  $(echo "$(date -R | head -c-15)00:00:00 +0000")
+ -- ${maintainer}  $(echo -e "$(date -R | head -c-15)00:00:00 +0000")
 EOF
   fi
 
@@ -194,48 +194,48 @@ Source: ${source}
 Section: ${section}
 Priority: optional
 Maintainer: ${maintainer}
-Build-Depends: debhelper (>= 9), $(echo ${builddepends} | sed 's| |, |g')
+Build-Depends: debhelper (>= 9), $(echo -e ${builddepends} | sed 's| |, |g')
 Standards-Version: 3.9.6
 Homepage: ${homepage}
 
 EOF
   for n in $(seq 0 $((${pkgcount} - 1))); do
-    echo "Package: ${packages[$n]}" >> control
+    echo -e "Package: ${packages[$n]}" >> control
 
     test -z "${sections[*]}" -o "${sections[$n]}" = 0 || \
-      echo "Section: ${sections[$n]}" >> control
+      echo -e "Section: ${sections[$n]}" >> control
 
     if [ -z "${architectures[*]}" -o "${architectures[$n]}" = "0" ]; then
       arches="any"
     else
       arches="${architectures[$n]}"
     fi
-    echo "Architecture: ${arches}" >> control
+    echo -e "Architecture: ${arches}" >> control
 
-    echo "Depends: \${shlibs:Depends}, \${misc:Depends}," >> control
+    echo -e "Depends: \${shlibs:Depends}, \${misc:Depends}," >> control
     test -z "${depends[*]}" -o "${depends[$n]}" = 0 || \
-      echo " ${depends[$n]}" >> control
+      echo -e " ${depends[$n]}" >> control
 
-    echo "Pre-Depends: \${misc:Pre-Depends}" >> control
+    echo -e "Pre-Depends: \${misc:Pre-Depends}" >> control
 
     test -z "${recommends[*]}" -o "${recommends[$n]}" = 0 || \
-      echo "Recommends: ${recommends[$n]}" >> control
+      echo -e "Recommends: ${recommends[$n]}" >> control
 
     test -z "${suggests[*]}"} -o "${suggests[$n]}" = 0 || \
-      echo "Suggests: ${suggests[$n]}" >> control
+      echo -e "Suggests: ${suggests[$n]}" >> control
 
     test -z "${provides[*]}" -o "${provides[$n]}" = 0 || \
-      echo "Provides: ${provides[$n]}" >> control
+      echo -e "Provides: ${provides[$n]}" >> control
 
     test -z "${replaces[*]}" -o "${replaces[$n]}" = 0 || \
-      echo "Replaces: ${replaces[$n]}" >> control
+      echo -e "Replaces: ${replaces[$n]}" >> control
 
     test -z "${brakes[*]}" -o "${brakes[$n]}" = 0 || \
-      echo "Brakes: ${brakes[$n]}" >> control
+      echo -e "Brakes: ${brakes[$n]}" >> control
 
-    echo "Description: ${pkgdesc}" >> control
-    echo "${pkgdesc_long}" | fold -s -w 79 | sed 's|^| |g; s|^ $| .|g; s| $||g' >> control
-    echo "" >> control
+    echo -e "Description: ${pkgdesc}" >> control
+    echo -e "${pkgdesc_long}" | fold -s -w 79 | sed 's|^| |g; s|^ $| .|g; s| $||g' >> control
+    echo -e "" >> control
   done
   if [ ${debugpkg} != 0 ]; then
     cat <<EOF >> control
@@ -245,12 +245,12 @@ Section: debug
 Architecture: any
 Depends: \${misc:Depends},
 EOF
-    dbgcount=$(echo ${debugging[*]} | wc -w)
+    dbgcount=$(echo -e ${debugging[*]} | wc -w)
     for n in $(seq 0 $(($dbgcount - 1))); do
-      echo " ${debugging[$n]} (= \${binary:Version})," >> control
+      echo -e " ${debugging[$n]} (= \${binary:Version})," >> control
     done
-    echo "Description: ${pkgdesc} (debug)" >> control
-    echo "${pkgdesc_long}" | fold -s -w 79 | sed 's|^| |g; s|^ $| .|g; s| $||g' >> control
+    echo -e "Description: ${pkgdesc} (debug)" >> control
+    echo -e "${pkgdesc_long}" | fold -s -w 79 | sed 's|^| |g; s|^ $| .|g; s| $||g' >> control
     cat <<EOF >> control
  .
  This package provides debug symbols for ${source}.
@@ -322,9 +322,9 @@ override_dh_shlibdeps:
 	[ ! -x /usr/bin/dh_sphinxdoc ] || dh_sphinxdoc
 
 override_dh_gencontrol:
-	@echo
-	@echo '   IGNORE WARNINGS ABOUT UNKNOWN SUBSTITUION VARIABLES!'
-	@echo
+	@echo -e
+	@echo -e '   IGNORE WARNINGS ABOUT UNKNOWN SUBSTITUION VARIABLES!'
+	@echo -e
 	dh_gencontrol
 EOF
   chmod +x rules
@@ -357,15 +357,15 @@ dpkg-buildpackage -b -us -uc 2>&1 | tee build.log
 if [ -x /usr/bin/lintian ]; then
   packages="$(find "${basedir}" -maxdepth 1 -type f -name *.deb)"
   if [ -n "${packages}" ]; then
-    echo -e "\n\nRunning Lintian checks...\n"
+    echo -e -e "\n\nRunning Lintian checks...\n"
     for f in ${packages} ; do
-      echo "${f}:"
+      echo -e "${f}:"
       lintian "${f}"
-      echo
+      echo -e
     done
   fi
 fi
 
-echo -e "\nHINT: You can remove installed build-dependencies with \`sudo apt-get autoremove --purge'"
+echo -e -e "\nHINT: You can remove installed build-dependencies with \`sudo apt-get autoremove --purge'"
 
 

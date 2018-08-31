@@ -52,8 +52,6 @@ sudo apt-get install netstat -y
 sudo apt-get install pktstat -y
 sudo apt-get install ifstat -y
 sudo apt-get install vmstat -y
-sudo apt-get install mpstat -y
-sudo apt-get install iostat -y
 sudo apt-get install darkstat -y
 sudo apt-get install wavemon -y
 sudo apt-get install mycli -y

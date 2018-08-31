@@ -3,7 +3,7 @@
 set -e
 
 if [ ! $(which vlc) ] ; then
-    echo "Vlc is not installed"
+    echo -e "Vlc is not installed"
     exit 2
 fi
 
@@ -67,5 +67,5 @@ std_options="access=http,mux=$mux,dst=$dst"
 sout="#transcode{$transcode_options}:std{$std_options}"
 
 vlc_options="$input $screen_options --sout \"$sout\""
-echo "vlc $vlc_options"
+echo -e "vlc $vlc_options"
 cvlc "$vlc_options" 2>/dev/null

@@ -2,7 +2,7 @@
 dir="$1"
 src="$2"
 dst="$3"
-test -d "$dir" || echo "The first option must be a directory: $dir" && exit 1
+test -d "$dir" || echo -e "The first option must be a directory: $dir" && exit 1
 find "$dir" -d | 
 while read x do
   rename "s/$src/$dst/" "$x"

@@ -34,7 +34,7 @@ trap error ERR
 
 function cleanup {
     #Do some cleanup in case script is prematurely interrupted
-    echo "cleanup"
+    echo -e "cleanup"
     exit 2
 }
 trap cleanup SIGINT SIGTERM
@@ -63,12 +63,12 @@ done
 
 #Error checking
 if [ -z "$other_variable" ] ; then
-    echo "Error message here"
+    echo -e "Error message here"
     exit 2
 fi
 
 #If you plan looping on directories and files with spaces
-IFS=$(echo -en "\n\b")
+IFS=$(echo -e -en "\n\b")
 
 #If you plan using globbing
 shopt -s extglob

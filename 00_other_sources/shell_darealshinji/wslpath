@@ -55,19 +55,19 @@ EOL
 
 function checkarg() {
   if [ "$1" = "$last" ]; then
-    echo "Error: missing path argument"
+    echo -e "Error: missing path argument"
     exit 1
   fi
 }
 
 function win_env() {
-  echo $(cmd.exe /C echo %${1}% 2>/dev/null | sed -e 's|\r||;s|\\|/|g')
+  echo -e $(cmd.exe /C echo -e %${1}% 2>/dev/null | sed -e 's|\r||;s|\\|/|g')
 }
 
 if !(grep -q 'Microsoft' /proc/version 2>/dev/null || 
      grep -q 'Microsoft' /proc/sys/kernel/osrelease 2>/dev/null)
 then
-  echo "Warning: script was made for \"Bash on Windows\"" > /dev/stderr
+  echo -e "Warning: script was made for \"Bash on Windows\"" > /dev/stderr
 fi
 
 if [ -z "$1" ]; then
@@ -110,7 +110,7 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-p=$(echo $last | sed -e 's|\\\+|/|g;s|/\+|/|g')
+p=$(echo -e $last | sed -e 's|\\\+|/|g;s|/\+|/|g')
 
 lxss=$(win_env LOCALAPPDATA)/lxss
 if [ $subst_home = yes ] && [ $to_unix = no ]; then
@@ -121,18 +121,18 @@ fi
 
 if [ $to_unix = yes ]; then
   # windows to unix
-  lxssLen=$(echo $lxss | wc -m)
+  lxssLen=$(echo -e $lxss | wc -m)
   if [ "${p:0:$lxssLen}" = "$lxss" ]; then
-    subdir=$(echo $p | cut -d'/' -f7)
+    subdir=$(echo -e $p | cut -d'/' -f7)
     lxssDirs=$(grep -e ' lxfs ' /proc/mounts | awk '{print $1}')
-    if [ -n "$(echo $lxssDirs | tr ' ' '\n' | grep -e "^$subdir\$")" ]; then
-      offset=$(echo $lxss/$subdir | wc -m)
+    if [ -n "$(echo -e $lxssDirs | tr ' ' '\n' | grep -e "^$subdir\$")" ]; then
+      offset=$(echo -e $lxss/$subdir | wc -m)
       prefix=$(grep -e "^$subdir " /proc/mounts | awk '{print $2}')
       [ "$prefix" != / ] || prefix=""
       p=$prefix${p:$offset}
     fi
   fi
-  if [ -n "$(echo ${p:0:3} | grep -e '^[A-Za-z]:/\?$')" ]; then
+  if [ -n "$(echo -e ${p:0:3} | grep -e '^[A-Za-z]:/\?$')" ]; then
     drive=${p:0:1}
     p=/mnt/${drive,,}${p:2}
   fi
@@ -146,16 +146,16 @@ else
   fi
   if [ "${p:0:1}" = / ]; then
     if [ $subst_home = yes ]; then
-      p=$(echo $p | sed "s|^$HOME|$win_home|")
+      p=$(echo -e $p | sed "s|^$HOME|$win_home|")
     fi
-    if [ -n "$(echo ${p:0:7} | grep -e '^/mnt/[a-z]/\?$')" ]; then
+    if [ -n "$(echo -e ${p:0:7} | grep -e '^/mnt/[a-z]/\?$')" ]; then
       drive=${p:5:1}
       p=${drive^^}:${p:6}
     else
-      firstDir=/$(echo $p | cut -d'/' -f2)
+      firstDir=/$(echo -e $p | cut -d'/' -f2)
       offset=$(printf "$firstDir" | wc -m)
       rootDirs=$(grep -e ' lxfs ' /proc/mounts | awk '{print $2}')
-      if [ -z "$(echo $rootDirs | tr ' ' '\n' | grep -e "^$firstDir\$")" ]; then
+      if [ -z "$(echo -e $rootDirs | tr ' ' '\n' | grep -e "^$firstDir\$")" ]; then
         firstDir=/
         offset=0
       fi
@@ -163,9 +163,9 @@ else
     fi
   fi
   if [ $mixed_mode = no ]; then
-    p=$(echo $p | tr '/' '\\')
+    p=$(echo -e $p | tr '/' '\\')
   fi
 fi
 
-echo $p
+echo -e $p
 

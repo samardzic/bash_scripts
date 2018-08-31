@@ -18,63 +18,63 @@ HEROKU_API_KEY=${HEROKU_API_KEY:?'Set the HEROKU_API_KEY environment variable. G
 APPLICATION_FOLDER=$HOME/clone
 AFTER_DEPLOYMENT_WAIT_TIME=5
 
-echo "STARTING DEPLOYMENT"
+echo -e "STARTING DEPLOYMENT"
 
 function error_message() {
-  echo -e "DEPLOYMENT FAILED on line $1 of the deployment script"
+  echo -e -e "DEPLOYMENT FAILED on line $1 of the deployment script"
 }
 
 set -e
 
 heroku apps:info "${HEROKU_APP_NAME}"
-echo -e "\e[32mThe application \"${HEROKU_APP_NAME}\" can be accessed.\e[39m"
+echo -e -e "\e[32mThe application \"${HEROKU_APP_NAME}\" can be accessed.\e[39m"
 
 trap 'error_message $LINENO' ERR
 
 set -o pipefail
 set -e
 
-echo "CHANGING Directory to $APPLICATION_FOLDER"
+echo -e "CHANGING Directory to $APPLICATION_FOLDER"
 cd $APPLICATION_FOLDER
 
-#echo "CHECKING Access to Heroku application $HEROKU_APP_NAME"
+#echo -e "CHECKING Access to Heroku application $HEROKU_APP_NAME"
 #codeship_heroku check_access $HEROKU_APP_NAME
 
 ARTIFACT_PATH=/tmp/deployable_artifact.tar.gz
 
-echo "PACKAGING tar.gz for deployment"
+echo -e "PACKAGING tar.gz for deployment"
 tar -pczf $ARTIFACT_PATH ./
 
-echo "PREPARING Heroku source for upload"
+echo -e "PREPARING Heroku source for upload"
 sources=`curl -sS -X POST https://api.heroku.com/apps/$HEROKU_APP_NAME/sources -H 'Accept: application/vnd.heroku+json; version=3' -H "Authorization: Bearer $HEROKU_API_KEY"`
 
-get_url=`echo $sources | jq -r .source_blob.get_url`
-put_url=`echo $sources | jq -r .source_blob.put_url`
+get_url=`echo -e $sources | jq -r .source_blob.get_url`
+put_url=`echo -e $sources | jq -r .source_blob.put_url`
 
-echo "UPLOADING tar.gz file to Heroku"
+echo -e "UPLOADING tar.gz file to Heroku"
 curl -sS -X PUT "$put_url" -H 'Content-Type:' --data-binary @$ARTIFACT_PATH
 
-echo "STARTING Build process on Heroku"
+echo -e "STARTING Build process on Heroku"
 deployment=`curl -sS -X POST https://api.heroku.com/apps/$HEROKU_APP_NAME/builds -d "{\"source_blob\":{\"url\":\"$get_url\", \"version\": \"$CI_COMMIT_ID\"}}" -H 'Accept: application/vnd.heroku+json; version=3' -H 'Content-Type: application/json' -H "Authorization: Bearer $HEROKU_API_KEY"`
 
-deployment_id=`echo "$deployment" | jq -r .id`
+deployment_id=`echo -e "$deployment" | jq -r .id`
 
-echo "DEPLOYMENT: $deployment_id"
+echo -e "DEPLOYMENT: $deployment_id"
 
-output_stream_url=`echo "$deployment" | jq -r .output_stream_url`
+output_stream_url=`echo -e "$deployment" | jq -r .output_stream_url`
 
 curl -sS "$output_stream_url"
 
 # Sleep to allow Heroku to store the result of the deployment
 sleep $AFTER_DEPLOYMENT_WAIT_TIME
 
-echo "CHECKING API for deployment success"
+echo -e "CHECKING API for deployment success"
 
 deployment_result_json=`curl -sS https://api.heroku.com/apps/$HEROKU_APP_NAME/builds/$deployment_id -H 'Accept: application/vnd.heroku+json; version=3' -H "Authorization: Bearer $HEROKU_API_KEY"`
 
-deployment_status=`echo "$deployment_result_json" | jq -r .status`
-echo "DEPLOYMENT STATUS: $deployment_status"
+deployment_status=`echo -e "$deployment_result_json" | jq -r .status`
+echo -e "DEPLOYMENT STATUS: $deployment_status"
 
 [ "$deployment_status" = "succeeded" ]
 
-echo "DEPLOYMENT SUCCESSFUL"
+echo -e "DEPLOYMENT SUCCESSFUL"

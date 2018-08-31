@@ -14,7 +14,7 @@ infile=$1
 
 for line in `cat $infile`;
 do
-    echo -n "$line "; 
+    echo -e -n "$line "; 
     ssh $line 'uname -r';
 done
 

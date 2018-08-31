@@ -24,7 +24,7 @@ mkdir -p "${MYSQL_DIR}/data"
 mkdir -p "${MYSQL_DIR}/socket"
 mkdir -p "${MYSQL_DIR}/log"
 
-echo "#
+echo -e "#
 # The MySQL 8.0 database server configuration file.
 #
 [client]

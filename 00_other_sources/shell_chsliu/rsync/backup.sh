@@ -29,7 +29,7 @@ rsync_mkdir2() {
 empty=/tmp/empty/
 mkdir $empty &>/dev/null
 
-#echo rsync -a $empty $1
+#echo -e rsync -a $empty $1
 rsync -a $empty $1
 
 rm -rf $empty
@@ -39,14 +39,14 @@ rsync_mkdir3() {
 dirs=( $(find /etc -type d -empty) )
 empty=${dirs[0]}/
 
-#echo rsync -a $empty $1
+#echo -e rsync -a $empty $1
 rsync -a $empty $1 &>/dev/null
 }
 
 rsync_check_path2() {
     if [[ ! -z "$1" &&  ! $1 == "rsync:" ]]
     then
-        #echo =$1, $(dirname $1)
+        #echo -e =$1, $(dirname $1)
         if [ $1 == $(dirname $1) ]; then return; fi
         rsync_check_path2 $(dirname $1)
         rsync_mkdir3 $1
@@ -56,7 +56,7 @@ rsync_check_path2() {
 #=================================
 if [[ -z "$1" ]] 
 then
-    echo $0 [dir] [pattern files]
+    echo -e $0 [dir] [pattern files]
     exit
 fi
 
@@ -69,44 +69,44 @@ TODAY=$(date +"%Y-%m-%d")
 MONTH=$(date +"%Y-%m")
 TXT1=/tmp/$(basename $0).txt
 LOG=/tmp/rsync.$(basename $DIR).$TODAY.txt
-#echo $LOG
+#echo -e $LOG
 
 if [ -e $LOG ]
 then
     cp $0 $TXT1
 
     MSG="Aborting because logfile already exists, probably another thread is currently running."
-    echo $MSG | mailx -s "[LOG] $COMPUTERNAME $0 ABORT" -r "Sita Liu<egreta.su@msa.hinet.net>" -S smtp="msa.hinet.net" -a $LOG -a $TXT1 chsliu@gmail.com
+    echo -e $MSG | mailx -s "[LOG] $COMPUTERNAME $0 ABORT" -r "Sita Liu<egreta.su@msa.hinet.net>" -S smtp="msa.hinet.net" -a $LOG -a $TXT1 chsliu@gmail.com
 
     rm $LOG $TXT1
     exit
 fi
 
-#echo whoami: $(whoami) >>$LOG
-#echo '$0': $0 >>$LOG
-#echo '$1': $1 >>$LOG
-#echo '$2': $2 >>$LOG
+#echo -e whoami: $(whoami) >>$LOG
+#echo -e '$0': $0 >>$LOG
+#echo -e '$1': $1 >>$LOG
+#echo -e '$2': $2 >>$LOG
 
 #ls -la $1 >>$LOG
 
 #=================================
-#echo arg2=$2
+#echo -e arg2=$2
 if [[ ! -z ${2+x} && -f $2 ]] 
 then 
-    #echo "arg2 is set to '$2'"
-    #echo user patterns, $2
+    #echo -e "arg2 is set to '$2'"
+    #echo -e user patterns, $2
     PATTERNS=$(readlink -e $2)
 else 
-    #echo "arg2 is unset"
-    #echo default patterns
+    #echo -e "arg2 is unset"
+    #echo -e default patterns
     PATTERNS=$(readlink -e $DP0/patterns.txt)
 fi
-#echo PATTERNS=$PATTERNS
+#echo -e PATTERNS=$PATTERNS
 
 if [ -e $DP0/host-$COMPUTERNAME.sh ] 
 then
 	. $DP0/host-$COMPUTERNAME.sh
-	#echo $HOST, $HOSTPATH
+	#echo -e $HOST, $HOSTPATH
 else
 	. $DP0/host.sh
 fi
@@ -128,16 +128,16 @@ fi
 OPTIONS="-avz --progress --chmod=a=rw,Da+x --fake-super --no-owner --no-group --omit-dir-times --delete --delete-excluded --exclude-from=$PATTERNS --backup --backup-dir=/recycle/$MONTH/$TODAY/$USERNAME/$COMPUTERNAME/$PATHTAIL"
 DST=rsync://$HOST/$HOSTPATH/$USERNAME/$COMPUTERNAME/$PATHTAIL
 
-#echo $OPTIONS
-#echo $SRC $DST
+#echo -e $OPTIONS
+#echo -e $SRC $DST
 
 #rsync_check_path $HOST/$HOSTPATH/$USERNAME $COMPUTERNAME $(basename $(dirname $DIR)) $(basename $DIR)
 rsync_check_path2 $DST 
 
 #=================================
 #pushd $1 >>$LOG
-echo [ Backup $DIR ] >>$LOG
-echo rsync $OPTIONS $SRC "$DST" >>$LOG
+echo -e [ Backup $DIR ] >>$LOG
+echo -e rsync $OPTIONS $SRC "$DST" >>$LOG
 
 rsync $OPTIONS $SRC "$DST" &>>$LOG
 
@@ -147,7 +147,7 @@ rsync $OPTIONS $SRC "$DST" &>>$LOG
 cat $LOG
 cp $0 $TXT1
 
-echo $0 | mailx -s "[LOG] $COMPUTERNAME $0" -r "Sita Liu<egreta.su@msa.hinet.net>" -S smtp="msa.hinet.net" -a $LOG -a $TXT1 chsliu@gmail.com
+echo -e $0 | mailx -s "[LOG] $COMPUTERNAME $0" -r "Sita Liu<egreta.su@msa.hinet.net>" -S smtp="msa.hinet.net" -a $LOG -a $TXT1 chsliu@gmail.com
 
 rm $LOG $TXT1
 

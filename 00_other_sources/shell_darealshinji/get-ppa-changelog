@@ -4,7 +4,7 @@
 adress=${1}
 
 # source package name, i.e.: nightingale
-srcpkg=$(echo ${adress} | cut -d '/' -f 10)
+srcpkg=$(echo -e ${adress} | cut -d '/' -f 10)
 
 # version string
 version=$(basename ${adress} | cut -d '_' -f2)
@@ -17,11 +17,11 @@ debtarball_maxsize=800000
 debtarball_info=$(wget -q -O - "$(dirname ${adress})/${srcpkg}_${version}.dsc" | grep ${srcpkg}_${version}.debian.tar. | head -n1)
 test -z "$debtarball_info" && exit 0
 
-debtarball=$(echo $debtarball_info | cut -d' ' -f3)
-debtarball_size=$(echo $debtarball_info | cut -d' ' -f2)
+debtarball=$(echo -e $debtarball_info | cut -d' ' -f3)
+debtarball_size=$(echo -e $debtarball_info | cut -d' ' -f2)
 test $debtarball_size -ge $debtarball_maxsize && exit 0
 
-case $(echo $debtarball | tail -c4) in
+case $(echo -e $debtarball | tail -c4) in
     .xz) compression=J ;;
     bz2) compression=j ;;
     .gz) compression=z ;;

@@ -1,9 +1,9 @@
 #! /bin/bash
 
 function menu {
-	echo "(1) Fetch apache configurations"
-	echo "(2) Fetch fstab"
-	echo "(q) Quit"
+	echo -e "(1) Fetch apache configurations"
+	echo -e "(2) Fetch fstab"
+	echo -e "(q) Quit"
 	read CHOICE
 case $CHOICE in
 	1)
@@ -44,10 +44,10 @@ function get_drives {
 	done
 }
 function show_drives {
-	echo "Distributions found in :"
+	echo -e "Distributions found in :"
 	for I in $(seq $INDEX)
 	do
-		echo "    - "${DIST[`expr $I-1`]}
+		echo -e "    - "${DIST[`expr $I-1`]}
 	done
 }
 get_drives

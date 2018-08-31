@@ -12,7 +12,7 @@ add_uniq_to_file() {
 	fi
 	
 	if ! sudo grep -Fxq "$@" $file; then
-		echo "$@" | sudo tee -a $file
+		echo -e "$@" | sudo tee -a $file
 	fi
 }
 
@@ -21,7 +21,7 @@ del_uniq_in_file() {
 	shift
 	
 	line=$@
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	sudo sed -i "/$line/d" $file
 }
 
@@ -31,30 +31,30 @@ replace_uniq_in_file() {
 	shift
 	shift
 
-	# echo file=$file
-	# echo anchor=$anchor
-	# echo line=$@
+	# echo -e file=$file
+	# echo -e anchor=$anchor
+	# echo -e line=$@
 	
 	lineno=$(grep -m 1 -n "$anchor" "$file" | cut -d ":" -f 1)
-	if [[ "$lineno" == "" ]]; then echo $anchor not found in $file; return; fi
+	if [[ "$lineno" == "" ]]; then echo -e $anchor not found in $file; return; fi
 
 	cmd="$lineno"d
-	# echo sudo sed -i -e "$cmd" $file
+	# echo -e sudo sed -i -e "$cmd" $file
 	sudo sed -i -e "$cmd" $file
-	# echo done
+	# echo -e done
 	
 	line=$@
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	cmd="$lineno"i
 	
-	# echo sudo sed -i "$cmd $line" $file
+	# echo -e sudo sed -i "$cmd $line" $file
 	sudo sed -i "$cmd $line" $file
-	# echo done
+	# echo -e done
 }
 
 #-------------------------------------------------
 if [ -z ${1+x} ]; then
-	echo "new Hostname is needed"
+	echo -e "new Hostname is needed"
 	exit
 fi
 
@@ -62,14 +62,14 @@ fi
 #change hostname
 
 # sudo vi /etc/hostname
-echo $1 | sudo tee /etc/hostname
+echo -e $1 | sudo tee /etc/hostname
 
 # sudo vi /etc/hosts
 sudo sed -i "s/$(hostname)/$1/g" /etc/hosts
 sudo sed -i "s/sitahome.ddns.org/.$domain/g" /etc/hosts
 sudo sed -i "s/.home/.$domain/g" /etc/hosts
 
-# echo sudo hostname xxxx
+# echo -e sudo hostname xxxx
 sudo hostname $1
 
 # domain name
@@ -82,15 +82,15 @@ replace_uniq_in_file /etc/resolv.conf search "search $domain"
 sudo sed -i 's/hosts:          files dns/hosts:          files wins dns/g' /etc/nsswitch.conf
 # replace_uniq_in_file /etc/nsswitch.conf hosts: "hosts: files wins dns"
 
-# echo remove netbios name setting
+# echo -e remove netbios name setting
 del_uniq_in_file /etc/samba/smb.conf "netbios name ="
 
-# echo sudo /etc/init.d/samba restart & exit
+# echo -e sudo /etc/init.d/samba restart & exit
 sudo /etc/init.d/samba restart
 
 #-------------------------------------------------
-echo Hostname: $(hostname --fqdn)
+echo -e Hostname: $(hostname --fqdn)
 
-echo Samba: 
+echo -e Samba: 
 nmblookup -A localhost
 

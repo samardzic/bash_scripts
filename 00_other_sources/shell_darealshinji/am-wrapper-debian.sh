@@ -17,7 +17,7 @@ for n in $(seq -f 1.%.f 1 20); do
 	fi
 done
 
-ver=$(echo "$avail" | tr ' ' '\n' | sort -V | tail -n1)
+ver=$(echo -e "$avail" | tr ' ' '\n' | sort -V | tail -n1)
 
 /usr/bin/${cmd}-${ver} $*
 

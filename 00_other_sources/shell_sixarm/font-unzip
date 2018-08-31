@@ -56,7 +56,7 @@ each_font_file(){
     family=$(font-file-to-family "$font_file")
     dst="$font_base_dir/$family/"
     mkdir -p "$dst"
-    echo "mv \"$font_file\" \"$dst\""
+    echo -e "mv \"$font_file\" \"$dst\""
     mv "$font_file" "$dst"
 }
 

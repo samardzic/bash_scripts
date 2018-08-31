@@ -145,7 +145,7 @@ case "$1" in
 	exit $?	# notreached due to set -e
 	;;
   *)
-	echo "Usage: /etc/init.d/rsync {start|stop|reload|force-reload|restart|status}"
+	echo -e "Usage: /etc/init.d/rsync {start|stop|reload|force-reload|restart|status}"
 	exit 1
 esac
 

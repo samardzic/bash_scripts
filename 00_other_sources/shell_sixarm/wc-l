@@ -21,4 +21,4 @@ set -euf -o pipefail
 # Updated: 2015-01-25
 ##
 
-echo '$=' | ed -s "$1"
+echo -e '$=' | ed -s "$1"

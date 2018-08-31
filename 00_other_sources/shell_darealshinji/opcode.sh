@@ -7,7 +7,7 @@
 # Opcodes obtained from: https://github.com/Shirk/vim-gas/blob/master/syntax/gas.vim
 #
 # List of opcodes has been obtained using the following commands and making a few modifications:
-#   echo '#!/bin/bash' > Opcode_list
+#   echo -e '#!/bin/bash' > Opcode_list
 #   wget -q -O- https://raw.githubusercontent.com/Shirk/vim-gas/master/syntax/gas.vim \
 #    | grep -B1 -E 'syn keyword gasOpcode_|syn match   gasOpcode' | \
 #    sed -e '/^--$/d' -e 's/"-- Section:/\n#/g' \
@@ -1831,40 +1831,40 @@ ArchList="8086 186 286 386 486 Pentium Athlon Deschutes Katmai Willamette Pentiu
 
 
 usage() {
-    echo "Usage: $0 OPTIONS"
-    echo ""
-    echo "  -r      set instruction sets recursively according to dependency tree (must precede -a or -s)"
-    echo "  -a      set architecture"
-    echo "  -s      set instruction set"
-    echo "  -L      show list of available architectures"
-    echo "  -l      show list of available instruction sets"
-    echo "  -i      show base instruction sets of current instruction set (requires -a and/or -s)"
-    echo "  -I      show instructions in current instruction set (requires -a and/or -s)"
-    echo "  -c      print number of matching instructions instead of normal output"
-    echo "  -f      find instruction set of the following instruction (regex allowed)"
-    echo "  -d      set leading opcode separator (default '$Leading_Separator')"
-    echo "  -D      set trailing opcode separator (default '$Trailing_Separator')"
-    echo "  -C      case-insensitive"
-    echo "  -v      invert the sense of matching"
-    echo "  -V      print all lines, not just the highlighted"
-    echo "  -m      stop searching after n matched instructions"
-    echo "  -n      print line numbers within the original input"
-    echo "  -B      print n instructions of leading context"
-    echo "  -A      print n instructions of trailing context"
-    echo "  -h      print this help"
-    echo
-    echo "Multiple architectures and instruction sets can be used."
-    echo
-    echo "Typical usage is:"
-    echo "  objdump -M intel -d FILE | $0 OPTIONS"
-    echo "  objdump -M intel -d FILE | $0 -s SSE2 -s SSE3 -V                    Highlight SSE2 and SSE3 within FILE."
-    echo "  objdump -M intel -d FILE | tail -n +8 | $0 -r -a Haswell -v -m 1    Find first unknown instruction."
-    echo "  $0 -C -f ADDSD                                                      Find which instruction set an opcode belongs to."
-    echo "  $0 -f .*fma.*                                                       Find all matching instructions and their instruction sets."
-    echo
-    echo "The script uses Intel opcode syntax. When used in conjunction with objdump, \`-M intel' must be set in order to prevent opcode translation using AT&T syntax."
-    echo
-    echo "BE AWARE THAT THE LIST OF KNOWN INSTRUCTIONS OR INSTRUCTIONS SUPPORTED BY PARTICULAR ARCHITECTURES (ESPECIALLY AMD'S) IS ONLY TENTATIVE AND MAY CONTAIN MISTAKES!"
+    echo -e "Usage: $0 OPTIONS"
+    echo -e ""
+    echo -e "  -r      set instruction sets recursively according to dependency tree (must precede -a or -s)"
+    echo -e "  -a      set architecture"
+    echo -e "  -s      set instruction set"
+    echo -e "  -L      show list of available architectures"
+    echo -e "  -l      show list of available instruction sets"
+    echo -e "  -i      show base instruction sets of current instruction set (requires -a and/or -s)"
+    echo -e "  -I      show instructions in current instruction set (requires -a and/or -s)"
+    echo -e "  -c      print number of matching instructions instead of normal output"
+    echo -e "  -f      find instruction set of the following instruction (regex allowed)"
+    echo -e "  -d      set leading opcode separator (default '$Leading_Separator')"
+    echo -e "  -D      set trailing opcode separator (default '$Trailing_Separator')"
+    echo -e "  -C      case-insensitive"
+    echo -e "  -v      invert the sense of matching"
+    echo -e "  -V      print all lines, not just the highlighted"
+    echo -e "  -m      stop searching after n matched instructions"
+    echo -e "  -n      print line numbers within the original input"
+    echo -e "  -B      print n instructions of leading context"
+    echo -e "  -A      print n instructions of trailing context"
+    echo -e "  -h      print this help"
+    echo -e
+    echo -e "Multiple architectures and instruction sets can be used."
+    echo -e
+    echo -e "Typical usage is:"
+    echo -e "  objdump -M intel -d FILE | $0 OPTIONS"
+    echo -e "  objdump -M intel -d FILE | $0 -s SSE2 -s SSE3 -V                    Highlight SSE2 and SSE3 within FILE."
+    echo -e "  objdump -M intel -d FILE | tail -n +8 | $0 -r -a Haswell -v -m 1    Find first unknown instruction."
+    echo -e "  $0 -C -f ADDSD                                                      Find which instruction set an opcode belongs to."
+    echo -e "  $0 -f .*fma.*                                                       Find all matching instructions and their instruction sets."
+    echo -e
+    echo -e "The script uses Intel opcode syntax. When used in conjunction with objdump, \`-M intel' must be set in order to prevent opcode translation using AT&T syntax."
+    echo -e
+    echo -e "BE AWARE THAT THE LIST OF KNOWN INSTRUCTIONS OR INSTRUCTIONS SUPPORTED BY PARTICULAR ARCHITECTURES (ESPECIALLY AMD'S) IS ONLY TENTATIVE AND MAY CONTAIN MISTAKES!"
     kill -TRAP $TOP_PID
 }
 
@@ -1878,18 +1878,18 @@ list_contains() {   # Returns 0 if $2 is in array $1, 1 otherwise.
 
 build_instruction_set() {   # $1 = enum { Arch, InstSet }, $2 = architecture or instruction set as obtained using -L or -l, $3 = "architecture"/"instruction set" to be used in error message
     local e
-    list_contains "`eval echo \\\$${1}List`" "$2" || (echo "$2 is not a valid $3."; usage)      # Test if the architecture/instruction set is valid.
-    if [ -n "`eval echo \\\$${1}_${2}`" ]; then                                                 # Add the instruction set(s) if any.
-        for e in `eval echo \\\$${1}_${2}`; do                                                  # Skip duplicates.
+    list_contains "`eval echo -e \\\$${1}List`" "$2" || (echo -e "$2 is not a valid $3."; usage)      # Test if the architecture/instruction set is valid.
+    if [ -n "`eval echo -e \\\$${1}_${2}`" ]; then                                                 # Add the instruction set(s) if any.
+        for e in `eval echo -e \\\$${1}_${2}`; do                                                  # Skip duplicates.
             list_contains "$InstSet_Base" $e || InstSet_Base="$e $InstSet_Base"
         done
     fi
     if [ $Recursive = true ]; then
-        for a in `eval echo \\\$${1}Dep_$2`; do
+        for a in `eval echo -e \\\$${1}Dep_$2`; do
             build_instruction_set $1 $a "$3"
         done
     fi
-    InstSet_Base="`echo $InstSet_Base | sed 's/$ *//'`"                                         # Remove trailing space.
+    InstSet_Base="`echo -e $InstSet_Base | sed 's/$ *//'`"                                         # Remove trailing space.
 }
 
 trap "exit $EXIT_USAGE" TRAP    # Allow usage() function to abort script execution.
@@ -1901,26 +1901,26 @@ while getopts ":ra:s:LliIcf:Fd:D:CvVm:nB:A:h" o; do
         r) Recursive=true ;;
         a) build_instruction_set Arch "$OPTARG" "architecture" ;;
         s) build_instruction_set InstSet "$OPTARG" "instruction set" ;;
-        L) echo $ArchList; exit $EXIT_USAGE ;;
-        l) echo $InstSetList; exit $EXIT_USAGE ;;
+        L) echo -e $ArchList; exit $EXIT_USAGE ;;
+        l) echo -e $InstSetList; exit $EXIT_USAGE ;;
         i)
             if [ -n "$InstSet_Base" ]; then
-                echo $InstSet_Base
+                echo -e $InstSet_Base
                 exit $EXIT_USAGE
             else
-                echo -e "No instruction set or architecture set.\n"
+                echo -e -e "No instruction set or architecture set.\n"
                 usage
             fi
             ;;
         I)
             if [ -n "$InstSet_Base" ]; then
                 for s in $InstSet_Base; do
-                    echo -ne "\e[31;1m$s:\e[0m "
-                    eval echo "\$Opcode_$s"
+                    echo -e -ne "\e[31;1m$s:\e[0m "
+                    eval echo -e "\$Opcode_$s"
                 done
                 exit $EXIT_USAGE
             else
-                echo -e "No instruction set or architecture set.\n"
+                echo -e -e "No instruction set or architecture set.\n"
                 usage
             fi
             ;;
@@ -1929,21 +1929,21 @@ while getopts ":ra:s:LliIcf:Fd:D:CvVm:nB:A:h" o; do
             # Unlike architectures, instruction sets are disjoint.
             Found=false
             for s in $InstSetList; do
-                for b in `eval echo \\\$InstSet_$s`; do
+                for b in `eval echo -e \\\$InstSet_$s`; do
                     Found_In_Base=false
-                    for i in `eval echo \\\$Opcode_$b`; do
+                    for i in `eval echo -e \\\$Opcode_$b`; do
                         if [[ "$i" =~ ^$OPTARG$ ]]; then
-                            $Found_In_Base || echo -ne "Instruction set \e[33;1m$s\e[0m (base instruction set \e[32;1m$b\e[0m):"
-                            echo -ne " \e[31;1m$i\e[0m"
+                            $Found_In_Base || echo -e -ne "Instruction set \e[33;1m$s\e[0m (base instruction set \e[32;1m$b\e[0m):"
+                            echo -e -ne " \e[31;1m$i\e[0m"
                             Found_In_Base=true
                             Found=true
                         fi
                     done
-                    $Found_In_Base && echo ""
+                    $Found_In_Base && echo -e ""
                 done
             done
             if [ $Found = false ]; then
-                echo -e "Operation code \e[31;1m$OPTARG\e[0m has not been found in the database of known instructions." \
+                echo -e -e "Operation code \e[31;1m$OPTARG\e[0m has not been found in the database of known instructions." \
                 "Perhaps it is translated using other than Intel syntax. If obtained from objdump, check if the \`-M intel' flag is set." \
                 "Be aware that the search is case sensitive by default (you may use the -C flag, otherwise only lower case opcodes are accepted)."
                 exit $EXIT_NOT_FOUND
@@ -1962,13 +1962,13 @@ while getopts ":ra:s:LliIcf:Fd:D:CvVm:nB:A:h" o; do
         A) Trailing_Context=$OPTARG ;;
         h) usage ;;
         \?)
-            echo -e "Unknown option: -$OPTARG\n"
+            echo -e -e "Unknown option: -$OPTARG\n"
             usage
             ;;
     esac
 done
 shift $((OPTIND-1))
-[ -n "$1" ] && echo -e "Unknown command line parameter: $1\n" && usage
+[ -n "$1" ] && echo -e -e "Unknown command line parameter: $1\n" && usage
 [ -z "$InstSet_Base" ] && usage
 
 # Create list of grep parameters.
@@ -1985,7 +1985,7 @@ for s in $InstSet_Base; do
     eval RegEx=\"$RegEx \$Opcode_$s\"
 done
 # Add leading and trailing opcode separators to prevent false positives.
-RegEx="$Leading_Separator`echo $RegEx | sed "s/ /$(echo "$Trailing_Separator"|sed 's/[\/&]/\\\&/g')|$(echo "$Leading_Separator"|sed 's/[\/&]/\\\&/g')/g"`$Trailing_Separator"
+RegEx="$Leading_Separator`echo -e $RegEx | sed "s/ /$(echo -e "$Trailing_Separator"|sed 's/[\/&]/\\\&/g')|$(echo -e "$Leading_Separator"|sed 's/[\/&]/\\\&/g')/g"`$Trailing_Separator"
 
 [ $Verbose = true -a $Count_Matching = false ] && RegEx="$RegEx|\$"
 

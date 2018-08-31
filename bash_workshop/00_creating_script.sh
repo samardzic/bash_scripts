@@ -5,4 +5,4 @@
 # bash hello-world.sh – assuming /bin is in your $PATH
 # sh hello-world.sh
 
-echo "Hello world"
+echo -e "Hello world"

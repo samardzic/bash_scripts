@@ -3,7 +3,7 @@
 mc1710c=forge-1.7.10.CodingAPE
 
 mc1710c() {
-	export mcver=$mc1710c && echo mcver=$mcver
+	export mcver=$mc1710c && echo -e mcver=$mcver
 	cd /mnt/runtimes/$mcver
 }
 

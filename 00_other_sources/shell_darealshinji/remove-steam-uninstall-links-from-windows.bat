@@ -1,4 +1,4 @@
-@echo off
+@echo -e off
 
 REM http://furgelnod.com/2014/removing-steam-games-from-programs-and-features-windows/
 
@@ -7,11 +7,11 @@ REM http://furgelnod.com/2014/removing-steam-games-from-programs-and-features-wi
 @if %errorlevel% == 0 (
     @for /F "delims=" %%a in ('reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall ^| findstr /C:"Steam App"') do @reg delete "%%a" /f
     @for /F "delims=" %%a in ('reg query HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall ^| findstr /C:"Steam App"') do @reg delete "%%a" /f
-    @echo Success!
-    @echo.
+    @echo -e Success!
+    @echo -e.
     @pause
 ) else (
-    @echo You do not have Administrator Priveleges. Try right clicking and choosing 'run as administrator '
-    @echo.
+    @echo -e You do not have Administrator Priveleges. Try right clicking and choosing 'run as administrator '
+    @echo -e.
     @pause
 )

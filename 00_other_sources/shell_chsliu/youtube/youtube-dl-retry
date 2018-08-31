@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo youtube-dl "$*"
-# echo youtube-dl "$@"
+echo -e youtube-dl "$*"
+# echo -e youtube-dl "$@"
 
 until youtube-dl "$*"; do 
 	sleep 5

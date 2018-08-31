@@ -5,7 +5,7 @@
 # Example:
 #
 #   ```shell
-#   $ echo "The Shops at Alpha Bravo Center" | normalize-shop-title
+#   $ echo -e "The Shops at Alpha Bravo Center" | normalize-shop-title
 #   Alpha Bravo
 #
 # This script processes each input line and massages it.

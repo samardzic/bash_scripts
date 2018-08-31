@@ -1,7 +1,7 @@
 #!/bin/sh
 
 roar() {
-    echo "$@" >&2
+    echo -e "$@" >&2
 }
 die() {
     test $# -gt 1 && s="$2" || s=1
@@ -12,8 +12,8 @@ trim() {
     local var=$1
     var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
     var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
-    echo -n "$var"
+    echo -e -n "$var"
 }
 strip_file_extension() {
-    echo ${1%.*}
+    echo -e ${1%.*}
 }

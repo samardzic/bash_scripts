@@ -4,5 +4,5 @@ extension="${filename##*.}"
 #filename="${filename%.*}"
 host="${filename%.*}"
 
-echo ssh admin@$host
+echo -e ssh admin@$host
 ssh admin@$host

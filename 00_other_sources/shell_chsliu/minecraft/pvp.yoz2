@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-export mcecho_off=1 
+export mcecho -e_off=1 
 console_color=$white
 
 
@@ -43,7 +43,7 @@ countdown() {
 		# mcserver do say === 創造模式 
 		# mcserver do say ============================
 		# mcserver do gamemode 1 @a
-		# sleep $(echo 2*60|bc)
+		# sleep $(echo -e 2*60|bc)
 		# mcserver do say ============================
 		# mcserver do say === 還有1分鐘進入生存模式 
 		# mcserver do say ============================
@@ -52,7 +52,7 @@ countdown() {
 		# mcserver do say === 生存模式 
 		# mcserver do say ============================
 		# mcserver do gamemode 0 @a
-		# sleep $(echo 6*60|bc)
+		# sleep $(echo -e 6*60|bc)
 		# mcserver do say ============================
 		# mcserver do say === 還有1分鐘進入創造模式 
 		# mcserver do say ============================
@@ -96,8 +96,8 @@ mctest() {
 	
 	mcserver do gamemode 0 @a
 	
-	sleep $(echo 6*60|bc)
-	# sleep $(echo 60|bc)
+	sleep $(echo -e 6*60|bc)
+	# sleep $(echo -e 60|bc)
 
 	mcserver do say ============================
 	mcserver do say === 還有1分鐘結束

@@ -5,7 +5,7 @@
 #
 # Example:
 #
-#     echo "H2O" | awk -f molecular-formula-to-mass.awk
+#     echo -e "H2O" | awk -f molecular-formula-to-mass.awk
 #      H2O 18.01528
 #
 # Contact: Joel Parker Henderson, joel@joelparkerhenderson.com
@@ -153,6 +153,6 @@ BEGIN {
               s = s ((key in element) ? element[key] : a[i])  " "
         }
         printf $nf " "
-        system("echo \"" s "\" | bc")
+        system("echo -e \"" s "\" | bc")
     }
 }

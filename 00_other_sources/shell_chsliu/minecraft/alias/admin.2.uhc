@@ -7,7 +7,7 @@ help_hline3 'UHC'
 # $1: default to wait for key press for each score
 #     <num> to sleep <num> sec between each score
 mcscores() {
-	# echo $1 $2
+	# echo -e $1 $2
 	while : ; do
 		mcserver do scoreboard objectives setdisplay sidebar FinalKill
 		if [ -z ${1+x} ]; then pause; else sleep $1; fi
@@ -53,45 +53,45 @@ playertaglist() {
 
 #=================================
 # aqua() { 
-	# echo A 
+	# echo -e A 
 # }
 
 #=================================
 uhcteams() {
-	# echo 隊伍ID列表
-	# echo Solo=1
-	# echo Spectate=0
-	# echo Red=R
-	# echo Yellow=Y
-	# echo Green=G
-	# echo Aqua=A
-	# echo Blue=B
-	# echo Light Purple=P
-	# echo Gray=E
-	# echo Dark Red=r
-	# echo Gold=y
-	# echo Dark Green=g
-	# echo Dark Aqua=a
-	# echo Dark Blue=b
-	# echo Dark Purple=p
-	# echo Dark Gray=e
-	echo 隊伍ID:__[1]單人[0]旁觀者
-	echo [R]紅隊__[Y]黃隊[G]綠隊__[A]青隊__[B]藍隊__[P]亮紫隊[E]灰隊
-	echo [r]深紅隊[y]橘隊[g]深綠隊[a]深青隊[b]深藍隊[p]深紫隊[e]深灰隊
+	# echo -e 隊伍ID列表
+	# echo -e Solo=1
+	# echo -e Spectate=0
+	# echo -e Red=R
+	# echo -e Yellow=Y
+	# echo -e Green=G
+	# echo -e Aqua=A
+	# echo -e Blue=B
+	# echo -e Light Purple=P
+	# echo -e Gray=E
+	# echo -e Dark Red=r
+	# echo -e Gold=y
+	# echo -e Dark Green=g
+	# echo -e Dark Aqua=a
+	# echo -e Dark Blue=b
+	# echo -e Dark Purple=p
+	# echo -e Dark Gray=e
+	echo -e 隊伍ID:__[1]單人[0]旁觀者
+	echo -e [R]紅隊__[Y]黃隊[G]綠隊__[A]青隊__[B]藍隊__[P]亮紫隊[E]灰隊
+	echo -e [r]深紅隊[y]橘隊[g]深綠隊[a]深青隊[b]深藍隊[p]深紫隊[e]深灰隊
 }
 
 #=================================
 list_players() {
     # players=$(mcdo list | grep.player)
-    echo 線上玩家ID\($(mcdo list | grep.player | wc -l)\): 
-    # echo $players | wc -l
-    # echo $players
+    echo -e 線上玩家ID\($(mcdo list | grep.player | wc -l)\): 
+    # echo -e $players | wc -l
+    # echo -e $players
     mcdo list | grep.player
 }
 
 #=================================
 # playerlist() {
-	# echo 玩家ID:
+	# echo -e 玩家ID:
 	# mcdo list | grep.player
 # }
 
@@ -99,22 +99,22 @@ list_players() {
 uhcstat() {
 	LOG=/mnt/runtimes/$mcver/logs/list.log
 	if [ -f "$LOG" ]; then 
-		echo 上線名單:
+		echo -e 上線名單:
 		cat $LOG
 	fi
 	LOG=/mnt/runtimes/$mcver/logs/teams.log
 	if [ -f "$LOG" ]; then 
-		echo 參賽名單:
+		echo -e 參賽名單:
 		cat $LOG
 	fi
 	LOG=/mnt/runtimes/$mcver/logs/slain.log
 	if [ -f "$LOG" ]; then 
-		echo 戰敗順序:
+		echo -e 戰敗順序:
 		cat $LOG
 	fi
 	LOG=/mnt/runtimes/$mcver/logs/winner.log
 	if [ -f "$LOG" ]; then 
-		echo 最後贏家:
+		echo -e 最後贏家:
 		cat $LOG
 	fi
 }
@@ -139,23 +139,23 @@ uhcset2() {
 
 #=================================
 uhctitle() {
-    num=$(echo $(date +%m)+5 | bc)
+    num=$(echo -e $(date +%m)+5 | bc)
     dates=$(date '+%Y/%m/%d')
     weekBegin=$(date --date "$dates -`date +%d` days +1 days" +%U)
     lastSatofMon=$(ncal -h |awk '/Sa/ {print $(NF)}')
     weekEnd=$(date --date "$dates -`date +%d` days +$lastSatofMon days" +%U)
     weekNow=$(date +%U)
-    weekDiff=$(echo $weekNow - $weekBegin + 1 | bc)
-    # headline=$([ $weekNow == $weekEnd ] && echo ===== || echo ====)
-    title=$([ $weekNow == $weekEnd ] && echo 決賽 || echo 歡樂場$(num2roman $weekDiff))
-    echo 第$num屆uhc苦力怕盃$title
+    weekDiff=$(echo -e $weekNow - $weekBegin + 1 | bc)
+    # headline=$([ $weekNow == $weekEnd ] && echo -e ===== || echo -e ====)
+    title=$([ $weekNow == $weekEnd ] && echo -e 決賽 || echo -e 歡樂場$(num2roman $weekDiff))
+    echo -e 第$num屆uhc苦力怕盃$title
 }
 
 #=================================
 uhcteamcreate() {
 	tmpscrpit=/tmp/uhccreate
 	mcdo list | grep.player | /home/sita/script/minecraft/uhc.team.select $1 >$tmpscrpit
-	echo "=== $tmpscrpit"
+	echo -e "=== $tmpscrpit"
 	cat $tmpscrpit
 	mcdo gamerule sendCommandFeedback false
 	. $tmpscrpit
@@ -165,11 +165,11 @@ uhcteamcreate() {
 #=================================
 uhcteamchoice() {
 	if [ ! -z ${1+x} ]; then 
-		echo -e "${GREEN}加入隊伍權限On${NC}"
+		echo -e -e "${GREEN}加入隊伍權限On${NC}"
 		mcdo scoreboard players set @e[tag=F] J 0	#加入隊伍權限Off
 		mcdo scoreboard players set @e[tag=N] J 1	#加入隊伍權限On
 	else
-		echo -e "${YELLOW}加入隊伍權限Off${NC}"
+		echo -e -e "${YELLOW}加入隊伍權限Off${NC}"
 		mcdo scoreboard players set @e[tag=F] J 1	#加入隊伍權限Off
 		mcdo scoreboard players set @e[tag=N] J 0	#加入隊伍權限On
 	fi
@@ -187,21 +187,21 @@ otglist() {
 molemode() {
     if [ -z "$moleMode" ]; then
         moleMode=1; export moleMode
-        echo -e ${YELLOW}moleMode on, time 30${NC}
+        echo -e -e ${YELLOW}moleMode on, time 30${NC}
         mcdo scoreboard objectives add moleMode dummy
         mcdo scoreboard players set @e[tag=L] moleMode 1
         mcdo scoreboard objectives add moleTime dummy
         mcdo scoreboard players set @e[tag=L] moleTime 30
     else
         unset moleMode
-        echo -e ${GREEN}moleMode off${NC}
+        echo -e -e ${GREEN}moleMode off${NC}
         mcdo scoreboard players set @e[tag=L] moleMode 0
     fi
 }
 
 #=================================
 moletime() {
-    # echo moletime 
+    # echo -e moletime 
     [ ! -z "$1" ] && mcdo scoreboard players set @e[tag=L] moleTime $1
 }
 
@@ -242,7 +242,7 @@ log_parse_slain() {
     file.replace.escape $logfile
     file.replace.teamtag $logfile
     [ -z "$2" ] && cat $logfile >$logfile2
-    [ -z "$2" ] && echo >>$logfile2
+    [ -z "$2" ] && echo -e >>$logfile2
     file.replace.cause $logfile
     file.replace.mob $logfile
     cat $logfile >>$logfile2
@@ -256,9 +256,9 @@ log_parse_winner() {
     logfile=$(pwd)/winner.log
     tmp=/tmp/winner.log
     rm $tmp
-    echo ================================= >>$tmp
+    echo -e ================================= >>$tmp
     winner=$(cat $1 | grep 最後贏家 | tail -n 1 | awk '{ printf ("%s\n", $4) }' | sed "s/最後贏家是//g")
-    echo 最後贏家 $winner >>$tmp
+    echo -e 最後贏家 $winner >>$tmp
     cat $1 | grep '\[0;30;1' | egrep 'm([0-9]+,|=)' | awk '{ printf ("%s %s\n",$4,$5) }' >>$tmp
     file.replace.escape $tmp
     cat $tmp >$logfile
@@ -275,15 +275,15 @@ SEC2=`date +%s -d ${2}`
 # Use expr to do the math, let's say TIME1 was the start and TIME2 was the finish
 DIFFSEC=`expr ${SEC2} - ${SEC1}`
 
-# echo Start ${1}
-# echo Finish ${2}
+# echo -e Start ${1}
+# echo -e Finish ${2}
 
-# echo Took ${DIFFSEC} seconds.
+# echo -e Took ${DIFFSEC} seconds.
 
 # And use date to convert the seconds back to something more meaningful
-# echo Took `date +%H:%M:%S -ud @${DIFFSEC}`
+# echo -e Took `date +%H:%M:%S -ud @${DIFFSEC}`
 
-echo ${DIFFSEC}
+echo -e ${DIFFSEC}
 }
 
 log_parse_lag() {
@@ -298,21 +298,21 @@ log_parse_lag() {
     TIME1=$(cat $1 | head -n 1 | awk '{ printf ("%s\n", $1) }' | sed "s/\[//g" | sed "s/\]//g")
     TIME2=$(cat $1 | tail -n 1 | awk '{ printf ("%s\n", $1) }' | sed "s/\[//g" | sed "s/\]//g")
     sec=$(second_diff $TIME1 $TIME2)
-    per=$(echo "scale=2;100*$totalms/1000/$sec" | bc -l)
+    per=$(echo -e "scale=2;100*$totalms/1000/$sec" | bc -l)
     max=$(cat $tmpfile | awk '{ printf ("%s\n", $18) }' | sed "s/ms//g" | sort -nr | head -n 1)
     # tops=$(cat $tmpfile | awk '{ printf ("%s\n", $18) }' | sed "s/ms//g" | sort -nr | head -n 20)
     tops=$(cat $tmpfile | awk '{ printf ("%s\n", $18) }' | sed "s/ms//g" | sort -nr | sed '/^\s*$/d' | sed 's/[^0-9]*//g' | awk '$1>'"$delayLimitms")
     count=$(cat $tmpfile | awk '{ printf ("%s\n", $18) }' | sed "s/ms//g" | sed '/^\s*$/d' | sort -nr | wc -l)
-    avg=$(echo "scale=0;$totalms/$count" | bc -l)
-    # echo ================================= >>$logfile
-    echo Running total ${totalms}ms behind, skipping ${totaltick} tick\(s\), ${totalms}ms/${sec}sec=${per}%, with ${count} times, max delay is ${max}ms. avg delay is ${avg}ms. >>$logfile
-    echo [$TIME1] to [$TIME2] for `date +%H:%M:%S -ud @${sec}` >$tmpfile
+    avg=$(echo -e "scale=0;$totalms/$count" | bc -l)
+    # echo -e ================================= >>$logfile
+    echo -e Running total ${totalms}ms behind, skipping ${totaltick} tick\(s\), ${totalms}ms/${sec}sec=${per}%, with ${count} times, max delay is ${max}ms. avg delay is ${avg}ms. >>$logfile
+    echo -e [$TIME1] to [$TIME2] for `date +%H:%M:%S -ud @${sec}` >$tmpfile
     gamestart=$(cat $1 | grep '傳送倒數計時\|lost the achievement' | head -n 1 | awk '{ printf ("%s\n", $1) }' | sed "s/\[//g" | sed "s/\]//g")
     for top in $tops; do
         delaytimes=$(cat $1 | grep ${top}ms | awk '{ printf ("%s\n", $1) }' | sed "s/\[//g" | sed "s/\]//g")
         for delaytime in $delaytimes; do
             gametime=$(second_diff $gamestart $delaytime)
-            echo [${delaytime}] `date +%H:%M:%S -ud @${gametime}` - Lag ${top}ms >>$tmpfile
+            echo -e [${delaytime}] `date +%H:%M:%S -ud @${gametime}` - Lag ${top}ms >>$tmpfile
         done
     done
     
@@ -371,7 +371,7 @@ num2roman() { # NUM
             out+="$ten"
             ;;
         esac
-        echo $out
+        echo -e $out
     }
     
     while [[ $len -gt 0  ]]
@@ -400,7 +400,7 @@ num2roman() { # NUM
         esac
         input=${input:1} ; len=${#input}
     done
-    echo $output
+    echo -e $output
 }
 
 list_top() {
@@ -434,51 +434,51 @@ list_team() {
 }
 
 log_parse_uhc() {
-    num=$(echo $(date +%m -r $1)+5 | bc)
+    num=$(echo -e $(date +%m -r $1)+5 | bc)
     dates=$(date '+%Y/%m/%d' -r $1)
     weekBegin=$(date --date "$dates -`date +%d -r $1` days +1 days" +%U)
     lastSatofMon=$(ncal -h |awk '/Sa/ {print $(NF)}')
     weekEnd=$(date --date "$dates -`date +%d -r $1` days +$lastSatofMon days" +%U)
     weekNow=$(date +%U -r $1)
-    weekDiff=$(echo $weekNow - $weekBegin + 1 | bc)
-    headline=$([ $weekNow == $weekEnd ] && echo ===== || echo ====)
-    title=$([ $weekNow == $weekEnd ] && echo 決賽 || echo 歡樂場$(num2roman $weekDiff))
-    echo $headline 第$num屆UHC苦力怕盃$title 比賽紀錄 $dates $headline
-    echo 感言:\\\\
-    echo 生物群系:\\\\
-    echo 種子碼:
+    weekDiff=$(echo -e $weekNow - $weekBegin + 1 | bc)
+    headline=$([ $weekNow == $weekEnd ] && echo -e ===== || echo -e ====)
+    title=$([ $weekNow == $weekEnd ] && echo -e 決賽 || echo -e 歡樂場$(num2roman $weekDiff))
+    echo -e $headline 第$num屆UHC苦力怕盃$title 比賽紀錄 $dates $headline
+    echo -e 感言:\\\\
+    echo -e 生物群系:\\\\
+    echo -e 種子碼:
     log_parse_seed $*
-    echo \\\\
-    echo \\\\
-    echo 影片:\\\\
-    echo 參賽名單:
+    echo -e \\\\
+    echo -e \\\\
+    echo -e 影片:\\\\
+    echo -e 參賽名單:
     log_parse_teams $*
-    echo 戰敗順序:
+    echo -e 戰敗順序:
     log_parse_slain $* false
-    echo 頭銜:
+    echo -e 頭銜:
     winner=$(cat $1 | remove_ansi_color | grep 最後贏家 | tail -n 1 | awk '{ printf ("%s\n", $4) }' | sed "s/最後贏家是//g")
     winteamname=$(cat $1 | list_team | grep $winner | cut -d "[" -f2 | cut -d "]" -f1)
     winteamplayer=$(cat $1 | list_team | grep $winteamname | sed 's/\[[^]]*\]//g' | tr '\n' ' ' | sed "s/$winner/\*\*$winner\*\*/g")
-    echo "  * 最後贏家: [$winteamname]$winteamplayer"
+    echo -e "  * 最後贏家: [$winteamname]$winteamplayer"
     kill=$(cat $1|list_top FinalKill|list_name)
     kill_count=$(cat $1|list_top FinalKill|list_count)
-    echo "  * 殺人王: $kill''$kill_count人''"
+    echo -e "  * 殺人王: $kill''$kill_count人''"
     mobs=$(cat $1|list_top FinalEntity|list_name)
     mobs_count=$(cat $1|list_top FinalEntity|list_count)
-    echo "  * 鬼見愁: $mobs''$mobs_count隻怪''"
+    echo -e "  * 鬼見愁: $mobs''$mobs_count隻怪''"
     diamond=$(cat $1|list_top FinalDiamond|list_name)
     diamond_count=$(cat $1|list_top FinalDiamond|list_count)
     rock_count=$(cat $1|list_top_by FinalStone $diamond|list_count)
-    ratio=$(echo "scale=2;100*$diamond_count/$rock_count"|bc|awk '{printf "%.2f", $0}')
-    echo "  * 幸運星: $diamond''$diamond_count顆鑽石(礦石比$diamond_count/$rock_count=$ratio%)''"
+    ratio=$(echo -e "scale=2;100*$diamond_count/$rock_count"|bc|awk '{printf "%.2f", $0}')
+    echo -e "  * 幸運星: $diamond''$diamond_count顆鑽石(礦石比$diamond_count/$rock_count=$ratio%)''"
     apple=$(cat $1|list_top FinalEat|list_name)
     apple_count=$(cat $1|list_top FinalEat|list_count)
-    echo "  * 金好命: $apple''$apple_count顆金蘋果''"
-    echo 
+    echo -e "  * 金好命: $apple''$apple_count顆金蘋果''"
+    echo -e 
     log_parse_winner $*
-    echo Lag:
+    echo -e Lag:
     log_parse_lag $*
-    echo 紀錄檔: $(readlink -e $1)
+    echo -e 紀錄檔: $(readlink -e $1)
 }
 
 #=================================

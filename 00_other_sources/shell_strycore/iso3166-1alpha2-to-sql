@@ -23,19 +23,19 @@ if [ ! -f $text_file ]; then
     wget http://www.iso.org/iso/iso3166_en_code_lists.txt -O $text_file
 fi
 table='country_code'
-IFS=$(echo -en "\n\b")
+IFS=$(echo -e -en "\n\b")
 dest="$HOME/isocodes.sql"
 rm $dest
 for line in $(cat "$text_file") ; do
     len=${#line}
     if [ $len -lt 200 -a $len -gt 4 ] ; then
-        new_line=$(echo $line | iconv -f iso-8859-1 -t utf-8 -)
+        new_line=$(echo -e $line | iconv -f iso-8859-1 -t utf-8 -)
         country=${new_line%;*}
-        country=$(echo $country | sed -e "s/'/\\\\'/")
+        country=$(echo -e $country | sed -e "s/'/\\\\'/")
         code=${new_line#*;}
-        code=$(echo -n $code | tr -d '\r')
+        code=$(echo -e -n $code | tr -d '\r')
 
-        echo  "INSERT INTO ${table} (country, code) VALUES (\"${country}\", \"${code}\");" >> $dest
+        echo -e  "INSERT INTO ${table} (country, code) VALUES (\"${country}\", \"${code}\");" >> $dest
     fi
 done
 

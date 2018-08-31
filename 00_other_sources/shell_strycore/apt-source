@@ -4,7 +4,7 @@ RELEASE=`lsb_release -c -s`
 SOURCE_CACHE="/media/sourcecode/source/ubuntu/$RELEASE"
 
 if [ ! $1 ] ; then
-    echo "Please provide package name"
+    echo -e "Please provide package name"
     exit 2
 fi
 

@@ -4,7 +4,7 @@
 # Author: Eric Zhiqiang Ma (http://www.ericzma.com)
 
 if [ $# -lt 1 ]; then
-    echo "Usage: $0 version"
+    echo -e "Usage: $0 version"
     exit 1
 fi
 

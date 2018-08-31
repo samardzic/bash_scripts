@@ -1,13 +1,13 @@
 #!/bin/sh
 
-echo "Script executed from: ${PWD}"
+echo -e "Script executed from: ${PWD}"
 
 BASEDIR=$(dirname $0)
-echo "Script location: ${BASEDIR}"
+echo -e "Script location: ${BASEDIR}"
 
 if [ -x ${BASEDIR}/config.sh ];
 then
-  echo Run config
+  echo -e Run config
   . ${BASEDIR}/config.sh
 fi
 

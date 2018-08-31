@@ -20,6 +20,6 @@ sudo apt-get install -y catfish dconf-cli dconf-editor dropbox gimp gpick glance
 sudo apt-get install -y p7zip-rar p7zip-full unace unrar zip unzip sharutils rar uudeview mpack arj cabextract file-roller
 
 
-echo "################################################################"
-echo "##################    core software installed  #################"
-echo "################################################################"
+echo -e "################################################################"
+echo -e "##################    core software installed  #################"
+echo -e "################################################################"

@@ -36,31 +36,31 @@ ALOG="audit/audit.log"
 ##################################################
 # Clear out Log and Mail files.
 #
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/$ALOG
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/$MLOG
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/boot.log
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/btmp
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/cron
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/dmesg
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/dracut
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/kernel
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/lastlog
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/maillog
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/messages
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/monitorix
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/secure
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/spooler
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/tallylog
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/wtmp
-echo "---: New Logs Bellow - $DATE :---" > $BASELOG/yum.log
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/$ALOG
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/$MLOG
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/boot.log
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/btmp
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/cron
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/dmesg
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/dracut
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/kernel
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/lastlog
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/maillog
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/messages
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/monitorix
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/secure
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/spooler
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/tallylog
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/wtmp
+echo -e "---: New Logs Bellow - $DATE :---" > $BASELOG/yum.log
 
-echo "---: New Logs Bellow - $DATE :---" > $BASESA/sa30
-echo "---: New Logs Bellow - $DATE :---" > $BASESA/sa31
-echo "---: New Logs Bellow - $DATE :---" > $BASESA/sar30
+echo -e "---: New Logs Bellow - $DATE :---" > $BASESA/sa30
+echo -e "---: New Logs Bellow - $DATE :---" > $BASESA/sa31
+echo -e "---: New Logs Bellow - $DATE :---" > $BASESA/sar30
 
-echo "---: New Logs Bellow - $DATE :---" > $BASEMAIL/root
-echo "---: New Logs Bellow - $DATE :---" > $BASEMAIL/monitorix
-echo "---: New Logs Bellow - $DATE :---" > $BASEMAIL/rpc
+echo -e "---: New Logs Bellow - $DATE :---" > $BASEMAIL/root
+echo -e "---: New Logs Bellow - $DATE :---" > $BASEMAIL/monitorix
+echo -e "---: New Logs Bellow - $DATE :---" > $BASEMAIL/rpc
 ##################################################
 # Deletion of data
 #

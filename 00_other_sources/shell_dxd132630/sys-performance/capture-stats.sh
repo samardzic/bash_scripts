@@ -39,5 +39,5 @@ ROOT=`df -h / | awk '{ a = $4 } END { print a }'`
 ##################################################
 # Send Statistics to Report File
 #
-echo "$DATE,$TIME,$USERS,$LOAD,$FREE MB,$SWAP MB,$CPU %,$ROOT" >> $REPORT_FILE
+echo -e "$DATE,$TIME,$USERS,$LOAD,$FREE MB,$SWAP MB,$CPU %,$ROOT" >> $REPORT_FILE
 # EOF

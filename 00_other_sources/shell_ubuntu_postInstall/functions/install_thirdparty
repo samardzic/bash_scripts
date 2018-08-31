@@ -20,7 +20,7 @@ function import_apps_functions {
 # Install Third-Party Applications
 function install_thirdparty {
 	NAME="Third-Party Software"
-	echo_message title "Starting installation of ${NAME,,}..."
+	echo -e_message title "Starting installation of ${NAME,,}..."
 	import_apps_functions
 	# Draw window
 	THIRDPARTY=$(eval `resize` && whiptail \
@@ -38,11 +38,11 @@ function install_thirdparty {
 
 	# check exit status
 	if [ $? = 0 ]; then
-		echo_message header "Starting '$THIRDPARTY' function..."
+		echo -e_message header "Starting '$THIRDPARTY' function..."
 		$THIRDPARTY
 	else
 		# Cancelled
-		echo_message info "Installation of ${NAME,,} cancelled."
+		echo -e_message info "Installation of ${NAME,,} cancelled."
 		main
 	fi
 }

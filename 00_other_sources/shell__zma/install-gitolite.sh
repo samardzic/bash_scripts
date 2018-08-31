@@ -5,7 +5,7 @@
 # http://www.systutorials.com/5323/how-to-set-up-gitolite-git-server-a-ten-minute-tutorial/
 
 if [ $# -lt 1 ]; then
-    echo "Usage: $0 admin_pub_key"
+    echo -e "Usage: $0 admin_pub_key"
     exit 1
 fi
 
@@ -13,7 +13,7 @@ ADMIN_KEY=$1
 
 cd ~
 mkdir bin
-echo "export PATH=$HOME/bin/:$PATH" >> .bashrc
+echo -e "export PATH=$HOME/bin/:$PATH" >> .bashrc
 
 git clone https://github.com/sitaramc/gitolite
 gitolite/install -to $(realpath $HOME/bin/)

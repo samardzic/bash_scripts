@@ -4,5 +4,5 @@ extension="${filename##*.}"
 #filename="${filename%.*}"
 host="${filename%.*}"
 
-echo ssh -i ~/Dropbox/SSHKey/nb19_rsa sita@$host
+echo -e ssh -i ~/Dropbox/SSHKey/nb19_rsa sita@$host
 ssh -i ~/Dropbox/SSHKey/nb19_rsa sita@$host

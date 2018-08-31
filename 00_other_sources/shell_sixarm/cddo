@@ -12,7 +12,7 @@ set -euf -o pipefail
 
 unset CDPATH
 while read dir ; do
-  echo "$dir"
+  echo -e "$dir"
   cd "$dir"
   if [ $? -eq 0 ]
   then

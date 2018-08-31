@@ -13,8 +13,8 @@ autogen () {
 cleanscript="autogen-cleanup.sh"
 
 if [ -f $cleanscript ]; then
-	echo "warning: autogen clean-up script found!"
-	echo "run \`./$cleanscript' first"
+	echo -e "warning: autogen clean-up script found!"
+	echo -e "run \`./$cleanscript' first"
 	exit 1
 fi
 
@@ -43,13 +43,13 @@ chmod a+x $cleanscript
 
 for f in $(tac .autogen_sh_files); do
 	if [ -d $f ]; then
-		echo "rmdir $f 2>/dev/null || true" >> $cleanscript
+		echo -e "rmdir $f 2>/dev/null || true" >> $cleanscript
 	else
-		echo "rm -f $f" >> $cleanscript
+		echo -e "rm -f $f" >> $cleanscript
 	fi
 done
-echo "rm -rf $forcedelete" >> $cleanscript
-echo "rm -f $cleanscript" >> $cleanscript
+echo -e "rm -rf $forcedelete" >> $cleanscript
+echo -e "rm -f $cleanscript" >> $cleanscript
 
 rm -f .autogen_sh_before .autogen_sh_after .autogen_sh_files
 

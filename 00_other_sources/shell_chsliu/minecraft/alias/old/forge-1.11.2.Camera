@@ -3,7 +3,7 @@
 mc1112c=forge-1.11.2.Camera
 
 mc1112c() {
-	export mcver=$mc1112c && echo mcver=$mcver
+	export mcver=$mc1112c && echo -e mcver=$mcver
 	cd /mnt/runtimes/$mcver
 }
 

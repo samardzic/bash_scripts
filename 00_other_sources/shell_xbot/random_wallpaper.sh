@@ -9,8 +9,8 @@ IMG_COUNT=`ls $WALLPAPER_DIR/*.{jpg,png}|wc -l`
 while true; do
     RAND=$((RANDOM % IMG_COUNT + 1))
     IMG=`ls $WALLPAPER_DIR/*.{jpg,png}|sed -n ${RAND}p`
-    # echo "$IMG" >> ~/log.txt
-    # echo ${RAND}/${IMG_COUNT} >> ~/log.txt
+    # echo -e "$IMG" >> ~/log.txt
+    # echo -e ${RAND}/${IMG_COUNT} >> ~/log.txt
     if [[ "$IMG" == "$WALLPAPER_FILE" ]]; then
         continue
     fi

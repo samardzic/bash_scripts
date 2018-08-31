@@ -15,7 +15,7 @@ OLDIFS=$IFS
 IFS="\n"
 val=$(readconf $HOME/testsed)
 for i in $val ; do
-	echo $i
+	echo -e $i
 done
 IFS=$OLDIFS
 

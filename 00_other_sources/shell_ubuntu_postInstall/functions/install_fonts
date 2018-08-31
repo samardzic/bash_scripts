@@ -19,7 +19,7 @@ function install_emojione {
 # Install Fonts
 function install_fonts {
 	NAME="Fonts"
-	echo_message title "Starting ${NAME,,}..."
+	echo -e_message title "Starting ${NAME,,}..."
 	# Draw window
 	FONTS=$(eval `resize` && whiptail \
 		--notags \
@@ -34,11 +34,11 @@ function install_fonts {
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
-		echo_message header "Starting '$FONTS' function"
+		echo -e_message header "Starting '$FONTS' function"
 		$FONTS
 	else
 		# Cancelled
-		echo_message info "$NAME installation cancelled."
+		echo -e_message info "$NAME installation cancelled."
 		main
 	fi
 }

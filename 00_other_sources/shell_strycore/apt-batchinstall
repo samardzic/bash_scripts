@@ -5,7 +5,7 @@ set -e
 for PKG_NAME in `cat $1` ; do
 	STATUS=`dpkg -s $PKG_NAME | grep ^Status | cut -d" " -f4`
 	if [ "$STATUS" = "installed" ]; then
-		echo $PKG_NAME" is installed"
+		echo -e $PKG_NAME" is installed"
 	else
 		apt-get install -y --install-recommends $PKG_NAME
 	fi

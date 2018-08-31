@@ -16,10 +16,10 @@ filesizes="$filesizes"
 print_cmd_arg=""
 if type printf > /dev/null; then
 	print_cmd="printf"
-elif test -x /usr/ucb/echo; then
-	print_cmd="/usr/ucb/echo"
+elif test -x /usr/ucb/echo -e; then
+	print_cmd="/usr/ucb/echo -e"
 else
-	print_cmd="echo"
+	print_cmd="echo -e"
 fi
 
 MS_Printf()
@@ -66,18 +66,18 @@ MS_Check()
 	i=1
 	for s in \$filesizes
 	do
-		crc=\`echo \$CRCsum | cut -d" " -f\$i\`
+		crc=\`echo -e \$CRCsum | cut -d" " -f\$i\`
 		if test -x "\$MD5_PATH"; then
 			if test \`basename \$MD5_PATH\` = digest; then
 				MD5_ARG="-a md5"
 			fi
-			md5=\`echo \$MD5 | cut -d" " -f\$i\`
+			md5=\`echo -e \$MD5 | cut -d" " -f\$i\`
 			if test \$md5 = "00000000000000000000000000000000"; then
-				test x\$verb = xy && echo " \$1 does not contain an embedded MD5 checksum." >&2
+				test x\$verb = xy && echo -e " \$1 does not contain an embedded MD5 checksum." >&2
 			else
 				md5sum=\`MS_dd "\$1" \$offset \$s | eval "\$MD5_PATH \$MD5_ARG" | cut -b-32\`;
 				if test "\$md5sum" != "\$md5"; then
-					echo "Error in MD5 checksums: \$md5sum is different from \$md5" >&2
+					echo -e "Error in MD5 checksums: \$md5sum is different from \$md5" >&2
 					exit 2
 				else
 					test x\$verb = xy && MS_Printf " MD5 checksums are OK." >&2
@@ -86,13 +86,13 @@ MS_Check()
 			fi
 		fi
 		if test \$crc = "0000000000"; then
-			test x\$verb = xy && echo " \$1 does not contain a CRC checksum." >&2
+			test x\$verb = xy && echo -e " \$1 does not contain a CRC checksum." >&2
 		else
 			sum1=\`MS_dd "\$1" \$offset \$s | CMD_ENV=xpg4 cksum | awk '{print \$1}'\`
 			if test "\$sum1" = "\$crc"; then
 				test x\$verb = xy && MS_Printf " CRC checksums are OK." >&2
 			else
-				echo "Error in checksums: \$sum1 is different from \$crc" >&2
+				echo -e "Error in checksums: \$sum1 is different from \$crc" >&2
 				exit 2;
 			fi
 		fi
@@ -103,13 +103,13 @@ MS_Check()
 
 UnTAR()
 {
-	tar \$1f - 2>&1 || { echo Extraction failed. > /dev/tty; kill -15 \$$; }
+	tar \$1f - 2>&1 || { echo -e Extraction failed. > /dev/tty; kill -15 \$$; }
 }
 
 tmpdir="\$TMPROOT/selfgz\$\$\$RANDOM"
 mkdir -p \$tmpdir || {
-	echo 'Cannot create target directory' \$tmpdir >&2
-	echo 'You should try option --target dir' >&2
+	echo -e 'Cannot create target directory' \$tmpdir >&2
+	echo -e 'You should try option --target dir' >&2
 	eval true
 	exit 1
 }
@@ -119,14 +119,14 @@ if test x\$SETUP_NOCHECK != x1; then
 fi
 offset=\`head -n $SKIP "\$0" | wc -c | tr -d " "\`
 
-trap 'echo Signal caught, cleaning up >&2; cd \$TMPROOT; rm -rf \$tmpdir; eval true; exit 15' 1 2 3 15
+trap 'echo -e Signal caught, cleaning up >&2; cd \$TMPROOT; rm -rf \$tmpdir; eval true; exit 15' 1 2 3 15
 
 leftspace=\`MS_diskspace \$tmpdir\`
 if test -n "\$leftspace"; then
 	if test "\$leftspace" -lt $USIZE; then
-		echo
-		echo "Not enough space left in "\`dirname \$tmpdir\`" (\$leftspace KB) to decompress \$0 ($USIZE KB)" >&2
-		echo "Consider setting TMPDIR to a directory with more free space."
+		echo -e
+		echo -e "Not enough space left in "\`dirname \$tmpdir\`" (\$leftspace KB) to decompress \$0 ($USIZE KB)" >&2
+		echo -e "Consider setting TMPDIR to a directory with more free space."
 		eval true; exit 1
 	fi
 fi
@@ -136,8 +136,8 @@ do
 	if MS_dd_Progress "\$0" \$offset \$s | eval "$GUNZIP_CMD" | ( cd "\$tmpdir"; UnTAR x ) 1>/dev/null; then
 		(PATH=/usr/xpg4/bin:\$PATH; cd "\$tmpdir"; chown -R \`id -u\` .;  chgrp -R \`id -g\` .)
 	else
-		echo >&2
-		echo "Unable to decompress \$0" >&2
+		echo -e >&2
+		echo -e "Unable to decompress \$0" >&2
 		eval true; exit 1
 	fi
 	offset=\`expr \$offset + \$s\`

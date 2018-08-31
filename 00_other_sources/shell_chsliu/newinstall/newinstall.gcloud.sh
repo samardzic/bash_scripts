@@ -5,7 +5,7 @@
 export CLOUD_SDK_REPO="cloud-sdk-jessie"
 
 # Add the Cloud SDK distribution URI as a package source
-echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+echo -e "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 
 # Import the Google Cloud Platform public key
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -

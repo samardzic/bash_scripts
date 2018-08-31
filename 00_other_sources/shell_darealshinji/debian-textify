@@ -706,22 +706,22 @@ EOL
 }
 
 if ! file --version 2>/dev/null >/dev/null; then
-  echo "error: command \`file' not in PATH"
+  echo -e "error: command \`file' not in PATH"
   exit 1
 fi
 if ! m4 --version 2>/dev/null >/dev/null; then
-  echo "error: command \`m4' not in PATH"
+  echo -e "error: command \`m4' not in PATH"
   exit 1
 fi
 
 if [ "$1" = "cat" ]; then
 
   if [ ! -e "debian" ]; then
-    echo "error: no directory \`debian' in current working directory"
+    echo -e "error: no directory \`debian' in current working directory"
     exit 1
   fi
   if [ -e "debian" ] && [ ! -d "debian" ]; then
-    echo "error: \`debian' is not a directory"
+    echo -e "error: \`debian' is not a directory"
     exit 1
   fi
 
@@ -729,22 +729,22 @@ if [ "$1" = "cat" ]; then
   links="`find debian/* -type l`"
 
   if [ -n $links ]; then
-    echo "@@@@@@ links:begin @@@@@@"
+    echo -e "@@@@@@ links:begin @@@@@@"
     for l in $links; do
-      echo "$l|$(readlink $l)"
+      echo -e "$l|$(readlink $l)"
     done
-    echo "@@@@@@ links:end @@@@@@"
+    echo -e "@@@@@@ links:end @@@@@@"
   fi
 
   for f in $files; do
     if (file -b --mime $f | grep -q 'charset=binary'); then
-      echo "@@@@@@ $f:base64:begin @@@@@@"
+      echo -e "@@@@@@ $f:base64:begin @@@@@@"
       base64 $f
-      echo "@@@@@@ $f:base64:end @@@@@@"
+      echo -e "@@@@@@ $f:base64:end @@@@@@"
     else
-      echo "@@@@@@ $f:begin @@@@@@"
+      echo -e "@@@@@@ $f:begin @@@@@@"
       cat $f
-      echo "@@@@@@ $f:end @@@@@@"
+      echo -e "@@@@@@ $f:end @@@@@@"
     fi
   done
 
@@ -757,7 +757,7 @@ elif [ "$1" = "uncat" ]; then
   fi
 
   if [ -e "debian" ]; then
-    echo "error: \`debian' already present in working directory"
+    echo -e "error: \`debian' already present in working directory"
     exit 1
   fi
 
@@ -773,8 +773,8 @@ elif [ "$1" = "uncat" ]; then
     end=$(($(grep -n "$links_end" "$in" | cut -d':' -f1) - 1))
     for n in `seq $begin $end`; do
       line="$(sed -n "${n}p" "$in")"
-      link="$(echo $line | cut -d'|' -f1)"
-      target="$(echo $line | cut -d'|' -f2)"
+      link="$(echo -e $line | cut -d'|' -f1)"
+      target="$(echo -e $line | cut -d'|' -f2)"
       mkdir -p `dirname "$link"`
       ln -fs "$target" "$link"
     done
@@ -800,11 +800,11 @@ elif [ "$1" = "uncat" ]; then
 
 elif [ "$1" = "licenses" ]; then
 
-  echo
-  echo "Available license macros for debian/copyright:"
-  echo
+  echo -e
+  echo -e "Available license macros for debian/copyright:"
+  echo -e
   grep -e '^define(\[LIC_' "$0" | cut -d'[' -f2,3 | sed 's|\], \[| >> |g'
-  echo
+  echo -e
 
 else
 

@@ -3,7 +3,7 @@
 # Install Snap Applications
 function install_snap_apps {
 	NAME="Snap Applications"
-	echo_message title "Starting installation of ${NAME,,}..."
+	echo -e_message title "Starting installation of ${NAME,,}..."
 	status="0"
 	while [ "$status" -eq 0 ]; do
 		# Draw window
@@ -44,7 +44,7 @@ function install_snap_apps {
 				;;
 			*) 
 				# cancel
-				echo_message info "Returning..."
+				echo -e_message info "Returning..."
 				status=1
 				main
 			;;

@@ -9,10 +9,10 @@ BASEDIR=$(dirname $0)
 ###misc###
 ##########
 #hyper-v ubuntu vm
-echo 0 | sudo sh -c ">/proc/sys/kernel/hung_task_timeout_secs"
+echo -e 0 | sudo sh -c ">/proc/sys/kernel/hung_task_timeout_secs"
 
 
-echo "Install Fast Mirror"
+echo -e "Install Fast Mirror"
 sh ${BASEDIR}/newinstall.fastmirror.sh
 
 

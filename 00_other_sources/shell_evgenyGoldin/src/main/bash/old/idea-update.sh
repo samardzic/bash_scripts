@@ -8,7 +8,7 @@ ideaProcess=`tasklist | grep idea.exe`
 
 if [ "$ideaProcess" != "" ]; 
 then 
-    echo 'IDEA is running'
+    echo -e 'IDEA is running'
     exit
 fi
 

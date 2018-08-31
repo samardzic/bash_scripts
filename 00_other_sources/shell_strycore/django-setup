@@ -19,6 +19,6 @@ if [ -z "$(which npm)" ]; then
         npm install grunt-cli -g
         npm install bower -g
     else
-        echo "Please install latest version of nodejs and npm."
+        echo -e "Please install latest version of nodejs and npm."
     fi
 fi

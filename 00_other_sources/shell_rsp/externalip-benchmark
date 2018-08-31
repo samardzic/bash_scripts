@@ -18,7 +18,7 @@ read -d '' urls << 'END'
 //curlmyip.com/
 //ident.me/
 //tnx.nl/ip
-//ipecho.net/plain
+//ipecho -e.net/plain
 //whatismyip.akamai.com/
 //wgetip.com/
 //ip.tyk.nu/
@@ -40,31 +40,31 @@ pingl=
 
 for url in $urls
 do
-    echo -e "\n$url"
+    echo -e -e "\n$url"
 	for protocol in http https
 	do
 	    purl="$protocol:$url"
 	    cout=$(curl -m10 -L -sw "~over $protocol:\t%{time_total}s\n" $purl | tr -d '\n')
-	    echo $cout
-	    answer=$(echo $cout | cut -d'~' -f1)
-	    stats=$(echo $cout | cut -d'~' -f1)
-	    time=$(echo $cout | awk '{print $NF; exit}')
+	    echo -e $cout
+	    answer=$(echo -e $cout | cut -d'~' -f1)
+	    stats=$(echo -e $cout | cut -d'~' -f1)
+	    time=$(echo -e $cout | awk '{print $NF; exit}')
 	    [ $protocol = http ] && httpl="$httpl$time http:$url - answer='$answer'\n"
 	    [ $protocol = https ] && httpsl="$httpsl$time https:$url - answer='$answer'\n"
 	done
-	host=`echo $url | cut -d/ -f3`
+	host=`echo -e $url | cut -d/ -f3`
 	avgping=`ping -c $pings -i $interval $host | tail -1 | cut -d/ -f 5`
 	[ -z "$avgping" ] && avgping=999999
-    echo -e "average ping:\t$avgping"
+    echo -e -e "average ping:\t$avgping"
     pingl="$pingl$avgping $url\n"
 done
 
-echo -e "\nBest http response times:"
-echo -e "$httpl" | sort -n
+echo -e -e "\nBest http response times:"
+echo -e -e "$httpl" | sort -n
 
-echo -e "\nBest https response times:"
-echo -e "$httpsl" | sort -n
+echo -e -e "\nBest https response times:"
+echo -e -e "$httpsl" | sort -n
 
-echo -e "\nBest average ping times:"
-echo -e "$pingl" | sort -n
+echo -e -e "\nBest average ping times:"
+echo -e -e "$pingl" | sort -n
 

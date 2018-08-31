@@ -9,7 +9,7 @@ add_uniq_to_file() {
 	fi
 	
 	if ! sudo grep -Fxq "$@" $file; then
-		echo "$@" | sudo tee -a $file
+		echo -e "$@" | sudo tee -a $file
 	fi
 }
 
@@ -18,7 +18,7 @@ del_uniq_in_file() {
 	shift
 	
 	line=$@
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	sudo sed -i "/$line/d" $file
 }
 
@@ -48,13 +48,13 @@ mailreport() {
 	# $2=content
 	# $3=extra options
 
-	# echo $2 | sudo mailx -s "[LOG] $(hostname) $0 $1" -r "Sita Liu<egreta.su@msa.hinet.net>" -S smtp="msa.hinet.net" -a $3 chsliu@gmail.com
-	echo $2 | mailx -v -s "[LOG] $(hostname) $0 $1" $3 chsliu@gmail.com
+	# echo -e $2 | sudo mailx -s "[LOG] $(hostname) $0 $1" -r "Sita Liu<egreta.su@msa.hinet.net>" -S smtp="msa.hinet.net" -a $3 chsliu@gmail.com
+	echo -e $2 | mailx -v -s "[LOG] $(hostname) $0 $1" $3 chsliu@gmail.com
 }
 
 postfix_fix
 # sudo /etc/init.d/postfix restart
-# echo test | mail -v -s "test message postfix" root
+# echo -e test | mail -v -s "test message postfix" root
 
 # sudo apt update
 sudo apt install -y ssmtp heirloom-mailx
@@ -99,24 +99,24 @@ del_uniq_in_file /etc/aliases "$(whoami):"
 add_uniq_to_file /etc/aliases "$(whoami): chsliu@gmail.com"
 sudo newaliases
 
-echo =================================
-echo Sending test mail to root
-echo =================================
-echo "root" | mail -v -s "test message ssmtp $(date +"%Y-%m-%d %H:%M")" root
+echo -e =================================
+echo -e Sending test mail to root
+echo -e =================================
+echo -e "root" | mail -v -s "test message ssmtp $(date +"%Y-%m-%d %H:%M")" root
 
-echo =================================
-echo Sending test mail to $(whoami)
-echo =================================
-echo "$(whoami)" | mail -v -s "test message ssmtp $(date +"%Y-%m-%d %H:%M")" $(whoami)
+echo -e =================================
+echo -e Sending test mail to $(whoami)
+echo -e =================================
+echo -e "$(whoami)" | mail -v -s "test message ssmtp $(date +"%Y-%m-%d %H:%M")" $(whoami)
 
-echo =================================
-echo Sending test mail to chsliu@gmail.com
-echo =================================
-echo "chsliu@gmail.com" | mail -v -s "test message ssmtp $(date +"%Y-%m-%d %H:%M")" chsliu@gmail.com
+echo -e =================================
+echo -e Sending test mail to chsliu@gmail.com
+echo -e =================================
+echo -e "chsliu@gmail.com" | mail -v -s "test message ssmtp $(date +"%Y-%m-%d %H:%M")" chsliu@gmail.com
 
-echo =================================
-echo mailx test 
-echo =================================
+echo -e =================================
+echo -e mailx test 
+echo -e =================================
 mailreport "$(date +"%Y-%m-%d %H:%M")" "chsliu@gmail.com" "-a $0"
 
 

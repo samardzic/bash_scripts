@@ -2,23 +2,23 @@
 
 need_su() {
 	if [ ! "root" = $(whoami) ]; then
-		echo "only work while been root"
+		echo -e "only work while been root"
 		exit
 	fi
 }
 
 smart1() {
-	echo smartctl -a /dev/$1 				>$2
+	echo -e smartctl -a /dev/$1 				>$2
 	sudo smartctl -a /dev/$1 				>>$2
 }
 
 smart2() {
-	echo smartctl -d sat -a /dev/$1 		>$2
+	echo -e smartctl -d sat -a /dev/$1 		>$2
 	sudo smartctl -d sat -a /dev/$1 		>>$2
 }
 
 smart3() {
-	echo smartctl -d scsi -a /dev/$1 		>$2
+	echo -e smartctl -d scsi -a /dev/$1 		>$2
 	sudo smartctl -d scsi -a /dev/$1 		>>$2
 }
 
@@ -41,9 +41,9 @@ need_su
 lsblk | grep -P ^sd | cut -d" " -f 1 | while read line; do
 	tempfile=/tmp/tempfile
 	smart $line $tempfile
-	echo ---------------------------------
+	echo -e ---------------------------------
 	cat $tempfile | grep '/dev/sd'
-	echo ---------------------------------
+	echo -e ---------------------------------
 	cat $tempfile | egrep "Model:|Number:|Capacity:|Sector Size"
 	rm $tempfile
 done

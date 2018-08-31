@@ -17,7 +17,7 @@
 funct_check_user()
 {
   if [ `/usr/ucb/whoami` != root ]
-    then echo 'You Must be root to execute this script !!!'
+    then echo -e 'You Must be root to execute this script !!!'
     exit 99
   fi
 }
@@ -38,9 +38,9 @@ funct_get_info()
 funct_create_user()
 {
   useradd -c "$comment" -m -d $dir -s $shell $username
-  echo ' ';
-  echo "User $username has been created on $DATE\n\n";
-  echo "You will have to set the password for $username !!!\n\n";
+  echo -e ' ';
+  echo -e "User $username has been created on $DATE\n\n";
+  echo -e "You will have to set the password for $username !!!\n\n";
 }
 
 funct_permission()

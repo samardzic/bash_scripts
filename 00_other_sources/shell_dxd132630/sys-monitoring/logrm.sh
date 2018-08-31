@@ -9,7 +9,7 @@
 PWD=`pwd`
 #
 if [ $# -eq 0 ] ; then
-        echo "Usage: $0 [-s] list of files or directories" >&2
+        echo -e "Usage: $0 [-s] list of files or directories" >&2
         exit 1
 fi
 #

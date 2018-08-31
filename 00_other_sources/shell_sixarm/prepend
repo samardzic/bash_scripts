@@ -27,14 +27,14 @@ Example: Prepend a file with multiple lines of text
   world
   
 Example: Prepend a file with one line of text from STDIN
-  echo "foo" | prepend my.txt 
+  echo -e "foo" | prepend my.txt 
   =>
   foo
   hello
   world
 
 Example: Prepend a file with multiple line of text from STDIN
-  { echo "foo"; echo "bar"} | prepend my.txt 
+  { echo -e "foo"; echo -e "bar"} | prepend my.txt 
   =>
   foo
   bar

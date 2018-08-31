@@ -21,7 +21,7 @@ mcstart_nocheck() {
     
 	for srv in ${servers[*]}
 	do
-		$srv && [ -f update.sh ] && echo -e "${GREEN}=== Updating $mcver/update.sh ${NC}" && as_user "./update.sh"
+		$srv && [ -f update.sh ] && echo -e -e "${GREEN}=== Updating $mcver/update.sh ${NC}" && as_user "./update.sh"
         [ ! -z $rematch ] && mcserver pre_restore && mcserver restore && server.prep
 		mcserver start
 	done
@@ -30,16 +30,16 @@ mcstart_nocheck() {
 mcstart() {
     while [ 1 ]; do
         if is_my_ip_match_to_dns ${dns_external}.${mcdomain}; then
-            echo -e "${GREEN}[$(date +%H:%M:%S)] === ${dns_external}.${mcdomain} DNS and current IP matched ${NC}"
+            echo -e -e "${GREEN}[$(date +%H:%M:%S)] === ${dns_external}.${mcdomain} DNS and current IP matched ${NC}"
             if testconnect $mchub $mchubport; then
-                echo -e "${GREEN}[$(date +%H:%M:%S)] === ${mchub}:${mchubport} Hub connected ${NC}"
-                echo -e "${GREEN}[$(date +%H:%M:%S)] === Starting Minecraft Server ${NC}"
+                echo -e -e "${GREEN}[$(date +%H:%M:%S)] === ${mchub}:${mchubport} Hub connected ${NC}"
+                echo -e -e "${GREEN}[$(date +%H:%M:%S)] === Starting Minecraft Server ${NC}"
                 break
             else
-                echo -e "${RED}[$(date +%H:%M:%S)] === ${mchub}:${mchubport} Hub not connected ${NC}"
+                echo -e -e "${RED}[$(date +%H:%M:%S)] === ${mchub}:${mchubport} Hub not connected ${NC}"
             fi
         else
-            echo -e "${RED}[$(date +%H:%M:%S)] === ${dns_external}.${mcdomain} DNS and current IP not matched ${NC}"
+            echo -e -e "${RED}[$(date +%H:%M:%S)] === ${dns_external}.${mcdomain} DNS and current IP not matched ${NC}"
         fi
         waiting 10
     done
@@ -48,23 +48,23 @@ mcstart() {
 }
 
 start() {
-    echo -e "${GREEN}=== gitsync ${NC}"
+    echo -e -e "${GREEN}=== gitsync ${NC}"
     cd /home/sita/script && as_user "./gitsync.sh"
     
     for h in ${dns_updates[*]}; do
         runscript=/home/sita/script/minecraft/gcloud/$h
-        [ -f $runscript ] && ( echo -e "${GREEN}=== Starting gcloud dns for $h.${mcdomain} ${NC}"; as_user "$runscript start" )
+        [ -f $runscript ] && ( echo -e -e "${GREEN}=== Starting gcloud dns for $h.${mcdomain} ${NC}"; as_user "$runscript start" )
     done
     
     is_my_ip_match_to_dns ${mchub} && autostart=1
     [ ! -z $rematch_hour ] && [ $(date +%H) == $rematch_hour ] && autostart=1 && rematch=1
-    [ ! -z $autostart ] && ( echo -e "${GREEN}=== autorun mcstart for home server ${NC}"; mcstart_nocheck ) || echo -e "${YELLOW}=== manual run $0 mcstart to start server ${NC}"
+    [ ! -z $autostart ] && ( echo -e -e "${GREEN}=== autorun mcstart for home server ${NC}"; mcstart_nocheck ) || echo -e -e "${YELLOW}=== manual run $0 mcstart to start server ${NC}"
 }
 
 stop() {
     for h in ${dns_updates[*]}; do
         runscript=/home/sita/script/minecraft/gcloud/$h
-        [ -f $runscript ] && ( echo -e "${GREEN}=== Stopping gcloud dns for $h.${mcdomain} ${NC}"; as_user "$runscript stop" )
+        [ -f $runscript ] && ( echo -e -e "${GREEN}=== Stopping gcloud dns for $h.${mcdomain} ${NC}"; as_user "$runscript stop" )
     done
     
 	for srv in ${servers[*]}
@@ -83,7 +83,7 @@ stop2() {
 checklag() {
 	for srv in ${servers[*]}
 	do
-		echo -e ${YELLOW}mcver=$mcver${NC}
+		echo -e -e ${YELLOW}mcver=$mcver${NC}
 		$srv && logs | grep.lag
 	done
 }
@@ -91,16 +91,16 @@ checklag() {
 checkclag() {
 	for srv in ${servers[*]}
 	do
-		echo -e ${YELLOW}mcver=$mcver${NC}
+		echo -e -e ${YELLOW}mcver=$mcver${NC}
 		$srv && logs | grep '服務器'
 	done
 }
 
 is_my_ip_match_to_dns() {
-    # echo Checking $1
+    # echo -e Checking $1
     my_ip=$(curl -s https://api.ipify.org)
     matching_dns=$(dig $1 | grep IN | grep -v ";" | awk '{ printf ("%s\n", $5) }')
-    # echo $my_ip $matching_dns
+    # echo -e $my_ip $matching_dns
     [ "$my_ip" == "$matching_dns" ] && return 0 || return 1
 }
 
@@ -146,6 +146,6 @@ run() {
             checkclag
             ;;
         *)
-            echo "Usage: $0 {start|mcstart|stop|stop2|restart|lag|clag}"
+            echo -e "Usage: $0 {start|mcstart|stop|stop2|restart|lag|clag}"
     esac
 }

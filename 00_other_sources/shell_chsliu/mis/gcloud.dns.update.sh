@@ -17,27 +17,27 @@ ttlify() {
       minutes|minute|minut|minu|min|mi|m) unit=''; num=$[num*60];;
       seconds|second|secon|seco|sec|se|s) unit=''; num=$[num];;
     esac
-    echo "${num}${unit}"
+    echo -e "${num}${unit}"
   done
 }
 
 dns_start() {
-  echo -e gcloud dns record-sets transaction ${GREEN}start${NC} -z "${ZONENAME}" --project $PROJECT
+  echo -e -e gcloud dns record-sets transaction ${GREEN}start${NC} -z "${ZONENAME}" --project $PROJECT
   gcloud dns record-sets transaction start    -z "${ZONENAME}" --project $PROJECT
 }
 
 dns_info() {
-  echo -e gcloud dns record-sets transaction ${GREEN}describe${NC} -z "${ZONENAME}" --project $PROJECT
+  echo -e -e gcloud dns record-sets transaction ${GREEN}describe${NC} -z "${ZONENAME}" --project $PROJECT
   gcloud dns record-sets transaction describe -z "${ZONENAME}" --project $PROJECT
 }
 
 dns_abort() {
-  echo -e gcloud dns record-sets transaction ${GREEN}abort${NC} -z "${ZONENAME}" --project $PROJECT
+  echo -e -e gcloud dns record-sets transaction ${GREEN}abort${NC} -z "${ZONENAME}" --project $PROJECT
   gcloud dns record-sets transaction abort    -z "${ZONENAME}" --project $PROJECT
 }
 
 dns_commit() {
-  echo -e gcloud dns record-sets transaction ${GREEN}execute${NC} -z "${ZONENAME}" --project $PROJECT
+  echo -e -e gcloud dns record-sets transaction ${GREEN}execute${NC} -z "${ZONENAME}" --project $PROJECT
   gcloud dns record-sets transaction execute  -z "${ZONENAME}" --project $PROJECT
 }
 
@@ -50,7 +50,7 @@ dns_add() {
   local -r ttl="$(ttlify "$2")"
   local -r type="$3"
   shift 3
-  echo -e gcloud dns record-sets transaction ${GREEN}add${NC} -z "${ZONENAME}" --name "${name}" --ttl ${GREEN}"${ttl}"${NC} --type ${GREEN}"${type}" "$@"${NC} --project $PROJECT 
+  echo -e -e gcloud dns record-sets transaction ${GREEN}add${NC} -z "${ZONENAME}" --name "${name}" --ttl ${GREEN}"${ttl}"${NC} --type ${GREEN}"${type}" "$@"${NC} --project $PROJECT 
   gcloud dns record-sets transaction add      -z "${ZONENAME}" --name "${name}" --ttl "${ttl}" --type "${type}" "$@" --project $PROJECT
 }
 
@@ -63,7 +63,7 @@ dns_del() {
   local -r ttl="$(ttlify "$2")"
   local -r type="$3"
   shift 3
-  echo -e gcloud dns record-sets transaction ${GREEN}remove${NC} -z "${ZONENAME}" --name "${name}" --ttl ${GREEN}"${ttl}"${NC} --type ${GREEN}"${type}" "$@"${NC} --project $PROJECT 
+  echo -e -e gcloud dns record-sets transaction ${GREEN}remove${NC} -z "${ZONENAME}" --name "${name}" --ttl ${GREEN}"${ttl}"${NC} --type ${GREEN}"${type}" "$@"${NC} --project $PROJECT 
   gcloud dns record-sets transaction remove   -z "${ZONENAME}" --name "${name}" --ttl "${ttl}" --type "${type}" "$@" --project $PROJECT
 }
 
@@ -94,7 +94,7 @@ update_A() {
   fi
   shift 5
   [ ! -z "$1" ] && newip=$* || newip=$(my_ip) 
-  [ "$(lookup_dns_ip "$name" | tr '\n' ' ' | sed -e 's/[[:space:]]*$//')" == "$newip" ] && echo -e ${YELLOW}"$name" IN A $newip${GREEN}, DNS record already the same, skipping ...${NC} && return
+  [ "$(lookup_dns_ip "$name" | tr '\n' ' ' | sed -e 's/[[:space:]]*$//')" == "$newip" ] && echo -e -e ${YELLOW}"$name" IN A $newip${GREEN}, DNS record already the same, skipping ...${NC} && return
   # dns_start
   dns_del ${HOST} ${TTL1} A `lookup_dns_ip "$name"`
   dns_del ${HOST} ${TTL2} A `lookup_dns_ip "$name"`
@@ -109,7 +109,7 @@ update_CNAME() {
   CNAME=$4
   TTL1=$5
   TTL2=$6
-  [ $(lookup_dns_cname "${HOST}.${ZONE}.") == ${CNAME} ] && echo -e ${YELLOW}"${HOST}.${ZONE}." IN CNAME ${CNAME}${GREEN}, DNS record already the same, skipping ...${NC} && return
+  [ $(lookup_dns_cname "${HOST}.${ZONE}.") == ${CNAME} ] && echo -e -e ${YELLOW}"${HOST}.${ZONE}." IN CNAME ${CNAME}${GREEN}, DNS record already the same, skipping ...${NC} && return
   # dns_start
   dns_del ${HOST} ${TTL1} CNAME `lookup_dns_cname "${HOST}.${ZONE}."`
   dns_del ${HOST} ${TTL2} CNAME `lookup_dns_cname "${HOST}.${ZONE}."`
@@ -160,7 +160,7 @@ case "$1" in
     TYPE=$8
     shift 8
     # dns_start
-    ip=$(echo `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
+    ip=$(echo -e `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
     dns_del ${HOST} ${TTL} ${TYPE} $ip
     dns_del ${HOST} ${TTL2} ${TYPE} $ip
     # dns_commit
@@ -205,12 +205,12 @@ case "$1" in
     TTL2=$7
     TYPE=$8
     
-    ip=$(echo `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
-    newip=$(echo `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
-    # echo $ip
+    ip=$(echo -e `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
+    newip=$(echo -e `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
+    # echo -e $ip
     newip+=" `my_ip`"
-    newip=$(echo "${newip[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-    # echo $newip
+    newip=$(echo -e "${newip[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+    # echo -e $newip
     
     # dns_start
     dns_del ${HOST} ${TTL} ${TYPE} $ip
@@ -228,12 +228,12 @@ case "$1" in
     TTL2=$7
     TYPE=$8
     
-    ip=$(echo `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
-    # echo $ip
+    ip=$(echo -e `lookup_dns_ip "${HOST}.${ZONE}."` | tr ' ' '\n' | sort -u | tr '\n' ' ')
+    # echo -e $ip
     delete=`my_ip`
     # delete=2.2.2.2
-    newip=$(echo ${ip[@]/$delete})
-    # echo $newip
+    newip=$(echo -e ${ip[@]/$delete})
+    # echo -e $newip
     
     # dns_start
     dns_del ${HOST} ${TTL} ${TYPE} $ip
@@ -243,7 +243,7 @@ case "$1" in
     ;;
     
   *)
-	echo "Usage: $0 {A|CNAME|add|del}"
+	echo -e "Usage: $0 {A|CNAME|add|del}"
 	exit 1
 	;;
     

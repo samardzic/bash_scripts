@@ -6,7 +6,7 @@
 #   check-cmd-timeout.sh "node-status" "/paht/cmd/may/timeout" 'mailx -S smtp="smtp://smtp.ust.hk" -s "cmd timeout @`hostname`" -r zma@connect.ust.hk zma@connect.ust.hk'
 
 killtree() {
-    # echo "kill $@"
+    # echo -e "kill $@"
     local _pid=$1
     local _sig=${2:-TERM}
     # kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
@@ -17,7 +17,7 @@ killtree() {
 }
 
 if [[ $# < 2 ]]; then
-    echo "Usage: $0 id 'watched cmd' timeout_in_seconds 'trigger cmd'"
+    echo -e "Usage: $0 id 'watched cmd' timeout_in_seconds 'trigger cmd'"
     exit 1;
 fi
 
@@ -38,7 +38,7 @@ pidFile=/tmp/check-cmd-timeout-pid-$id-$USER
 
 ( eval $cmd 2>&1 >$stdoutfile ; rm $pidFile ; ) &
 pid=$!
-echo $pid > $pidFile
+echo -e $pid > $pidFile
 
 ( sleep $timeout ; if [[ -e $pidFile ]]; then eval $trigger; killtree $pid ; fi ; ) &
 killerPid=$!

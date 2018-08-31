@@ -19,7 +19,7 @@ IP=`hostname -I`
 # Message Function
 #
 function message {
-echo "
+echo -e "
 ------------: Sys Info :---------------
               
 Hostname : $HOSTNAME 

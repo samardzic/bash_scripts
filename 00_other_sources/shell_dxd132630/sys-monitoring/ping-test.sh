@@ -19,7 +19,7 @@ for myHost in $HOSTS
 do
         count=$(ping -c $COUNT $myHost | grep 'received' | awk -F',' '{ print $2 }' | awk '{ print $1 }')
         if [ $count -eq 0 ]; then
-                echo "Host : $myHost is not responding (ping failed) at $(date)" | mailx -s "$SUBJECT" $EMAILID
+                echo -e "Host : $myHost is not responding (ping failed) at $(date)" | mailx -s "$SUBJECT" $EMAILID
         fi  
 done
 #

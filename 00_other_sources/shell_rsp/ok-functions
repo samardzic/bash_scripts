@@ -71,9 +71,9 @@ ok() {
   # prints OK or ERROR and exit status of previous command
   s=$?
   if [[ $s = 0 ]]; then
-    echo OK
+    echo -e OK
   else
-    echo ERROR: $s
+    echo -e ERROR: $s
   fi
 }
 oks() {
@@ -82,10 +82,10 @@ oks() {
   sound_ok=/usr/share/sounds/ubuntu/stereo/dialog-information.ogg
   sound_error=/usr/share/sounds/ubuntu/stereo/dialog-warning.ogg
   if [[ $s = 0 ]]; then
-    echo OK
+    echo -e OK
     sound $sound_ok
   else
-    echo ERROR: $s
+    echo -e ERROR: $s
     sound $sound_error
   fi
 }

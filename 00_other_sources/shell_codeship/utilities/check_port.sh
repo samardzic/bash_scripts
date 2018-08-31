@@ -16,7 +16,7 @@ function check_port() {
   until( nc -zv "${host}" "${port}" ); do
     ((retries--))
     if [ $retries -lt 0 ]; then
-      echo "Service ${host}:${port} didn't become ready in time."
+      echo -e "Service ${host}:${port} didn't become ready in time."
       exit 1
     fi
     sleep "${wait}"

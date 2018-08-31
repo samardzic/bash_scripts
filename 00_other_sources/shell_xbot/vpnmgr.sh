@@ -7,7 +7,7 @@ SCRIPT_DIR=`readlink -f $0|xargs dirname`
 source "$SCRIPT_DIR/functions.sh"
 
 print_help_msg () {
-    echo "You see, I'm nothing ..."
+    echo -e "You see, I'm nothing ..."
     exit 0
 }
 
@@ -22,8 +22,8 @@ while getopts 'hc' opt; do
 done
 shift $(($OPTIND - 1))
 test $# -gt 0 && PROFILE="$1" || PROFILE=`ls -t "$PROFILE_DIR"|head -n 1`; PROFILE=`strip_file_extension "$PROFILE"`
-# echo $PROFILE
-# echo $ACTION
+# echo -e $PROFILE
+# echo -e $ACTION
 # exit 1
 
 # Check cisco_ipsec module

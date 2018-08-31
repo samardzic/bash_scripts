@@ -75,13 +75,13 @@ wget https://raw.github.com/KittyKatt/screenFetch/master/screenfetch-dev
 chmod +x screenfetch-dev
 sudo mv screenfetch-dev /usr/bin/screenfetch
 
-echo '#' >>~/.bashrc
-echo '#' >>~/.bashrc
-echo '#' >>~/.bashrc
-echo 'export PATH="$PATH:~/script"' >>~/.bashrc
-echo '' >>~/.bashrc
-echo '#' >>~/.bashrc
-echo 'if [ -f /usr/bin/screenfetch ]; then screenfetch; fi' >>~/.bashrc
+echo -e '#' >>~/.bashrc
+echo -e '#' >>~/.bashrc
+echo -e '#' >>~/.bashrc
+echo -e 'export PATH="$PATH:~/script"' >>~/.bashrc
+echo -e '' >>~/.bashrc
+echo -e '#' >>~/.bashrc
+echo -e 'if [ -f /usr/bin/screenfetch ]; then screenfetch; fi' >>~/.bashrc
 
 
 #####

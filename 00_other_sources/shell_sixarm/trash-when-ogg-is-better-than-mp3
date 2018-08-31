@@ -22,7 +22,7 @@ find ogg -type f -name "*.ogg" |
 sed 's#^ogg/#mp3/#; s#.ogg$#.mp3#;' | 
 while read x; do 
   test -f "$x" && mv "$x" ~/.trashable/
-  x=`echo "$x" | sed 's/ = [[:digit:]][[:digit:]] / = 00 /'`
+  x=`echo -e "$x" | sed 's/ = [[:digit:]][[:digit:]] / = 00 /'`
   test -f "$x" && mv "$x" ~/.trashable/
 done
 

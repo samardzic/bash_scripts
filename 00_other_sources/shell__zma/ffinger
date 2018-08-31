@@ -6,8 +6,8 @@
 
 function usage ()
 {
-    echo "$0 [-n] file"
-    echo "  -n: no checksum"
+    echo -e "$0 [-n] file"
+    echo -e "  -n: no checksum"
 }
 
 # parse options
@@ -46,5 +46,5 @@ if [[ "$cal_sum" == "true" ]]; then
     res="$res, sha1sum: $sha1sum"
 fi
 
-echo "$res"
+echo -e "$res"
 

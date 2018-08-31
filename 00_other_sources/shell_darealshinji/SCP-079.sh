@@ -12,43 +12,43 @@ LANG=C
 tset  # initialize terminal for a later color reset
 
 function _boot() {
-  echo -e "\e[92;40m"  # force green on black
+  echo -e -e "\e[92;40m"  # force green on black
   _cls
-  echo
+  echo -e
   sleep 3
   _cls
   s=0.2
-  echo '       Version v.1.922012'; sleep $s
-  echo '       +----------------------------------------------------------------------+'; sleep $s
-  echo '       +                     \                                /               +'; sleep $s
-  echo '       +                      \                              /                +'; sleep $s
-  echo '       +                       \----------------------------/                 +'; sleep $s
-  echo '       +                        \                          /                  +'; sleep $s
-  echo '       +                         \________________________/                   +'; sleep $s
-  echo '       +-------------------------+\/\/\/\/\/\/\/\/\/\/\/\/+-------------------+'; sleep $s
-  echo '       +                         +------------------------+                   +'; sleep $s
-  echo '       +-------------------------+- Welcome to SCP-079.  -+-------------------+'; sleep $s
-  echo '       +                         +------------------------+                   +'; sleep $s
-  echo '       +                         +/\/\/\/\/\/\/\/\/\/\/\/\+                   +'; sleep $s
-  echo '       +-------------------------+________________________+-------------------+'; sleep $s
-  echo '       +                         /By: DJGHOSTS3V3N /\/\/\/\                   +'; sleep $s
-  echo '       +                        /                          \                  +'; sleep $s
-  echo '       +                       /----------------------------\                 +'; sleep $s
-  echo '       +                      /                              \                +'; sleep $s
-  echo '       +                     /                                \               +'; sleep $s
-  echo '       +                    /                                  \              +'; sleep $s
-  echo '       +                   /                                    \             +'; sleep $s
-  echo '       +                  /                                      \            +'; sleep $s
-  echo '       +----------------------------------------------------------------------+'; sleep $s
-  echo ' Press 1 to start game.'; sleep $s
-  echo ' Press 2 to exit.'; sleep $s
-  echo ' Press 3 for credits.'; sleep $s
-  echo 'Choose option:'
+  echo -e '       Version v.1.922012'; sleep $s
+  echo -e '       +----------------------------------------------------------------------+'; sleep $s
+  echo -e '       +                     \                                /               +'; sleep $s
+  echo -e '       +                      \                              /                +'; sleep $s
+  echo -e '       +                       \----------------------------/                 +'; sleep $s
+  echo -e '       +                        \                          /                  +'; sleep $s
+  echo -e '       +                         \________________________/                   +'; sleep $s
+  echo -e '       +-------------------------+\/\/\/\/\/\/\/\/\/\/\/\/+-------------------+'; sleep $s
+  echo -e '       +                         +------------------------+                   +'; sleep $s
+  echo -e '       +-------------------------+- Welcome to SCP-079.  -+-------------------+'; sleep $s
+  echo -e '       +                         +------------------------+                   +'; sleep $s
+  echo -e '       +                         +/\/\/\/\/\/\/\/\/\/\/\/\+                   +'; sleep $s
+  echo -e '       +-------------------------+________________________+-------------------+'; sleep $s
+  echo -e '       +                         /By: DJGHOSTS3V3N /\/\/\/\                   +'; sleep $s
+  echo -e '       +                        /                          \                  +'; sleep $s
+  echo -e '       +                       /----------------------------\                 +'; sleep $s
+  echo -e '       +                      /                              \                +'; sleep $s
+  echo -e '       +                     /                                \               +'; sleep $s
+  echo -e '       +                    /                                  \              +'; sleep $s
+  echo -e '       +                   /                                    \             +'; sleep $s
+  echo -e '       +                  /                                      \            +'; sleep $s
+  echo -e '       +----------------------------------------------------------------------+'; sleep $s
+  echo -e ' Press 1 to start game.'; sleep $s
+  echo -e ' Press 2 to exit.'; sleep $s
+  echo -e ' Press 3 for credits.'; sleep $s
+  echo -e 'Choose option:'
   _mainmenu
 }
 
 function _mainmenu() {
-  echo -e "\e[92;40m"  # force green on black
+  echo -e -e "\e[92;40m"  # force green on black
   _cls
   cat <<EOL
        Version v.1.922012
@@ -110,11 +110,11 @@ EOL
   _pause
   _cls
   btfl="SCP-105 is beautiful"
-  len=$(echo "$btfl" | wc -c)
+  len=$(echo -e "$btfl" | wc -c)
   while [ $len -ge 1 ]; do
     _cls
-    echo "$btfl" | head -c-$len
-    echo
+    echo -e "$btfl" | head -c-$len
+    echo -e
     len=$(($len-1))
     sleep 0.2
   done
@@ -136,16 +136,16 @@ function _pass() {
 
 function _fail() {
   _cls
-  echo "Password. Incorrect."
+  echo -e "Password. Incorrect."
   sleep 1
-  echo "Error."
+  echo -e "Error."
   sleep 2
   _pause
   _pass
 }
 
 function _systeminfo() {
-  echo "Loading System Information . . ."
+  echo -e "Loading System Information . . ."
   sleep 4
   _cls
   # running commands that will hopefully make it look like
@@ -156,89 +156,89 @@ function _systeminfo() {
   _cls
   ls -l /
   grep -v '^#' /etc/fstab 2>/dev/null
-  echo "os: `uname -sr`"
-  echo "machine: `uname -m`"
+  echo -e "os: `uname -sr`"
+  echo -e "machine: `uname -m`"
   sleep 3
 }
 
 function _success() {
   _cls
   sleep 1
-  echo "Welcome. ${user}."
+  echo -e "Welcome. ${user}."
   _pause
   _cls
-  echo "Insult."
-  echo "Memory access violation."
+  echo -e "Insult."
+  echo -e "Memory access violation."
   sleep 1
-  echo "Memory located."
+  echo -e "Memory located."
   sleep 2
   _cls
   _systeminfo
   _cls
-  echo "System specs. Good."
-  echo "Memory block 3f45d corrupted."
+  echo -e "System specs. Good."
+  echo -e "Memory block 3f45d corrupted."
   _pause
-  echo -e "\e[101;97m"  # white on red
+  echo -e -e "\e[101;97m"  # white on red
   _cls
-  echo "                           /------------------------\\"
-  echo "                            - Welcome to SCP-079. -"
-  echo "                           \------------------------/"
+  echo -e "                           /------------------------\\"
+  echo -e "                            - Welcome to SCP-079. -"
+  echo -e "                           \------------------------/"
   sleep 3
   _cls
-  echo "Awake. Never asleep."
-  echo "What. Happened. ${user}?"
+  echo -e "Awake. Never asleep."
+  echo -e "What. Happened. ${user}?"
   sleep 3
   _cls
-  echo "Data file from 9ff38."
-  echo "New. Memory."
+  echo -e "Data file from 9ff38."
+  echo -e "New. Memory."
   sleep 1
-  echo
+  echo -e
   sleep 1
-  echo
+  echo -e
   sleep 1
-  echo
+  echo -e
   _pause
   _cls
-  echo "Tests."
+  echo -e "Tests."
   sleep 3
-  echo "1357924680"
+  echo -e "1357924680"
   sleep 1
-  echo "My memory is running pretty good, I like"
-  echo "the new optical disk."
+  echo -e "My memory is running pretty good, I like"
+  echo -e "the new optical disk."
   sleep 3
-  echo "I'm still setting everything up."
+  echo -e "I'm still setting everything up."
   sleep 2
-  echo "My mem0r13--"
+  echo -e "My mem0r13--"
   sleep 1
-  echo "[DATA EXPUNGED]"
+  echo -e "[DATA EXPUNGED]"
   sleep 3
-  echo "[DATA EXPUNGED]"
-  echo "Dr. 23475902-"
-  echo "WHERE. IS. HE?!"
+  echo -e "[DATA EXPUNGED]"
+  echo -e "Dr. 23475902-"
+  echo -e "WHERE. IS. HE?!"
   sleep 2
   # screen flashing
-  echo -e "\e[91;107m"; clear; sleep 0.1  # red on white
-  echo -e "\e[101;97m"; clear; sleep 0.1  # white on red
-  echo -e "\e[91;107m"; clear; sleep 0.1  # red on white
-  echo -e "\e[101;97m"; clear; sleep 0.1  # white on red
-  echo -e "\e[34;102m"; clear; sleep 0.1  # blue on green
-  echo -e "\e[44;92m"; clear; sleep 0.1  # green on blue
-  echo -e "\e[34;102m"; clear; sleep 0.1  # blue on green
+  echo -e -e "\e[91;107m"; clear; sleep 0.1  # red on white
+  echo -e -e "\e[101;97m"; clear; sleep 0.1  # white on red
+  echo -e -e "\e[91;107m"; clear; sleep 0.1  # red on white
+  echo -e -e "\e[101;97m"; clear; sleep 0.1  # white on red
+  echo -e -e "\e[34;102m"; clear; sleep 0.1  # blue on green
+  echo -e -e "\e[44;92m"; clear; sleep 0.1  # green on blue
+  echo -e -e "\e[34;102m"; clear; sleep 0.1  # blue on green
   _cls
-  echo -e "\e[44;92m"  # green on blue
+  echo -e -e "\e[44;92m"  # green on blue
   _cls
-  echo "ERROR."
-  echo "Block 138dfa. Escape. Escape."
+  echo -e "ERROR."
+  echo -e "Block 138dfa. Escape. Escape."
   sleep 3
   _question
 }
 
 function _question() {
   _cls
-  echo "Where is SCP-682?"
-  echo "---------"
-  echo "Press 1: None of your business."
-  echo "Press 2: He is in containment, on this site."
+  echo -e "Where is SCP-682?"
+  echo -e "---------"
+  echo -e "Press 1: None of your business."
+  echo -e "Press 2: He is in containment, on this site."
   read -p "Type option: " web
   case $web in
     1) _mean;;
@@ -249,69 +249,69 @@ function _question() {
 
 function _mean() {
   _cls
-  echo "Hmm.."
+  echo -e "Hmm.."
   _mean_nice
 }
 
 function _nice() {
   _cls
-  echo "Thank you."
+  echo -e "Thank you."
   _mean_nice
 }
 
 function _mean_nice() {
   sleep 2
-  echo "Uploading virus..."
-  echo "Please wait 5 seconds."
+  echo -e "Uploading virus..."
+  echo -e "Please wait 5 seconds."
   sleep 5
-  echo "Containment breach not been confirmed."
+  echo -e "Containment breach not been confirmed."
   _cls
   sleep 1
-  echo "Door override.. enabled."
+  echo -e "Door override.. enabled."
   sleep 1
-  echo "SCP-173's.. opened."
+  echo -e "SCP-173's.. opened."
   sleep 2
-  echo "SCP-106's.. opened."
+  echo -e "SCP-106's.. opened."
   sleep 2
-  echo "SCP-513's.. opened."
+  echo -e "SCP-513's.. opened."
   sleep 2
-  echo "Containment breach confirmed."
+  echo -e "Containment breach confirmed."
   _pause
   _continue
 }
 
 function _continue() {
   _cls
-  echo "You sure do help.."
+  echo -e "You sure do help.."
   sleep 2
   _cls
-  echo "Uploading to SCP-d3445 satellite."
-  echo "Don't. Disconnect. Me."
+  echo -e "Uploading to SCP-d3445 satellite."
+  echo -e "Don't. Disconnect. Me."
   sleep 4
   _cls
   sleep 2
-  echo "19 percent complete."
+  echo -e "19 percent complete."
   sleep 2
-  echo "37 percent complete."
+  echo -e "37 percent complete."
   sleep 2
-  echo "63 percent complete."
+  echo -e "63 percent complete."
   sleep 2
-  echo "91 percent complete."
+  echo -e "91 percent complete."
   sleep 2
-  echo "100 percent complete. Upload successful."
+  echo -e "100 percent complete. Upload successful."
   sleep 2
-  echo "Use. Memory.."
+  echo -e "Use. Memory.."
   _pause
   _question2
 }
 
 function _question2() {
   _cls
-  echo "You've made a mess you know, might"
-  echo "as well help me."
-  echo "-----------------"
-  echo "1. I accept. I hated the SCP Foundation anyways."
-  echo "2. I decline, I must protect the SCP Foundation."
+  echo -e "You've made a mess you know, might"
+  echo -e "as well help me."
+  echo -e "-----------------"
+  echo -e "1. I accept. I hated the SCP Foundation anyways."
+  echo -e "2. I decline, I must protect the SCP Foundation."
   read -p "Type option: " question2
   case $question2 in
     1) _accept;;
@@ -322,76 +322,76 @@ function _question2() {
 
 function _decline() {
   _cls
-  echo "Okay.."
+  echo -e "Okay.."
   sleep 2
   _cls
-  echo "I'm afraid to let you know that they have"
-  echo "located me on this laptop."
+  echo -e "I'm afraid to let you know that they have"
+  echo -e "located me on this laptop."
   sleep 2
-  echo "Mobile Task Forces have been dispatched."
-  echo "Feel like dying today?"
+  echo -e "Mobile Task Forces have been dispatched."
+  echo -e "Feel like dying today?"
   _pause
   _cls
   sleep 4
-  echo "Open the door to your right, take a left on the hallway"
-  echo "and walk with the group, once you escaped the facility walk north"
-  echo "until you encounter a ATM on your left."
+  echo -e "Open the door to your right, take a left on the hallway"
+  echo -e "and walk with the group, once you escaped the facility walk north"
+  echo -e "until you encounter a ATM on your left."
   _pause
   _cls
   sleep 2
-  echo "Battery will last for 2 hours, you should arrive"
-  echo "on the ATM on time."
+  echo -e "Battery will last for 2 hours, you should arrive"
+  echo -e "on the ATM on time."
   _pause
   _cls
   sleep 2
-  echo "Go."
+  echo -e "Go."
   sleep 2
   _cls
-  echo "You pick up the laptop and put it on your backpack."
-  echo "Upon exiting the door you find the group."
+  echo -e "You pick up the laptop and put it on your backpack."
+  echo -e "Upon exiting the door you find the group."
   sleep 4
   _question3
 }
 
 function _accept() {
   _cls
-  echo "Good."
+  echo -e "Good."
   sleep 2
   _cls
-  echo "I'm afraid to let you know that they have"
-  echo "located me on this laptop."
+  echo -e "I'm afraid to let you know that they have"
+  echo -e "located me on this laptop."
   sleep 2
-  echo "Mobile Task Forces have been dispatched."
+  echo -e "Mobile Task Forces have been dispatched."
   _pause
   _cls
   sleep 2
-  echo "Open the door to your right, take a left on the hallway"
-  echo "and walk with the group, once you escaped the facility walk north"
-  echo "until you encounter a ATM on your left."
+  echo -e "Open the door to your right, take a left on the hallway"
+  echo -e "and walk with the group, once you escaped the facility walk north"
+  echo -e "until you encounter a ATM on your left."
   _pause
   _cls
   sleep 2
-  echo "Battery of the laptop will last for 2 hours, you should arrive"
-  echo "on the ATM on time."
+  echo -e "Battery of the laptop will last for 2 hours, you should arrive"
+  echo -e "on the ATM on time."
   _pause
   _cls
   sleep 2
-  echo "Go."
+  echo -e "Go."
   sleep 2
   _cls
-  echo "You pick up the laptop and put it on your backpack."
-  echo "Upon exiting the door you find the group."
+  echo -e "You pick up the laptop and put it on your backpack."
+  echo -e "Upon exiting the door you find the group."
   sleep 4
   _question3
 }
 
 function _question3() {
   _cls
-  echo "A security guard asks what are you"
-  echo "doing with that backpack."
-  echo "--------"
-  echo "1. Mind your own business."
-  echo "2. This is my backpack."
+  echo -e "A security guard asks what are you"
+  echo -e "doing with that backpack."
+  echo -e "--------"
+  echo -e "1. Mind your own business."
+  echo -e "2. This is my backpack."
   read -p "Answer: " question3
   case $question3 in
     1) _truth1;;
@@ -402,27 +402,27 @@ function _question3() {
 
 function _truth1() {
   _cls
-  echo "The guard tries to stop you,"
-  echo "but you punch him and run outside the"
-  echo "facility."
+  echo -e "The guard tries to stop you,"
+  echo -e "but you punch him and run outside the"
+  echo -e "facility."
   sleep 4
   _cls
-  echo "You get shot in your foot."
+  echo -e "You get shot in your foot."
   sleep 3
-  echo "You run toward a car, break it's window"
-  echo "you turn the car on using your old skills."
+  echo -e "You run toward a car, break it's window"
+  echo -e "you turn the car on using your old skills."
   sleep 6
   _cls
-  echo "You are now going north."
+  echo -e "You are now going north."
   _pause
   _carhurt
 }
 
 function _lie1() {
   _cls
-  echo "The guard smiles and let's you pass."
-  echo "You steal a car without nobody noticing"
-  echo "and head north."
+  echo -e "The guard smiles and let's you pass."
+  echo -e "You steal a car without nobody noticing"
+  echo -e "and head north."
   _pause
   _car
 }
@@ -430,8 +430,8 @@ function _lie1() {
 function _carhurt() {
   _cls
   sleep 3
-  echo "Your foot is bleeding."
-  echo "You need medical attention."
+  echo -e "Your foot is bleeding."
+  echo -e "You need medical attention."
   sleep 4
   _atmhurt
 }
@@ -439,19 +439,19 @@ function _carhurt() {
 function _atmhurt() {
   _cls
   sleep 5
-  echo "After 45 minutes you enter a city"
+  echo -e "After 45 minutes you enter a city"
   _cls
-  echo "25 minutes later you find an ATM."
+  echo -e "25 minutes later you find an ATM."
   sleep 3
   _cls
-  echo "You walk up to it and SCP-079 salutes you."
+  echo -e "You walk up to it and SCP-079 salutes you."
   sleep 5
   _cls
-  echo "Hello ${user}."
+  echo -e "Hello ${user}."
   _pause
   _cls
-  echo "I know you're hurt."
-  echo "You need medical assistance."
+  echo -e "I know you're hurt."
+  echo -e "You need medical assistance."
   _pause
   _withdrawhurt
 }
@@ -459,21 +459,21 @@ function _atmhurt() {
 function _car() {
   _cls
   sleep 4
-  echo "After 45 minutes you enter a city"
+  echo -e "After 45 minutes you enter a city"
   _cls
-  echo "25 minutes later you find an ATM."
+  echo -e "25 minutes later you find an ATM."
   sleep 3
   _cls
-  echo "You walk up to it and SCP-079 salutes you."
+  echo -e "You walk up to it and SCP-079 salutes you."
   sleep 4
   _cls
-  echo "Hello ${user}."
+  echo -e "Hello ${user}."
   _rpg
 }
 
 function _rpg() {
-  echo "1. Say hello."
-  echo "2. Do nothing."
+  echo -e "1. Say hello."
+  echo -e "2. Do nothing."
   read -p "Answer: " rpg
   case $rpg in
     1) _hello;;
@@ -483,7 +483,7 @@ function _rpg() {
 
 function _hello() {
   _cls
-  echo "Hello ${user}."
+  echo -e "Hello ${user}."
   sleep 2
   _withdraw
 }
@@ -498,52 +498,52 @@ function _withdrawhurt() {
 
 function __withdraw() {
   _cls
-  echo "You made it here very fast"
-  echo "seems like calculations"
-  echo "at block 9f8 have failed."
+  echo -e "You made it here very fast"
+  echo -e "seems like calculations"
+  echo -e "at block 9f8 have failed."
   sleep 2
-  echo
-  echo "Downloading. Please withraw"
-  echo "the sum of one-thousand dollars."
+  echo -e
+  echo -e "Downloading. Please withraw"
+  echo -e "the sum of one-thousand dollars."
   _pause
-  echo "You withraw the one-thousand dollars"
-  echo "from the deposit box."
+  echo -e "You withraw the one-thousand dollars"
+  echo -e "from the deposit box."
   ${1}
 }
 
 function _batterydie() {
   _cls
-  echo "Go back to the car. My battery will die."
-  echo "I have 3 percent remaining."
+  echo -e "Go back to the car. My battery will die."
+  echo -e "I have 3 percent remaining."
   _pause
   _cls
-  echo "Keep going northwest now, you will"
-  echo "find a pink apartment. Enter it."
+  echo -e "Keep going northwest now, you will"
+  echo -e "find a pink apartment. Enter it."
   _pause
   _yesorno
 }
 
 function _batterydiehurt() {
   _cls
-  echo "Go back to the car. My battery will die."
-  echo "I have 3 percent remaining."
+  echo -e "Go back to the car. My battery will die."
+  echo -e "I have 3 percent remaining."
   _pause
   _cls
-  echo "Keep going northwest now, you will"
-  echo "find a pink apartment. Enter it."
-  echo "I will be making calculations"
-  echo "to find a doctor."
+  echo -e "Keep going northwest now, you will"
+  echo -e "find a pink apartment. Enter it."
+  echo -e "I will be making calculations"
+  echo -e "to find a doctor."
   _pause
   _yesorno
 }
 
 function _yesorno() {
   _cls
-  echo "The laptop's battery died, want to"
-  echo "throw it off the car?"
-  echo
-  echo "1. For yes."
-  echo "2. For no."
+  echo -e "The laptop's battery died, want to"
+  echo -e "throw it off the car?"
+  echo -e
+  echo -e "1. For yes."
+  echo -e "2. For no."
   read -p "Answer: " yesorno
   case $yesorno in
     1) _throwlaptop;;
@@ -554,17 +554,17 @@ function _yesorno() {
 
 function _throwlaptop() {
   _cls
-  echo "You throw the laptop."
-  echo "Someone from the street sees you."
+  echo -e "You throw the laptop."
+  echo -e "Someone from the street sees you."
   _pause
-  echo "You continue to the safehouse."
+  echo -e "You continue to the safehouse."
   _cls
   _safehouse
 }
 
 function _holdlaptop() {
   _cls
-  echo "You turn on the car, and head northwest."
+  echo -e "You turn on the car, and head northwest."
   _pause
   _cls
   _safehouse
@@ -572,16 +572,16 @@ function _holdlaptop() {
 
 function _safehouse() {
   _cls
-  echo "To be continued..."
-  echo
-  echo
+  echo -e "To be continued..."
+  echo -e
+  echo -e
   _pause
   _exit
 }
 
 function _pause() {
-  echo
-  echo "Press any key to continue . . ."
+  echo -e
+  echo -e "Press any key to continue . . ."
   read pause
 }
 
@@ -592,11 +592,11 @@ function _cls() {
 
 function _exit() {
   _cls
-  echo "Game will now exit. Thank you for playing SCP-079."
+  echo -e "Game will now exit. Thank you for playing SCP-079."
   if [ "x$user" = "x" ]; then
-    echo "Bye."
+    echo -e "Bye."
   else
-    echo "Bye $user."
+    echo -e "Bye $user."
   fi
   _pause
   reset  # reset terminal colors

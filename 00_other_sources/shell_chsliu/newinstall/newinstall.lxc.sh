@@ -4,7 +4,7 @@ create_sudo_cfg() {
 	file=/etc/sudoers.d/$(whoami)
 
 	if [ ! -e $file ]; then
-		su -s /bin/bash -c "echo \"$(whoami)    ALL=(ALL) ALL\" > $file"
+		su -s /bin/bash -c "echo -e \"$(whoami)    ALL=(ALL) ALL\" > $file"
 	fi
 }
 
@@ -41,7 +41,7 @@ addto_sshkey() {
 	sshkeys=~/.ssh/authorized_keys
 
 	if ! grep -Fxq "$*" $sshkeys; then
-		echo $* | tee -a $sshkeys
+		echo -e $* | tee -a $sshkeys
 	fi
 }
 

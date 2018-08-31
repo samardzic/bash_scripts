@@ -16,15 +16,15 @@ WARN=$(tput setaf 3)
 FAIL=$(tput setaf 1)
 
 function info() {
-    echo -e "$GREEN$*$NORMAL"
+    echo -e -e "$GREEN$*$NORMAL"
 }
 
 function warn() {
-    echo -e "$YELLOW$*$NORMAL"
+    echo -e -e "$YELLOW$*$NORMAL"
 }
 
 function fail() {
-    echo -e "$RED$*$NORMAL"
+    echo -e -e "$RED$*$NORMAL"
 }
 
 info "Hello world"

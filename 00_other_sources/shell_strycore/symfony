@@ -14,7 +14,7 @@ do
 done
 cd $working_dir
 if [ -z $symfony_root ] ; then
-	echo "Error : not inside a symfony project"
+	echo -e "Error : not inside a symfony project"
 	exit 2
 fi
 

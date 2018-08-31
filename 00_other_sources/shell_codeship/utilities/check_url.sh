@@ -35,7 +35,7 @@ function retry {
   fi
 
   for (( i = 1; i <=${tries}; i++ )); do
-    echo -e "Trying ($i of ${TRIES}) '${cmd}'"
+    echo -e -e "Trying ($i of ${TRIES}) '${cmd}'"
     ${cmd}
     status=$?
 
@@ -44,16 +44,16 @@ function retry {
     fi
 
     if [ ${status} -eq 5 -a "${original_cmd}" != "" ]; then
-      echo -e "\e[0;33mCheck failed because of an error validating the SSL certificate.\e[0m"
-      echo -e "\e[0;33mWe will retry without checking the certificate, but we'd encourage you to fix the\e[0m"
-      echo -e "\e[0;33mcertificate settings for your application.\e[0m"
+      echo -e -e "\e[0;33mCheck failed because of an error validating the SSL certificate.\e[0m"
+      echo -e -e "\e[0;33mWe will retry without checking the certificate, but we'd encourage you to fix the\e[0m"
+      echo -e -e "\e[0;33mcertificate settings for your application.\e[0m"
       cmd="${original_cmd}"
       status=0
     fi
 
     if [ $i -lt ${TRIES} ]; then
-      echo -e "\e[0;36mWaiting ${WAIT} seconds before trying again.\e[0m"
-      echo "------------------------------------------------------------------------------------------------------"
+      echo -e -e "\e[0;36mWaiting ${WAIT} seconds before trying again.\e[0m"
+      echo -e "------------------------------------------------------------------------------------------------------"
       sleep "${WAIT}"
     fi
   done

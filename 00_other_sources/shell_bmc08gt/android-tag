@@ -6,7 +6,7 @@ tag=$1
 
 # Create our_repos
 list=$(cat platform_manifest/default.xml | grep 'remote="matricom"' | awk '{print $2}' | cut -d '=' -f2 | awk -F\" '{print $2}')
-echo $list > $our_repos
+echo -e $list > $our_repos
 
 function create_manifest() {
 	git checkout -b tmp

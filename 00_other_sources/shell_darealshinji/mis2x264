@@ -1,9 +1,9 @@
 #!/bin/sh
 
 if [ -z "$1" ] ; then
-   echo "Convert MediaInfo encoding settings to x264 commands"
-   echo "Usage: $0 <video>"
-   echo "       $0 \"MediaInfo encoding settings\""
+   echo -e "Convert MediaInfo encoding settings to x264 commands"
+   echo -e "Usage: $0 <video>"
+   echo -e "       $0 \"MediaInfo encoding settings\""
    exit 0
 fi
 
@@ -17,31 +17,31 @@ fi
 
 
 if [ ! -z "$formatprofile" ] ; then
-    level0=$(echo "$formatprofile" | cut -d '@' -f2 | tail -c-4)
+    level0=$(echo -e "$formatprofile" | cut -d '@' -f2 | tail -c-4)
     level="--level $level0"
-    profile0=$(echo "$formatprofile" | cut -d '@' -f1 | sed -e 's/ //g; s/://g; s/Predictive//g; s/.*/\L&/')
+    profile0=$(echo -e "$formatprofile" | cut -d '@' -f1 | sed -e 's/ //g; s/://g; s/Predictive//g; s/.*/\L&/')
     profile="--profile $profile0"
     [ ! "$profile0" = "high422" ] || output_csp="--output-csp i422"
     [ ! "$profile0" = "high444" ] || output_csp="--output-csp i444"
 fi
 
 
-aq=$(echo "$settings0" | sed -e 's/ \/ /\n/g;' | grep -e 'aq' | sed -e 's/aq=//g')
-aqmode0=$(echo $aq | cut -d ':' -f1)
-aqstrength0=$(echo $aq | cut -d ':' -f2)
+aq=$(echo -e "$settings0" | sed -e 's/ \/ /\n/g;' | grep -e 'aq' | sed -e 's/aq=//g')
+aqmode0=$(echo -e $aq | cut -d ':' -f1)
+aqstrength0=$(echo -e $aq | cut -d ':' -f2)
 [ -z "$aqmode0" ] || aqmode="--aq-mode $aqmode0"
 [ -z "$aqstrength0" ] || aqstrength="--aq-strength $aqstrength0"
 
-deadzone=$(echo "$settings0" | sed -e 's/ \/ /\n/g;' | grep -e 'deadzone' | sed -e 's/deadzone=//g')
-deadzone_inter0=$(echo $deadzone | cut -d ',' -f1)
-deadzone_intra0=$(echo $deadzone | cut -d ',' -f2)
+deadzone=$(echo -e "$settings0" | sed -e 's/ \/ /\n/g;' | grep -e 'deadzone' | sed -e 's/deadzone=//g')
+deadzone_inter0=$(echo -e $deadzone | cut -d ',' -f1)
+deadzone_intra0=$(echo -e $deadzone | cut -d ',' -f2)
 [ -z "$deadzone_inter0" ] || deadzone_inter="--deadzone-inter $deadzone_inter0"
 [ -z "$deadzone_intra0" ] || deadzone_intra="--deadzone-intra $deadzone_intra0"
 
 
-partitions0=$(echo "$settings0" | sed -e 's/ \/ /\n/g;' | grep -e 'analyse' | sed -e 's/analyse=//g')
+partitions0=$(echo -e "$settings0" | sed -e 's/ \/ /\n/g;' | grep -e 'analyse' | sed -e 's/analyse=//g')
 if [ ! -z "$partitions0" ] ; then
-    ipb=$(echo $partitions0 | cut -d ':' -f2 | sed -e 's/0x//;')
+    ipb=$(echo -e $partitions0 | cut -d ':' -f2 | sed -e 's/0x//;')
     if [ $ipb -ge 100 ] ; then
         b8x8=",b8x8"; ipb=$(($ipb - 100))
     fi
@@ -57,14 +57,14 @@ if [ ! -z "$partitions0" ] ; then
         3) i4x4=",i4x4" ; i8x8=",i8x8" ;;
         *) ;;
     esac
-    partitions1=$(echo "x$i4x4$i8x8$p4x4$p8x8$b8x8" | sed -e 's/x,//;')
+    partitions1=$(echo -e "x$i4x4$i8x8$p4x4$p8x8$b8x8" | sed -e 's/x,//;')
     partitions="--partitions $partitions1"
     [ ! "$partitions1" = "x" ] || partitions="--partitions none"
     [ ! "$partitions1" = "i4x4,i8x8,p4x4,p8x8,b8x8" ] || partitions="--partitions all"
 fi
 
 
-settings=$(echo " / $settings0" | sed -e '
+settings=$(echo -e " / $settings0" | sed -e '
 s/=/ /g;
 s/^/--/;
 s/ \/ / \n--/g;
@@ -119,17 +119,17 @@ if [ "$profile0" = "high10" ] || \
 fi
 options="$profile $level $output_csp $partitions $settings $deadzone_inter $deadzone_intra $aqmode $aqstrength"
 
-echo ""
+echo -e ""
 if [ ! -z "$formatprofile" ] ; then
-    echo "Format profile: $formatprofile"
-    echo ""
+    echo -e "Format profile: $formatprofile"
+    echo -e ""
 fi
 if [ ! -z "$settings0" ] ; then
-    echo "MediaInfo encoding settings:"
-    echo "$settings0"
-    echo ""
+    echo -e "MediaInfo encoding settings:"
+    echo -e "$settings0"
+    echo -e ""
 fi
-echo "Converted to x264 cli:"
-echo "x264$bit $options -o output.mp4 <input>" | sed -e 's/ \+/ /g; s/-- //g'
-echo ""
+echo -e "Converted to x264 cli:"
+echo -e "x264$bit $options -o output.mp4 <input>" | sed -e 's/ \+/ /g; s/-- //g'
+echo -e ""
 

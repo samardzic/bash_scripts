@@ -28,7 +28,7 @@
 ### begin of JSON.sh ###
 
 throw() {
-  echo "$*" >&2
+  echo -e "$*" >&2
   exit 1
 }
 
@@ -56,14 +56,14 @@ tokenize () {
   local ESCAPE
   local CHAR
 
-  if echo "test string" | egrep -ao --color=never "test" >/dev/null 2>&1
+  if echo -e "test string" | egrep -ao --color=never "test" >/dev/null 2>&1
   then
     GREP='egrep -ao --color=never'
   else
     GREP='egrep -ao'
   fi
 
-  if echo "test string" | egrep -o "test" >/dev/null 2>&1
+  if echo -e "test string" | egrep -o "test" >/dev/null 2>&1
   then
     ESCAPE='(\\[^u[:cntrl:]]|\\u[0-9a-fA-F]{4})'
     CHAR='[^[:cntrl:]"\\]'
@@ -155,7 +155,7 @@ parse_value () {
     ''|[!0-9]) throw "EXPECTED value GOT ${token:-EOF}" ;;
     *) value=$token
        # if asked, replace solidus ("\/") in json strings with normalized value: "/"
-       [ "$NORMALIZE_SOLIDUS" -eq 1 ] && value=$(echo "$value" | sed 's#\\/#/#g')
+       [ "$NORMALIZE_SOLIDUS" -eq 1 ] && value=$(echo -e "$value" | sed 's#\\/#/#g')
        isleaf=1
        [ "$value" = '""' ] && isempty=1
        ;;
@@ -187,7 +187,7 @@ parse () {
 
 save_file () {
   mkdir -p "$1/$(dirname "$file")"
-  echo "saving \"$file\""
+  echo -e "saving \"$file\""
   tail -c+$(($header_size + $offset + 2)) "$archive" | head -c$size > "$1/$file"
 }
 
@@ -243,25 +243,25 @@ fi
 
 # this is used to calculate the header size
 val=$(tail -c+4 "$archive" | head -c4 | od -An -tu2 --endian=big)
-header_size=$(( $(echo $val | awk '{print $1}') + $(echo $val | awk '{print $2}') + 7 ))
+header_size=$(( $(echo -e $val | awk '{print $1}') + $(echo -e $val | awk '{print $2}') + 7 ))
 
 # file index (JSON data)
 index=$(head -c$header_size "$archive" | tail -c+16 | tr -d '\0' | tokenize | parse)
 
-count=$(echo "$index" | grep ',"offset"]' | wc -l)
-files=$(echo "$index" | sed -n 's|,"offset"].*||p' | sed -e 's|","files","|/|g; s|"$||; s|^\["files","||')
+count=$(echo -e "$index" | grep ',"offset"]' | wc -l)
+files=$(echo -e "$index" | sed -n 's|,"offset"].*||p' | sed -e 's|","files","|/|g; s|"$||; s|^\["files","||')
 if [ "$command" != "list" ]; then
-  offsets=$(echo "$index" | sed -n 's|.*,"offset"]\t||p' | tr -d '"')
-  sizes=$(echo "$index" | sed -n 's|.*,"size"]\t||p')
+  offsets=$(echo -e "$index" | sed -n 's|.*,"offset"]\t||p' | tr -d '"')
+  sizes=$(echo -e "$index" | sed -n 's|.*,"size"]\t||p')
 fi
 
 for n in $(seq 1 $count); do
-  file=$(echo "$files" | head -$n | tail -1)
+  file=$(echo -e "$files" | head -$n | tail -1)
   if [ "$command" = "list" ]; then
-    echo "$file"
+    echo -e "$file"
   else
-    offset=$(echo "$offsets" | head -$n | tail -1)
-    size=$(echo "$sizes" | head -$n | tail -1)
+    offset=$(echo -e "$offsets" | head -$n | tail -1)
+    size=$(echo -e "$sizes" | head -$n | tail -1)
     if [ "$command" = "extract-file" ]; then
       if [ "$file" = "$dest" ]; then
         save_file .

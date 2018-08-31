@@ -19,7 +19,7 @@ EOF
 
 function SetupCGroup {
     mkdir $CGROUP_PATH
-    echo $CGROUP_CLASSID > $CGROUP_PATH/net_cls.classid
+    echo -e $CGROUP_CLASSID > $CGROUP_PATH/net_cls.classid
     iptables -A OUTPUT -m cgroup --cgroup $CGROUP_CLASSID -j DROP
 }
 
@@ -30,22 +30,22 @@ function BlockPid {
         SetupCGroup
     fi
     if [ ! -d /proc/$pid ]; then
-        echo "$pid isn't a valid PID"
+        echo -e "$pid isn't a valid PID"
         exit 2
     fi
-    echo "Blocking all network traffic for $(readlink /proc/$pid/exe)"
-    echo $pid > $CGROUP_PATH/tasks
+    echo -e "Blocking all network traffic for $(readlink /proc/$pid/exe)"
+    echo -e $pid > $CGROUP_PATH/tasks
 }
 
 function UnblockPid {
     local pid=$1
     if [ "$pid" == "all" ]; then
-        echo "Unblocking all pids"
+        echo -e "Unblocking all pids"
         cd $CGROUP_PATH
-        for pid in $(cat tasks); do echo $pid > ../tasks; done
+        for pid in $(cat tasks); do echo -e $pid > ../tasks; done
     else
-        echo "Unblocking pid $pid"
-        echo $pid > $CGROUP_ROOT/tasks
+        echo -e "Unblocking pid $pid"
+        echo -e $pid > $CGROUP_ROOT/tasks
     fi
 }
 

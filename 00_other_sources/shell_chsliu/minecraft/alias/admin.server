@@ -5,7 +5,7 @@ help_hline3 '伺服器管理(server)'
 
 #=================================
 server.prep() {
-	# echo server.prep
+	# echo -e server.prep
     SYNC=/mnt/runtimes/$mcver/sync.sh
     [ -f $SYNC ] && . $SYNC
     
@@ -13,19 +13,19 @@ server.prep() {
 	[ ! -f $config ] || . $config
 
 	properties=/mnt/runtimes/$mcver/server.properties
-	[ ! $onlinemode ] 			|| echo online-mode=$onlinemode >> $properties
-	[ ! $serverport ] 			|| echo server-port=$serverport >> $properties
+	[ ! $onlinemode ] 			|| echo -e online-mode=$onlinemode >> $properties
+	[ ! $serverport ] 			|| echo -e server-port=$serverport >> $properties
 	
-	echo "$server_properties" >> $properties
+	echo -e "$server_properties" >> $properties
 }
 
 #=================================
 mcwaituntilready() {
 	mcresult=/tmp/mcwaituntilready
-	# echo ================
+	# echo -e ================
 	mcserver status > $mcresult
 	if ! filehas $mcresult 'not running'; then
-		# echo 'running'
+		# echo -e 'running'
 		for i in $(seq 1 100)       
 		do
 			mcserver do list > $mcresult
@@ -35,7 +35,7 @@ mcwaituntilready() {
 		done
 	fi
 	# cat $mcresult
-	# echo ================
+	# echo -e ================
 }
 
 #=================================
@@ -56,28 +56,28 @@ lag_check() {
     timings_report
     ncp_report
 
-    echo -e "${GREEN}=== $mcver lag ${NC}"
+    echo -e -e "${GREEN}=== $mcver lag ${NC}"
 	logs | grep 'overloaded\|TPS has dropped\|free memory pool\|服務器\|Timings'
 
-    echo ================
+    echo -e ================
 	~/script/init.d/hosts/$(hostname) lag
     
-    echo ================
-    echo $(cat /proc/cpuinfo | grep 'model name' | wc -l) cores
+    echo -e ================
+    echo -e $(cat /proc/cpuinfo | grep 'model name' | wc -l) cores
     cat /proc/cpuinfo | grep 'model name\|bogomips\|MHz\|cache size' | sort | uniq
     
-    echo ================
+    echo -e ================
     free -h
     
-    echo ================
+    echo -e ================
     df -h
     
-    echo ================
+    echo -e ================
 }
 
 #=================================
 clag_check() {
-    echo -e "${GREEN}=== $mcver clag ${NC}"
+    echo -e -e "${GREEN}=== $mcver clag ${NC}"
 	logs | grep '服務器'
 	~/script/init.d/hosts/$(hostname) clag
     free -h

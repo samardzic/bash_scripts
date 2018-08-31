@@ -18,17 +18,17 @@ gcloud_id() {
         ;;
     esac
 
-    echo -e ${GREEN}=== Switching to Account: $id ${NC}
+    echo -e -e ${GREEN}=== Switching to Account: $id ${NC}
     gcloud config set account $id
 }
 
 #=================================
 dnssetup() {
-    # echo Runngin $1 $2
+    # echo -e Runngin $1 $2
     file=/home/sita/script/minecraft/gcloud/$1
     # [ ! -z "$1" ] && . /home/sita/script/minecraft/gcloud/$1
-    [ -f "$file" ] && echo -e ${GREEN}=== Running $file ${YELLOW}$2 ${NC} && $file $2
-    [ ! -f "$file" ] && echo -e ${RED}$file not found${NC}
+    [ -f "$file" ] && echo -e -e ${GREEN}=== Running $file ${YELLOW}$2 ${NC} && $file $2
+    [ ! -f "$file" ] && echo -e -e ${RED}$file not found${NC}
 }
 
 #=================================
@@ -44,7 +44,7 @@ alias gumnt='fusermount -u /mnt/backup'
 help_add 'glog.<start|stop>' 'fluentd開始|結束'
 alias glog='sudo service google-fluentd $*'
 help_add 'gname' '顯示自訂主機名'
-alias gname='echo $(curl --silent "http://metadata.google.internal/computeMetadata/v1/instance/attributes/hostname" -H "Metadata-Flavor: Google")'
+alias gname='echo -e $(curl --silent "http://metadata.google.internal/computeMetadata/v1/instance/attributes/hostname" -H "Metadata-Flavor: Google")'
 
 #=================================
 help_add 'gid.[id]' 'gcloud身份顯示|切換'

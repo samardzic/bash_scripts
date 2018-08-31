@@ -16,7 +16,7 @@ SUDO=""
 apachedir="/etc/apache2/sites-enabled/"
 for file in $(ls $apachedir); do
     root=$(grep DocumentRoot $apachedir$file | sed 's|[ \t]*DocumentRoot[ \t]*||' | tr -d "\"")
-    echo $root
+    echo -e $root
     if [ -d $root ] ; then
         chown -R www-data:www-data $root
         find $root -type d -exec chmod -R ug+rwx \{\} \;

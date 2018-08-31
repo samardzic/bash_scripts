@@ -72,7 +72,7 @@ umask 077
 
 #Check the shell
 if [ -z "$BASH_VERSION" ]; then
-    echo -e "Error: this script requires the BASH shell!"
+    echo -e -e "Error: this script requires the BASH shell!"
     exit 1
 fi
 
@@ -81,8 +81,8 @@ shopt -s dotglob  #Bash includes filenames beginning with a "." in the results o
 
 #Check temp folder
 if [[ ! -d "$TMP_DIR" ]]; then
-    echo -e "Error: the temporary folder $TMP_DIR doesn't exists!"
-    echo -e "Please edit this script and set the TMP_DIR variable to a valid temporary folder to use."
+    echo -e -e "Error: the temporary folder $TMP_DIR doesn't exists!"
+    echo -e -e "Please edit this script and set the TMP_DIR variable to a valid temporary folder to use."
     exit 1
 fi
 
@@ -119,12 +119,12 @@ while getopts ":qpskdhf:" opt; do
     ;;
 
     \?)
-      echo "Invalid option: -$OPTARG" >&2
+      echo -e "Invalid option: -$OPTARG" >&2
       exit 1
     ;;
 
     :)
-      echo "Option -$OPTARG requires an argument." >&2
+      echo -e "Option -$OPTARG requires an argument." >&2
       exit 1
     ;;
 
@@ -132,7 +132,7 @@ while getopts ":qpskdhf:" opt; do
 done
 
 if [[ $DEBUG != 0 ]]; then
-    echo $VERSION
+    echo -e $VERSION
     uname -a 2> /dev/null
     cat /etc/issue 2> /dev/null
     set -x
@@ -151,7 +151,7 @@ if [[ $? != 0 ]]; then
         which $i > /dev/null ||
             NOT_FOUND="$i $NOT_FOUND"
     done
-    echo -e "Error: Required program could not be found: $NOT_FOUND"
+    echo -e -e "Error: Required program could not be found: $NOT_FOUND"
     exit 1
 fi
 
@@ -174,7 +174,7 @@ if [[ $? == 0 ]]; then
 else
     PRINTF=$(which printf)
     if [[ $? != 0 ]]; then
-        echo -e "Error: Required program could not be found: printf"
+        echo -e -e "Error: Required program could not be found: printf"
     fi
     PRINTF_OPT=""
 fi
@@ -183,7 +183,7 @@ fi
 function print
 {
     if [[ $QUIET == 0 ]]; then
-	    echo -ne "$1";
+	    echo -e -ne "$1";
     fi
 }
 
@@ -208,16 +208,16 @@ function convert_bytes
 {
     if [[ $HUMAN_READABLE_SIZE == 1 && "$1" != "" ]]; then
 	    if (($1 > 1073741824));then
-	        echo $(($1/1073741824)).$(($1%1073741824/100000000))"G";
+	        echo -e $(($1/1073741824)).$(($1%1073741824/100000000))"G";
 	    elif (($1 > 1048576));then
-	        echo $(($1/1048576)).$(($1%1048576/100000))"M";
+	        echo -e $(($1/1048576)).$(($1%1048576/100000))"M";
 	    elif (($1 > 1024));then
-	        echo $(($1/1024)).$(($1%1024/100))"K";
+	        echo -e $(($1/1024)).$(($1%1024/100))"K";
 	    else
-	        echo $1;
+	        echo -e $1;
 	    fi
     else
-	    echo $1;
+	    echo -e $1;
     fi
 }
 
@@ -227,61 +227,61 @@ function file_size
     #Generic GNU
     SIZE=$(stat --format="%s" "$1" 2> /dev/null)
     if [ $? -eq 0 ]; then
-        echo $SIZE
+        echo -e $SIZE
         return
     fi
 
     #Some embedded linux devices
     SIZE=$(stat -c "%s" "$1" 2> /dev/null)
     if [ $? -eq 0 ]; then
-        echo $SIZE
+        echo -e $SIZE
         return
     fi
 
     #BSD, OSX and other OSs
     SIZE=$(stat -f "%z" "$1" 2> /dev/null)
     if [ $? -eq 0 ]; then
-        echo $SIZE
+        echo -e $SIZE
         return
     fi
 
-    echo "0"
+    echo -e "0"
 }
 
 
 #Usage
 function usage
 {
-    echo -e "Dropbox Uploader v$VERSION"
-    echo -e "Andrea Fabrizi - andrea.fabrizi@gmail.com\n"
-    echo -e "Usage: $0 [PARAMETERS] COMMAND..."
-    echo -e "\nCommands:"
+    echo -e -e "Dropbox Uploader v$VERSION"
+    echo -e -e "Andrea Fabrizi - andrea.fabrizi@gmail.com\n"
+    echo -e -e "Usage: $0 [PARAMETERS] COMMAND..."
+    echo -e -e "\nCommands:"
 
-    echo -e "\t upload   <LOCAL_FILE/DIR ...>  <REMOTE_FILE/DIR>"
-    echo -e "\t download <REMOTE_FILE/DIR> [LOCAL_FILE/DIR]"
-    echo -e "\t delete   <REMOTE_FILE/DIR>"
-    echo -e "\t move     <REMOTE_FILE/DIR> <REMOTE_FILE/DIR>"
-    echo -e "\t copy     <REMOTE_FILE/DIR> <REMOTE_FILE/DIR>"
-    echo -e "\t mkdir    <REMOTE_DIR>"
-    echo -e "\t list     [REMOTE_DIR]"
-    echo -e "\t monitor  [REMOTE_DIR] [TIMEOUT]"
-    echo -e "\t share    <REMOTE_FILE>"
-    echo -e "\t saveurl  <URL> <REMOTE_DIR>"
-    echo -e "\t search   <QUERY>"
-    echo -e "\t info"
-    echo -e "\t space"
-    echo -e "\t unlink"
+    echo -e -e "\t upload   <LOCAL_FILE/DIR ...>  <REMOTE_FILE/DIR>"
+    echo -e -e "\t download <REMOTE_FILE/DIR> [LOCAL_FILE/DIR]"
+    echo -e -e "\t delete   <REMOTE_FILE/DIR>"
+    echo -e -e "\t move     <REMOTE_FILE/DIR> <REMOTE_FILE/DIR>"
+    echo -e -e "\t copy     <REMOTE_FILE/DIR> <REMOTE_FILE/DIR>"
+    echo -e -e "\t mkdir    <REMOTE_DIR>"
+    echo -e -e "\t list     [REMOTE_DIR]"
+    echo -e -e "\t monitor  [REMOTE_DIR] [TIMEOUT]"
+    echo -e -e "\t share    <REMOTE_FILE>"
+    echo -e -e "\t saveurl  <URL> <REMOTE_DIR>"
+    echo -e -e "\t search   <QUERY>"
+    echo -e -e "\t info"
+    echo -e -e "\t space"
+    echo -e -e "\t unlink"
 
-    echo -e "\nOptional parameters:"
-    echo -e "\t-f <FILENAME> Load the configuration file from a specific file"
-    echo -e "\t-s            Skip already existing files when download/upload. Default: Overwrite"
-    echo -e "\t-d            Enable DEBUG mode"
-    echo -e "\t-q            Quiet mode. Don't show messages"
-    echo -e "\t-h            Show file sizes in human readable format"
-    echo -e "\t-p            Show cURL progress meter"
-    echo -e "\t-k            Doesn't check for SSL certificates (insecure)"
+    echo -e -e "\nOptional parameters:"
+    echo -e -e "\t-f <FILENAME> Load the configuration file from a specific file"
+    echo -e -e "\t-s            Skip already existing files when download/upload. Default: Overwrite"
+    echo -e -e "\t-d            Enable DEBUG mode"
+    echo -e -e "\t-q            Quiet mode. Don't show messages"
+    echo -e -e "\t-h            Show file sizes in human readable format"
+    echo -e -e "\t-p            Show cURL progress meter"
+    echo -e -e "\t-k            Doesn't check for SSL certificates (insecure)"
 
-    echo -en "\nFor more info and examples, please see the README file.\n\n"
+    echo -e -en "\nFor more info and examples, please see the README file.\n\n"
     remove_temp_files
     exit 1
 }
@@ -341,7 +341,7 @@ function check_http_response
 
         case $ERROR_MSG in
              *access?attempt?failed?because?this?app?is?not?configured?to?have*)
-                echo -e "\nError: The Permission type/Access level configured doesn't match the DropBox App settings!\nPlease run \"$0 unlink\" and try again."
+                echo -e -e "\nError: The Permission type/Access level configured doesn't match the DropBox App settings!\nPlease run \"$0 unlink\" and try again."
                 exit 1
             ;;
         esac
@@ -367,7 +367,7 @@ function urlencode
         encoded="${encoded}${o}"
     done
 
-    echo "$encoded"
+    echo -e "$encoded"
 }
 
 function normalize_path
@@ -382,9 +382,9 @@ function normalize_path
             new_path="$new_path/"
         fi
 
-        echo "$new_path"
+        echo -e "$new_path"
     else
-        echo "$path"
+        echo -e "$path"
     fi
 }
 
@@ -395,7 +395,7 @@ function db_stat
     local FILE=$(normalize_path "$1")
 
     if [[ $FILE == "/" ]]; then
-        echo "DIR"
+        echo -e "DIR"
         return
     fi
 
@@ -408,19 +408,19 @@ function db_stat
     case $TYPE in
 
         file)
-            echo "FILE"
+            echo -e "FILE"
         ;;
 
         folder)
-            echo "DIR"
+            echo -e "DIR"
         ;;
 
         deleted)
-            echo "ERR"
+            echo -e "ERR"
         ;;
 
         *)
-            echo "ERR"
+            echo -e "ERR"
         ;;
 
     esac
@@ -600,7 +600,7 @@ function db_chunked_upload_file
         local CHUNK_REAL_SIZE=$(file_size "$CHUNK_FILE")
 
         #Uploading the chunk...
-        echo > "$RESPONSE_FILE"
+        echo -e > "$RESPONSE_FILE"
         $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Dropbox-API-Arg: {\"cursor\": {\"session_id\": \"$SESSION_ID\",\"offset\": $OFFSET},\"close\": false}" --header "Content-Type: application/octet-stream" --data-binary @"$CHUNK_FILE" "$API_CHUNKED_UPLOAD_APPEND_URL" 2> /dev/null
         #check_http_response not needed, because we have to retry the request in case of error
 
@@ -630,7 +630,7 @@ function db_chunked_upload_file
     #Commit the upload
     while (true); do
 
-        echo > "$RESPONSE_FILE"
+        echo -e > "$RESPONSE_FILE"
         $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Dropbox-API-Arg: {\"cursor\": {\"session_id\": \"$SESSION_ID\",\"offset\": $OFFSET},\"commit\": {\"path\": \"$FILE_DST\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false}}" --header "Content-Type: application/octet-stream" --data-binary @/dev/null "$API_CHUNKED_UPLOAD_FINISH_URL" 2> /dev/null
         #check_http_response not needed, because we have to retry the request in case of error
 
@@ -877,18 +877,18 @@ function db_account_info
     if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
 
         name=$(sed -n 's/.*"display_name": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-        echo -e "\n\nName:\t\t$name"
+        echo -e -e "\n\nName:\t\t$name"
 
         uid=$(sed -n 's/.*"account_id": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-        echo -e "UID:\t\t$uid"
+        echo -e -e "UID:\t\t$uid"
 
         email=$(sed -n 's/.*"email": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-        echo -e "Email:\t\t$email"
+        echo -e -e "Email:\t\t$email"
 
         country=$(sed -n 's/.*"country": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-        echo -e "Country:\t$country"
+        echo -e -e "Country:\t$country"
 
-        echo ""
+        echo -e ""
 
     else
         print "FAILED\n"
@@ -909,16 +909,16 @@ function db_account_space
 
         quota=$(sed -n 's/.*"allocated": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
         let quota_mb=$quota/1024/1024
-        echo -e "\n\nQuota:\t$quota_mb Mb"
+        echo -e -e "\n\nQuota:\t$quota_mb Mb"
 
         used=$(sed -n 's/.*"used": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
         let used_mb=$used/1024/1024
-        echo -e "Used:\t$used_mb Mb"
+        echo -e -e "Used:\t$used_mb Mb"
 
 		let free_mb=$((quota-used))/1024/1024
-        echo -e "Free:\t$free_mb Mb"
+        echo -e -e "Free:\t$free_mb Mb"
 
-        echo ""
+        echo -e ""
 
     else
         print "FAILED\n"
@@ -929,11 +929,11 @@ function db_account_space
 #Account unlink
 function db_unlink
 {
-    echo -ne "Are you sure you want unlink this script from your Dropbox account? [y/n]"
+    echo -e -ne "Are you sure you want unlink this script from your Dropbox account? [y/n]"
     read -r answer
     if [[ $answer == "y" ]]; then
         rm -fr "$CONFIG_FILE"
-        echo -ne "DONE\n"
+        echo -e -ne "DONE\n"
     fi
 }
 
@@ -1075,16 +1075,16 @@ function db_list_outfile
     {/g')
 
             #Converting escaped quotes to unicode format
-            echo "$DIR_CONTENT" | sed 's/\\"/\\u0022/' > "$TEMP_FILE"
+            echo -e "$DIR_CONTENT" | sed 's/\\"/\\u0022/' > "$TEMP_FILE"
 
             #Extracting files and subfolders
             while read -r line; do
 
-                local FILE=$(echo "$line" | sed -n 's/.*"path_display": *"\([^"]*\)".*/\1/p')
-                local TYPE=$(echo "$line" | sed -n 's/.*".tag": *"\([^"]*\).*/\1/p')
-                local SIZE=$(convert_bytes $(echo "$line" | sed -n 's/.*"size": *\([0-9]*\).*/\1/p'))
+                local FILE=$(echo -e "$line" | sed -n 's/.*"path_display": *"\([^"]*\)".*/\1/p')
+                local TYPE=$(echo -e "$line" | sed -n 's/.*".tag": *"\([^"]*\).*/\1/p')
+                local SIZE=$(convert_bytes $(echo -e "$line" | sed -n 's/.*"size": *\([0-9]*\).*/\1/p'))
 
-                echo -e "$FILE:$TYPE;$SIZE" >> "$OUT_FILE"
+                echo -e -e "$FILE:$TYPE;$SIZE" >> "$OUT_FILE"
 
             done < "$TEMP_FILE"
 
@@ -1098,7 +1098,7 @@ function db_list_outfile
 
     done
 
-    echo $OUT_FILE
+    echo -e $OUT_FILE
 }
 
 #List remote directory
@@ -1147,7 +1147,7 @@ function db_list
         FILE=${FILE##*/}
 
         if [[ $TYPE == "folder" ]]; then
-            FILE=$(echo -e "$FILE")
+            FILE=$(echo -e -e "$FILE")
             $PRINTF " [D] %-${padding}s %s\n" "$SIZE" "$FILE"
         fi
 
@@ -1165,7 +1165,7 @@ function db_list
         FILE=${FILE##*/}
 
         if [[ $TYPE == "file" ]]; then
-            FILE=$(echo -e "$FILE")
+            FILE=$(echo -e -e "$FILE")
             $PRINTF " [F] %-${padding}s %s\n" "$SIZE" "$FILE"
         fi
 
@@ -1233,13 +1233,13 @@ function db_monitor_nonblock
                 FILE=${FILE##*/}
 
                 if [[ $TYPE == "folder" ]]; then
-                    FILE=$(echo -e "$FILE")
+                    FILE=$(echo -e -e "$FILE")
                     $PRINTF " [D] %s\n" "$FILE"
                 elif [[ $TYPE == "file" ]]; then
-                    FILE=$(echo -e "$FILE")
+                    FILE=$(echo -e -e "$FILE")
                     $PRINTF " [F] %s %s\n" "$SIZE" "$FILE"
                 elif [[ $TYPE == "deleted" ]]; then
-                    FILE=$(echo -e "$FILE")
+                    FILE=$(echo -e -e "$FILE")
                     $PRINTF " [-] %s\n" "$FILE"
                 fi
 
@@ -1281,7 +1281,7 @@ function db_share
     if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
         print " > Share link: "
         SHARE_LINK=$(sed -n 's/.*"url": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-        echo "$SHARE_LINK"
+        echo -e "$SHARE_LINK"
     else
         get_Share "$FILE_DST"
     fi
@@ -1299,7 +1299,7 @@ function get_Share
     if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
         print " > Share link: "
         SHARE_LINK=$(sed -n 's/.*"url": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-        echo "$SHARE_LINK"
+        echo -e "$SHARE_LINK"
     else
         print "FAILED\n"
         MESSAGE=$(sed -n 's/.*"error_summary": *"*\([^"]*\)"*.*/\1/p' "$RESPONSE_FILE")
@@ -1334,17 +1334,17 @@ function db_search
 {/g' "$RESPONSE_FILE")
 
     #Converting escaped quotes to unicode format
-    echo "$DIR_CONTENT" | sed 's/\\"/\\u0022/' > "$TEMP_FILE"
+    echo -e "$DIR_CONTENT" | sed 's/\\"/\\u0022/' > "$TEMP_FILE"
 
     #Extracting files and subfolders
     rm -fr "$RESPONSE_FILE"
     while read -r line; do
 
-        local FILE=$(echo "$line" | sed -n 's/.*"path_display": *"\([^"]*\)".*/\1/p')
-        local TYPE=$(echo "$line" | sed -n 's/.*".tag": *"\([^"]*\).*/\1/p')
-        local SIZE=$(convert_bytes $(echo "$line" | sed -n 's/.*"size": *\([0-9]*\).*/\1/p'))
+        local FILE=$(echo -e "$line" | sed -n 's/.*"path_display": *"\([^"]*\)".*/\1/p')
+        local TYPE=$(echo -e "$line" | sed -n 's/.*".tag": *"\([^"]*\).*/\1/p')
+        local SIZE=$(convert_bytes $(echo -e "$line" | sed -n 's/.*"size": *\([0-9]*\).*/\1/p'))
 
-        echo -e "$FILE:$TYPE;$SIZE" >> "$RESPONSE_FILE"
+        echo -e -e "$FILE:$TYPE;$SIZE" >> "$RESPONSE_FILE"
 
     done < "$TEMP_FILE"
 
@@ -1370,7 +1370,7 @@ function db_search
         local SIZE=${META#*;}
 
         if [[ $TYPE == "folder" ]]; then
-            FILE=$(echo -e "$FILE")
+            FILE=$(echo -e -e "$FILE")
             $PRINTF " [D] %-${padding}s %s\n" "$SIZE" "$FILE"
         fi
 
@@ -1385,7 +1385,7 @@ function db_search
         local SIZE=${META#*;}
 
         if [[ $TYPE == "file" ]]; then
-            FILE=$(echo -e "$FILE")
+            FILE=$(echo -e -e "$FILE")
             $PRINTF " [F] %-${padding}s %s\n" "$SIZE" "$FILE"
         fi
 
@@ -1401,7 +1401,7 @@ function db_sha
     local FILE=$(normalize_path "$1")
 
     if [[ $FILE == "/" ]]; then
-        echo "ERR"
+        echo -e "ERR"
         return
     fi
 
@@ -1411,12 +1411,12 @@ function db_sha
 
     local TYPE=$(sed -n 's/{".tag": *"*\([^"]*\)"*.*/\1/p' "$RESPONSE_FILE")
     if [[ $TYPE == "folder" ]]; then
-        echo "ERR"
+        echo -e "ERR"
         return
     fi
 
     local SHA256=$(sed -n 's/.*"content_hash": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-    echo "$SHA256"
+    echo -e "$SHA256"
 }
 
 #Query the sha256-dropbox-sum of a local file
@@ -1432,7 +1432,7 @@ function db_sha_local
 
     which shasum > /dev/null
     if [[ $? != 0 ]]; then
-        echo "ERR"
+        echo -e "ERR"
         return
     fi
 
@@ -1445,7 +1445,7 @@ function db_sha_local
         let SKIP=$SKIP+1
     done
 
-    echo $SHA_CONCAT | sed 's/\([0-9A-F]\{2\}\)/\\\\\\x\1/gI' | xargs printf | shasum -a 256 | awk '{print $1}'
+    echo -e $SHA_CONCAT | sed 's/\([0-9A-F]\{2\}\)/\\\\\\x\1/gI' | xargs printf | shasum -a 256 | awk '{print $1}'
 }
 
 ################
@@ -1462,25 +1462,25 @@ if [[ -e $CONFIG_FILE ]]; then
 
     #Checking if it's still a v1 API configuration file
     if [[ $APPKEY != "" || $APPSECRET != "" ]]; then
-        echo -ne "The config file contains the old v1 oauth tokens. A new oauth v2 token will be requested.\n"
-        echo -ne "Requesting new oauth2 token... "
+        echo -e -ne "The config file contains the old v1 oauth tokens. A new oauth v2 token will be requested.\n"
+        echo -e -ne "Requesting new oauth2 token... "
         $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" "$API_MIGRATE_V2/?oauth_consumer_key=$APPKEY&oauth_token=$OAUTH_ACCESS_TOKEN&oauth_signature_method=PLAINTEXT&oauth_signature=$APPSECRET%26$OAUTH_ACCESS_TOKEN_SECRET&oauth_timestamp=$(utime)&oauth_nonce=$RANDOM" 2> /dev/null
         OAUTH_ACCESS_TOKEN=$(sed -n 's/.*access_token": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
 
         if [[ $OAUTH_ACCESS_TOKEN == "" ]]; then
-            echo "Error getting access tocken, please try again!"
+            echo -e "Error getting access tocken, please try again!"
             remove_temp_files
             exit 1
         fi
 
-        echo "DONE"
-        echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
+        echo -e "DONE"
+        echo -e "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
     fi
 
     #Checking loaded data
     if [[ $OAUTH_ACCESS_TOKEN = "" ]]; then
-        echo -ne "Error loading data from $CONFIG_FILE...\n"
-        echo -ne "It is recommended to run $0 unlink\n"
+        echo -e -ne "Error loading data from $CONFIG_FILE...\n"
+        echo -e -ne "It is recommended to run $0 unlink\n"
         remove_temp_files
         exit 1
     fi
@@ -1488,29 +1488,29 @@ if [[ -e $CONFIG_FILE ]]; then
 #NEW SETUP...
 else
 
-    echo -ne "\n This is the first time you run this script, please follow the instructions:\n\n"
-    echo -ne " 1) Open the following URL in your Browser, and log in using your account: $APP_CREATE_URL\n"
-    echo -ne " 2) Click on \"Create App\", then select \"Dropbox API app\"\n"
-    echo -ne " 3) Now go on with the configuration, choosing the app permissions and access restrictions to your DropBox folder\n"
-    echo -ne " 4) Enter the \"App Name\" that you prefer (e.g. MyUploader$RANDOM$RANDOM$RANDOM)\n\n"
+    echo -e -ne "\n This is the first time you run this script, please follow the instructions:\n\n"
+    echo -e -ne " 1) Open the following URL in your Browser, and log in using your account: $APP_CREATE_URL\n"
+    echo -e -ne " 2) Click on \"Create App\", then select \"Dropbox API app\"\n"
+    echo -e -ne " 3) Now go on with the configuration, choosing the app permissions and access restrictions to your DropBox folder\n"
+    echo -e -ne " 4) Enter the \"App Name\" that you prefer (e.g. MyUploader$RANDOM$RANDOM$RANDOM)\n\n"
 
-    echo -ne " Now, click on the \"Create App\" button.\n\n"
+    echo -e -ne " Now, click on the \"Create App\" button.\n\n"
 
-    echo -ne " When your new App is successfully created, please click on the Generate button\n"
-    echo -ne " under the 'Generated access token' section, then copy and paste the new access token here:\n\n"
+    echo -e -ne " When your new App is successfully created, please click on the Generate button\n"
+    echo -e -ne " under the 'Generated access token' section, then copy and paste the new access token here:\n\n"
 
-    echo -ne " # Access token: "
+    echo -e -ne " # Access token: "
     read -r OAUTH_ACCESS_TOKEN
 
-    echo -ne "\n > The access token is $OAUTH_ACCESS_TOKEN. Looks ok? [y/N]: "
+    echo -e -ne "\n > The access token is $OAUTH_ACCESS_TOKEN. Looks ok? [y/N]: "
     read -r answer
     if [[ $answer != "y" ]]; then
         remove_temp_files
         exit 1
     fi
 
-    echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
-    echo "   The configuration has been saved."
+    echo -e "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
+    echo -e "   The configuration has been saved."
 
     remove_temp_files
     exit 0

@@ -3,14 +3,14 @@
 which openssl >/dev/null 2>&1
 if [ $? -eq 1 ]
 then
-	echo -e "Installing openssl package...\n"
+	echo -e -e "Installing openssl package...\n"
 	sudo apt-get install -yqq openssl
 fi
 
 which openssl >/dev/null 2>&1
 if [ $? -eq 1 ]
 then
-	echo -e "ERROR: openssl is not installed!\n"
+	echo -e -e "ERROR: openssl is not installed!\n"
 	exit 1
 fi
 
@@ -24,6 +24,6 @@ sudo cp server.crt /etc/ssl/certs
 sudo cp server.key /etc/ssl/private
 sudo a2enmod ssl
 
-echo -e "\nDone.\n"
+echo -e -e "\nDone.\n"
 
 exit 0

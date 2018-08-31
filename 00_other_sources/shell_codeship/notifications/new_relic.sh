@@ -23,10 +23,10 @@ NEW_RELIC_REVISION=${NEW_RELIC_REVISION:-$CI_COMMIT_ID}
 NEW_RELIC_CHANGELOG=${NEW_RELIC_CHANGELOG:-}
 
 #sanitize semicolons, remove newlines, and replace multiple spaces with a single space
-NEW_RELIC_APP=$(echo ${NEW_RELIC_APP//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-NEW_RELIC_DESCRIPTION=$(echo ${NEW_RELIC_DESCRIPTION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-NEW_RELIC_REVISION=$(echo ${NEW_RELIC_REVISION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-NEW_RELIC_CHANGELOG=$(echo ${NEW_RELIC_CHANGELOG//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+NEW_RELIC_APP=$(echo -e ${NEW_RELIC_APP//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+NEW_RELIC_DESCRIPTION=$(echo -e ${NEW_RELIC_DESCRIPTION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+NEW_RELIC_REVISION=$(echo -e ${NEW_RELIC_REVISION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+NEW_RELIC_CHANGELOG=$(echo -e ${NEW_RELIC_CHANGELOG//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
 
 curl https://api.newrelic.com/deployments.xml \
 	-H "x-api-key:${NEW_RELIC_API_KEY}" \

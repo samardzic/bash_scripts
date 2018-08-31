@@ -14,9 +14,9 @@ unset "COMMANDS[${#}-1]"
 
 function on_exit() {
 	local exit_code=$?
-	echo -e "\e[33mRunning the exit handler (${EXIT_HANDLER})...\e[39m"
+	echo -e -e "\e[33mRunning the exit handler (${EXIT_HANDLER})...\e[39m"
 	${EXIT_HANDLER}
-	echo -e "\e[33m... finished with exit code ${?}\e[39m"
+	echo -e -e "\e[33m... finished with exit code ${?}\e[39m"
 	exit ${exit_code}
 }
 trap on_exit EXIT

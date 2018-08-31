@@ -23,33 +23,33 @@ j=0
 while [ $j -lt $linen ]
 do
     let "j=j+1"
-    echo -n "$j  "
-    echo "$items" | head -n $j | tail -n1
+    echo -e -n "$j  "
+    echo -e "$items" | head -n $j | tail -n1
 done
 
 # olddef=`grub2-editenv list`
 #
-# echo "Old default:"
-# echo $olddef
+# echo -e "Old default:"
+# echo -e $olddef
 
-echo -n "Your select: "
+echo -e -n "Your select: "
 read sel
 
 if [[ "$sel" == "" ]]; then
-    echo "Invalid selection"
+    echo -e "Invalid selection"
     exit 0
 fi
 
 if [ $sel -lt "0" ] && [ $sel -ge $linen ]; then
-    echo "Invalid selection"
+    echo -e "Invalid selection"
     exit 0
 fi
 
-# echo "You select $sel"
+# echo -e "You select $sel"
 
-selected=`echo "$items" | head -n $sel | tail -n1`
+selected=`echo -e "$items" | head -n $sel | tail -n1`
 
-echo "Entry selected: $selected"
+echo -e "Entry selected: $selected"
 
 # set-default and change default entry files
 # to make double insurance. Seems not every versions of grub2 respect
@@ -74,6 +74,6 @@ grub2-mkconfig -o $tmpfile && cp $tmpfile $grubcfg
 
 # newdef=`grub2-editenv list`
 
-# echo "New default:"
-# echo $newdef
+# echo -e "New default:"
+# echo -e $newdef
 

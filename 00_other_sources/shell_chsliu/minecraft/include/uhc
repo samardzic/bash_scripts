@@ -2,7 +2,7 @@
 
 quiet_run() {
 	# =============================================================
-	# mcecho_off=1
+	# mcecho -e_off=1
 	mcdo gamerule sendCommandFeedback false
 	# =============================================================
 	$1
@@ -10,7 +10,7 @@ quiet_run() {
 	$3
 	# =============================================================
 	mcdo gamerule sendCommandFeedback true
-	# mcecho_off=
+	# mcecho -e_off=
 }
 
 

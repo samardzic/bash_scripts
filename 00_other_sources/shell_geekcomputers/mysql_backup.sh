@@ -17,18 +17,18 @@
 funct_check_params()									# Function Name
 {																	# Start of the function
   if [ ${NARG} -lt 1 ]; then								# If the number of arguments is not one, then output a message
-    echo "Usage: $0 argument"
-    echo "full = Full MySQL Backup"
-    echo "db dbname = Single Database backup"
+    echo -e "Usage: $0 argument"
+    echo -e "full = Full MySQL Backup"
+    echo -e "db dbname = Single Database backup"
     exit 1														# Quit the program
   elif
 
-  # If the argument passed is -h or --h then display the following message in the echo statement
+  # If the argument passed is -h or --h then display the following message in the echo -e statement
 
   [[ ${choice} = "-h" ]] || [[ ${choice} = "--h" ]]; then
-    echo "Usage: $0 argument"
-    echo "full = Full MySQL Backup"
-    echo "db dbname = Single Database backup"
+    echo -e "Usage: $0 argument"
+    echo -e "full = Full MySQL Backup"
+    echo -e "db dbname = Single Database backup"
     exit 1														# Quit the program
   fi																# End of the if statement
 }																	# End of the function

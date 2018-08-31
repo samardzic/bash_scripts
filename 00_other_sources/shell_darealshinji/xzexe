@@ -63,15 +63,15 @@ res=0
 while :; do
   case $1 in
   -d) decomp=1; shift;;
-  --h*) exec echo "$usage";;
-  --v*) exec echo "$version";;
+  --h*) exec echo -e "$usage";;
+  --v*) exec echo -e "$version";;
   --) shift; break;;
   *) break;;
   esac
 done
 
 if test $# -eq 0; then
-  echo >&2 "$0: missing operand
+  echo -e >&2 "$0: missing operand
 Try \`$0 --help' for more information."
   exit 1
 fi
@@ -91,29 +91,29 @@ for i do
   esac
   if test ! -f "$file" || test ! -r "$file"; then
     res=$?
-    echo >&2 "$0: $i is not a readable regular file"
+    echo -e >&2 "$0: $i is not a readable regular file"
     continue
   fi
   if test $decomp -eq 0; then
     if sed -e 1d -e 2q "$file" | grep "^skip=[0-9][0-9]*$" >/dev/null; then
-      echo >&2 "$0: $i is already xzexe'd"
+      echo -e >&2 "$0: $i is already xzexe'd"
       continue
     fi
   fi
   if test -u "$file"; then
-    echo >&2 "$0: $i has setuid permission, unchanged"
+    echo -e >&2 "$0: $i has setuid permission, unchanged"
     continue
   fi
   if test -g "$file"; then
-    echo >&2 "$0: $i has setgid permission, unchanged"
+    echo -e >&2 "$0: $i has setgid permission, unchanged"
     continue
   fi
   case /$file in
   */basename | */bash | */cat | */chmod | */cp | \
-  */dirname | */echo | */expr | \
+  */dirname | */echo -e | */expr | \
   */ln | */mkdir | */mktemp | */mv | */rm | \
   */sed | */sh | */sleep | */test | */tail | */xz)
-    echo >&2 "$0: $i might depend on itself"; continue;;
+    echo -e >&2 "$0: $i might depend on itself"; continue;;
   esac
 
   dir=`dirname "$file"` || dir=$TMPDIR
@@ -129,7 +129,7 @@ for i do
     tmp=$dir/xzexe$$
   fi && { cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp"; } || {
     res=$?
-    echo >&2 "$0: cannot copy $file"
+    echo -e >&2 "$0: cannot copy $file"
     continue
   }
   if test -w "$tmp"; then
@@ -138,7 +138,7 @@ for i do
     writable=0
     chmod u+w "$tmp" || {
       res=$?
-      echo >&2 "$0: cannot chmod $tmp"
+      echo -e >&2 "$0: cannot chmod $tmp"
       continue
     }
   fi
@@ -167,7 +167,7 @@ xztmp=$xztmpdir/$0
 case $0 in
 -* | */*'
 ')mkdir -p "$xztmp" && rm -r "$xztmp";;*/*)xztmp=$xztmpdir/`basename "$0"`;;esac||{(exit 127);exit 127;}
-case `echo X | tail -n +1 2>/dev/null` in
+case `echo -e X | tail -n +1 2>/dev/null` in
 X)tail_n=-n;;*)tail_n=;;esac
 if tail $tail_n +$skip <"$0" | xz -cd > "$xztmp";then
 umask $umask
@@ -176,14 +176,14 @@ chmod 700 "$xztmp"
 "$xztmp" ${1+"$@"}
 res=$?
 else
-echo>&2 "Cannot decompress $0"
+echo -e>&2 "Cannot decompress $0"
 (exit 127); res=127
 fi
 exit $res
 EOF
     xz -cv9 "$file") > "$tmp" || {
       res=$?
-      echo >&2 "$0: compression not possible for $i, file unchanged."
+      echo -e >&2 "$0: compression not possible for $i, file unchanged."
       continue
     }
 
@@ -195,29 +195,29 @@ EOF
     skip=[0-9] | skip=[0-9][0-9] | skip=[0-9][0-9][0-9])
       eval "$skip_line";;
     esac
-    case `echo X | tail -n +1 2>/dev/null` in
+    case `echo -e X | tail -n +1 2>/dev/null` in
     X) tail_n=-n;;
     *) tail_n=;;
     esac
     tail $tail_n +$skip "$file" | xz -cd > "$tmp" || {
       res=$?
-      echo >&2 "$0: $i probably not in xzexe format, file unchanged."
+      echo -e >&2 "$0: $i probably not in xzexe format, file unchanged."
       continue
     }
   fi
   test $writable -eq 1 || chmod u-w "$tmp" || {
     res=$?
-    echo >&2 "$0: $tmp: cannot chmod"
+    echo -e >&2 "$0: $tmp: cannot chmod"
     continue
   }
   ln -f "$file" "$file~" || {
     res=$?
-    echo >&2 "$0: cannot backup $i as $i~"
+    echo -e >&2 "$0: cannot backup $i as $i~"
     continue
   }
   mv -f "$tmp" "$file" || {
     res=$?
-    echo >&2 "$0: cannot rename $tmp to $i"
+    echo -e >&2 "$0: cannot rename $tmp to $i"
     continue
   }
   tmp=

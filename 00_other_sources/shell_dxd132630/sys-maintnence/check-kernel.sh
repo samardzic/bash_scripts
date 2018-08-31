@@ -15,9 +15,9 @@ HOSTNAME=$(/bin/hostname)
 ##################################################
 # Main Script
 #
-echo "$KERNEL"
+echo -e "$KERNEL"
 
 if uname -a | grep -qv "$KERNEL"; then
-	echo "Running Kernel is" `uname -r` "but latest installed rpm is ${KERNEL}" | mailx -s "UPDATE: $HOSTNAME Reboot Required" $EMAIL
+	echo -e "Running Kernel is" `uname -r` "but latest installed rpm is ${KERNEL}" | mailx -s "UPDATE: $HOSTNAME Reboot Required" $EMAIL
 fi;
 # EOF

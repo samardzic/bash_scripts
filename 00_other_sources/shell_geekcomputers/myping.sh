@@ -17,19 +17,19 @@
 funct_check_params()
 {
         if [ ${NARG} -ne 1 ]; then
-                echo "myping failed : Not enough Parameters passed, you need to add an IP address"
+                echo -e "myping failed : Not enough Parameters passed, you need to add an IP address"
                 exit 1
         fi
 }
 
 funct_SunOS()
 {
-	ping -s $IP | while read pong; do echo "$(date +%F_%T) -- $pong"; done
+	ping -s $IP | while read pong; do echo -e "$(date +%F_%T) -- $pong"; done
 }
 
 funct_Linux()
 {
-	ping $IP | while read pong; do echo "$(date +%F_%T) -- $pong"; done
+	ping $IP | while read pong; do echo -e "$(date +%F_%T) -- $pong"; done
 }
         
 ################

@@ -4,4 +4,4 @@ hex2num=$1
 if [[ "$hex2num" != 0x* ]]; then
     hex2num=0x${hex2num}
 fi
-echo $(($hex2num))
+echo -e $(($hex2num))

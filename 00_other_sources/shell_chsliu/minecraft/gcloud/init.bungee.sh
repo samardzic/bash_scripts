@@ -2,7 +2,7 @@
 
 ### 
 addto_root_crontab() {
-	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo \"$*\") | crontab -"
+	! sudo crontab -l | grep -Fxq "$*" && su - root -c "(crontab -l; echo -e \"$*\") | crontab -"
 }
 
 ### 
@@ -26,11 +26,11 @@ s65
 mcserver restore
 
 ### 
-# echo !!!!!!!!!!!!!!
-# echo vi start.mc.sh
-# echo 65
-# echo mcrestore
-# echo !!!!!!!!!!!!!!
+# echo -e !!!!!!!!!!!!!!
+# echo -e vi start.mc.sh
+# echo -e 65
+# echo -e mcrestore
+# echo -e !!!!!!!!!!!!!!
 
 ### 
 /mnt/runtimes/65-bungeeCord-azure/update.sh
@@ -46,7 +46,7 @@ sudo logrotate -d /etc/logrotate.d/bungeecord
 gcloud auth login
 
 ### 
-echo !!!!!!!!!!!!!!
-echo vi ~/start.mc.sh
-echo vi /mnt/runtimes/65-bungeeCord-azure/plugins/RedisBungee/config.yml
-echo !!!!!!!!!!!!!!
+echo -e !!!!!!!!!!!!!!
+echo -e vi ~/start.mc.sh
+echo -e vi /mnt/runtimes/65-bungeeCord-azure/plugins/RedisBungee/config.yml
+echo -e !!!!!!!!!!!!!!

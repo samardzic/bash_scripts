@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USERNAME=sita
-export mcecho_off=1 
+export mcecho -e_off=1 
 cron_min='50'
 cron_hour='19'
 cron_day='*'

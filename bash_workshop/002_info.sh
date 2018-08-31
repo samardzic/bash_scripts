@@ -3,7 +3,7 @@
 
 # Display message for the user
 printf "\n-------------------------------------------------------------\n"
-echo "Enter the FILE NAME (with extension) that you want to create:"
+echo -e "Enter the FILE NAME (with extension) that you want to create:"
 
 # Store  user entered text to "filename" variable
 read filename

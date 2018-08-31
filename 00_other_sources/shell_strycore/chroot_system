@@ -9,10 +9,10 @@ elif [ $SYSTEM = 'ubuntu-devel' ]; then
 elif [ $SYSTEM = 'archlinux' ]; then
     DEVICE='/dev/sdb1'
 else
-    echo "Enter either fedora or ubuntu-devel or archlinux"
+    echo -e "Enter either fedora or ubuntu-devel or archlinux"
 fi
 
-echo "Mounting filesystems"
+echo -e "Mounting filesystems"
 mkdir -p /tmp/$SYSTEM
 sudo mount $DEVICE /tmp/$SYSTEM
 sudo mount --bind /dev /tmp/${SYSTEM}/dev
@@ -20,13 +20,13 @@ sudo mount -t proc /proc /tmp/${SYSTEM}/proc
 
 export SHELL=/bin/sh
 
-echo "Launching chroot"
+echo -e "Launching chroot"
 sudo chroot /tmp/${SYSTEM} /bin/bash
 #sudo chroot /tmp/${SYSTEM}
 
-echo "Leaving chroot, unmounting filesystems"
+echo -e "Leaving chroot, unmounting filesystems"
 sudo umount /tmp/${SYSTEM}/proc
 sudo umount /tmp/${SYSTEM}/dev
 sudo umount /tmp/${SYSTEM}
 rmdir /tmp/$SYSTEM
-echo "Done."
+echo -e "Done."

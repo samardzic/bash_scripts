@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USERNAME=sita
-export mcecho_off=1 
+export mcecho -e_off=1 
 
 
 . /home/sita/script/minecraft/alias.minecraft
@@ -10,7 +10,7 @@ export mcecho_off=1
 # $1: default to wait for key press for each score
 #     <num> to sleep <num> sec between each score
 mcscores() {
-	# echo $1 $2
+	# echo -e $1 $2
 	while : ; do
 		mcserver do scoreboard objectives setdisplay sidebar FinalKill
 		if [ -z ${1+x} ]; then pause; else sleep $1; fi

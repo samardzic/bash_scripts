@@ -26,7 +26,7 @@ mysql_query("CREATE TABLE `benchmark`.`benchtable` "
   . ") ENGINE = INNODB");
 
 $n_rows = 1000;
-echo "Inserting $n_rows rows ...\n";
+echo -e "Inserting $n_rows rows ...\n";
 $start_time = microtime(true);
 for($i=1; $i < $n_rows + 1 ; $i++) {
   $token = base_convert(sha1($i),7, 36);
@@ -35,19 +35,19 @@ for($i=1; $i < $n_rows + 1 ; $i++) {
 $end_time = microtime(true);
 
 $insert_time = $end_time - $start_time;
-echo "Inserted $n_rows rows in " . $insert_time . " seconds \n";
-echo "Approx. " . $n_rows / $insert_time . " inserts per second\n\n";
+echo -e "Inserted $n_rows rows in " . $insert_time . " seconds \n";
+echo -e "Approx. " . $n_rows / $insert_time . " inserts per second\n\n";
 
-echo "Selecting $n_rows rows ...\n";
+echo -e "Selecting $n_rows rows ...\n";
 $start_time = microtime(true);
 $result = mysql_query("select * FROM benchtable");
 $end_time = microtime(true);
 
 $select_time = $end_time - $start_time;
-echo "Selected $n_rows rows in " . $select_time . " seconds \n";
-echo "Approx. " . $n_rows / $select_time . " selects per second\n\n";
+echo -e "Selected $n_rows rows in " . $select_time . " seconds \n";
+echo -e "Approx. " . $n_rows / $select_time . " selects per second\n\n";
 
-echo "Updating $n_rows rows ...\n";
+echo -e "Updating $n_rows rows ...\n";
 $start_time = microtime(true);
 while($row = mysql_fetch_assoc($result)) {
   $token = md5($row['token']);
@@ -56,8 +56,8 @@ while($row = mysql_fetch_assoc($result)) {
 $end_time = microtime(true);
 
 $update_time = $end_time - $start_time;
-echo "Updated $n_rows rows in " . $update_time . " seconds \n";
-echo "Approx. " . $n_rows / $update_time . " updates per second\n";
+echo -e "Updated $n_rows rows in " . $update_time . " seconds \n";
+echo -e "Approx. " . $n_rows / $update_time . " updates per second\n";
 
 mysql_query('DROP DATABASE benchmark');
 

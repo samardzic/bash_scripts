@@ -32,7 +32,7 @@ orig="$(cd `dirname "$0"` && pwd)/$(basename "$0")"
 # check if zenity is present
 zenity --version 2>/dev/null >/dev/null
 if [ $? != 0 ]; then
-  echo "Steam requires zenity to be installed on your system!"
+  echo -e "Steam requires zenity to be installed on your system!"
   exit 1
 fi
 
@@ -79,7 +79,7 @@ mdH1msAbGjdy9eN6X1bhRmXMbJTUZaGw0H4tLLsoTCTxnA2x9p4ESGxsXAo6XVRUx2qlpEX9fWJZ
 6/xdyRThQkDA+9YU
 _BASE64
   # this base64 code was generated with the following command:
-  # echo "main(){return 0;};" | gcc -m32 -O3 -s -x c - -o test32bit && bzip2 test32bit -c | base64
+  # echo -e "main(){return 0;};" | gcc -m32 -O3 -s -x c - -o test32bit && bzip2 test32bit -c | base64
   chmod a+x test32bit
   set +e
   ldd test32bit 2>/dev/null >/dev/null
@@ -135,7 +135,7 @@ EOF
 
 zenity --version 2>/dev/null >/dev/null
 if [ \$? != 0 ]; then
-  echo "This script requires zenity to be installed on your system!"
+  echo -e "This script requires zenity to be installed on your system!"
   exit 1
 fi
 

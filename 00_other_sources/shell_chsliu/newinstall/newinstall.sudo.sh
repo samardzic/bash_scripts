@@ -1,5 +1,5 @@
 if [ ! "root" = $(whoami) ]; then
-	echo "only work while been root"
+	echo -e "only work while been root"
 	exit
 fi
 
@@ -9,4 +9,4 @@ newuser=sita
 
 adduser $newuser
 
-echo "$newuser ALL=(ALL) ALL" > /etc/sudoers.d/$newuser
+echo -e "$newuser ALL=(ALL) ALL" > /etc/sudoers.d/$newuser

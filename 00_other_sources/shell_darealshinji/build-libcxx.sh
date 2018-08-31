@@ -89,7 +89,7 @@ if [ "x\$1" = "x" ]; then
 	exit \$?
 fi
 
-if (echo "\$*" | tr '\t' ' ' | grep -q -e ' -c '); then
+if (echo -e "\$*" | tr '\t' ' ' | grep -q -e ' -c '); then
 	"\$gxx" \$* -nostdinc++ -I"\$cxxv1"
 else
 	"\$gxx" \$* -nostdinc++ -I"\$cxxv1" -nodefaultlibs \\

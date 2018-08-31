@@ -12,8 +12,8 @@ then
   then 
     rm -f /tmp/isoffline.$1 
     touch /tmp/isonline.$1
-    #echo 1
-    #echo Online ${BASEDIR}/pushbullet/pushbullet_cmd.py
+    #echo -e 1
+    #echo -e Online ${BASEDIR}/pushbullet/pushbullet_cmd.py
     ${BASEDIR}/pushbullet/pushbullet_cmd.py UR97NWpn7i61jqO0BQkyZWQhaNmfGe8t note ufjW6eNsjz3KRxFVWm "$1($HOSTIP) Online" ""
   fi
 else
@@ -21,8 +21,8 @@ else
   then 
     rm -f /tmp/isonline.$1 
     touch /tmp/isoffline.$1
-    #echo 0
-    #echo Offline ${BASEDIR}/pushbullet/pushbullet_cmd.py
+    #echo -e 0
+    #echo -e Offline ${BASEDIR}/pushbullet/pushbullet_cmd.py
     ${BASEDIR}/pushbullet/pushbullet_cmd.py UR97NWpn7i61jqO0BQkyZWQhaNmfGe8t note ufjW6eNsjz3KRxFVWm "$1($HOSTIP) Offline" ""
   fi
 fi

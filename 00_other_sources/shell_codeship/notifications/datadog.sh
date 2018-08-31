@@ -27,10 +27,10 @@ DATADOG_PRIORITY=${DATADOG_PRIORITY:-'low'}
 DATADOG_TAGS=${DATADOG_TAGS:-"[\"$CI_NAME\",\"commit:$CI_COMMIT_ID\",\"committer:$CI_COMMITTER_USERNAME\"]"}
 
 #sanitize semicolons, remove newlines, and replace multiple spaces with a single space
-DATADOG_TITLE=$(echo ${DATADOG_TITLE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-DATADOG_DESCRIPTION=$(echo ${DATADOG_DESCRIPTION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-DATADOG_PRIORITY=$(echo ${DATADOG_PRIORITY//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
-DATADOG_TAGS=$(echo ${DATADOG_TAGS//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+DATADOG_TITLE=$(echo -e ${DATADOG_TITLE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+DATADOG_DESCRIPTION=$(echo -e ${DATADOG_DESCRIPTION//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+DATADOG_PRIORITY=$(echo -e ${DATADOG_PRIORITY//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
+DATADOG_TAGS=$(echo -e ${DATADOG_TAGS//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
 
 curl \
   -d "{

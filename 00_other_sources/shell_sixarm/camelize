@@ -5,7 +5,7 @@
 #
 # Example:
 #
-#     $ echo "foo_goo_hoo" | camelize
+#     $ echo -e "foo_goo_hoo" | camelize
 #     FooGooHoo
 #
 # Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)

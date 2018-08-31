@@ -10,6 +10,6 @@ sudo ln -s /mnt/runtimes/65-bungeeCord-azure/logrotate /etc/logrotate.d/bungeeco
 sudo chown root /mnt/runtimes/65-bungeeCord-azure/logrotate
 sudo logrotate -d /etc/logrotate.d/bungeecord
 
-echo !!!!!!!!!!!!!!
-echo vi /mnt/runtimes/65-bungeeCord-azure/plugins/RedisBungee/config.yml
-echo !!!!!!!!!!!!!!
+echo -e !!!!!!!!!!!!!!
+echo -e vi /mnt/runtimes/65-bungeeCord-azure/plugins/RedisBungee/config.yml
+echo -e !!!!!!!!!!!!!!

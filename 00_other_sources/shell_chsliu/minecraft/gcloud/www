@@ -12,12 +12,12 @@ default_account=$(get_account)
 
 ### 
 addto_crontab() {
-	(crontab -l; echo "$*") | crontab -
+	(crontab -l; echo -e "$*") | crontab -
 }
 
 delfrom_crontab() {
 	line=$*
-	line=$(echo "$line" | sed 's/\//\\\//g')
+	line=$(echo -e "$line" | sed 's/\//\\\//g')
 	crontab -l | sed "/$line/d" | crontab -
 }
 
@@ -28,26 +28,26 @@ start() {
     set_account $dns_account
     
     # DNS transaction start
-    echo -e ${YELLOW}=== Starting DNS Changes: ${GREEN}$HOST.creeper.tw ${NC}
+    echo -e -e ${YELLOW}=== Starting DNS Changes: ${GREEN}$HOST.creeper.tw ${NC}
     $dnsupdate start creeper-196707 creeper-tw
 
     # A www.creeper.tw 1hour
-    echo -e ${GREEN}== Updating ${YELLOW}$HOST.creeper.tw 3hour IN A ... ${NC}
+    echo -e -e ${GREEN}== Updating ${YELLOW}$HOST.creeper.tw 3hour IN A ... ${NC}
     $dnsupdate A creeper-tw $HOST creeper.tw 3hour 3hour
 
     # A creeper.tw 1hour
-    echo -e ${GREEN}== Updating ${YELLOW}creeper.tw 3hour IN A ... ${NC}
+    echo -e -e ${GREEN}== Updating ${YELLOW}creeper.tw 3hour IN A ... ${NC}
     $dnsupdate A creeper-tw @ creeper.tw 3hour 3hour
 
     # DNS transaction commit
-    echo -e ${YELLOW}=== Commiting DNS Changes: ${GREEN}$HOST.creeper.tw ${NC}
+    echo -e -e ${YELLOW}=== Commiting DNS Changes: ${GREEN}$HOST.creeper.tw ${NC}
     $dnsupdate commit creeper-196707 creeper-tw
     
     set_account $default_account
 }
 
 stop() {
-    echo Stopping $(basename $0) ...
+    echo -e Stopping $(basename $0) ...
 }
 
 ###

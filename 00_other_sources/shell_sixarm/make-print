@@ -11,7 +11,7 @@
 #
 # It's:
 #
-#     print-%: ; @echo $*=$($*)
+#     print-%: ; @echo -e $*=$($*)
 #
 # It allows you to quickly get the value of any makefile variable.
 # For example, suppose you want to know the value of a variable called
@@ -22,7 +22,7 @@
 # If you are using GNU make 3.82 or above it's not even necessary to
 # modify the makefile itself. Just do
 #
-#     make --eval="print-%: ; @echo $*=$($*)" print-SOURCE_FILES
+#     make --eval="print-%: ; @echo -e $*=$($*)" print-SOURCE_FILES
 #
 # to get the value of SOURCE_FILES. It 'adds' the line above to the
 # makefile by evaluating it. The --eval parameter is a handy way of
@@ -30,21 +30,21 @@
 #
 # The line
 #
-#     print-%: ; @echo $*=$($*)
+#     print-%: ; @echo -e $*=$($*)
 #
 # defines a pattern-rule that matches any target in the form
 # print-% (the % is the wildcard character). So when you run make
 # print-SOURCE_FILES that rule will execute and the % will match
 # SOURCE_FILES.
 #
-# The command executed by print-% is @echo $*=$($*). Here I've used a
+# The command executed by print-% is @echo -e $*=$($*). Here I've used a
 # semicolon to separate the target name and the recipe (commands to be
 # executed). That makes this into a one-liner. In more traditional make
 # syntax (where a tab is used to introduce the recipe) that would be
 # written.
 #
 #     print-%:
-#       @echo $*=$($*)
+#       @echo -e $*=$($*)
 #
 # Using semicolon makes this easy to copy and paste.
 #
@@ -59,4 +59,4 @@
 # technique in many makefiles.
 ##
 
-make --eval="print-%: ; @echo $*=$($*)" print-"$@"
+make --eval="print-%: ; @echo -e $*=$($*)" print-"$@"

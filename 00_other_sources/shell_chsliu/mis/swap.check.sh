@@ -6,11 +6,11 @@ for szFile in /proc/*/status ; do
 
 done | sort --key 2 --numeric | uniq
 
-echo =====================================
+echo -e =====================================
 sudo swapon --show
 
-echo =====================================
-echo swappiness
+echo -e =====================================
+echo -e swappiness
 cat /proc/sys/vm/swappiness
-echo vfs_cache_pressure
+echo -e vfs_cache_pressure
 cat /proc/sys/vm/vfs_cache_pressure

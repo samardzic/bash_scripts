@@ -24,7 +24,7 @@ INVOCATION="$MCPATH/start.sh"
 
 #
 pre_game_setup() {
-	echo [pre_game_setup]
+	echo -e [pre_game_setup]
 	# rm -rf $DP0/plugins/Buscript/scripts/scripts.bin
     # HOUSEKEEP install
     # rm -rf $DP0/orebfuscator_cache
@@ -32,11 +32,11 @@ pre_game_setup() {
     rm -rf $DP0/timings
     # rm -rf $DP0/world*
     # cp -rf $DP0/GameWorld $DP0/world
-	echo [pre_game_setup][end]
+	echo -e [pre_game_setup][end]
 }
 
 post_game_setup() {
-	echo [post_game_setup]
+	echo -e [post_game_setup]
 	# /tmp/$mcver log list
 	# /tmp/$mcver log teams
 	# /tmp/$mcver log slain
@@ -45,7 +45,7 @@ post_game_setup() {
 	# /tmp/$mcver backup
 	# /tmp/$mcver save off
     # HOUSEKEEP remove
-	echo [post_game_setup][end]
+	echo -e [post_game_setup][end]
 }
 
 # op-permission-level=4

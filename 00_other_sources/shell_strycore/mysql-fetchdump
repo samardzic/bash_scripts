@@ -58,47 +58,47 @@ done
 error_state=0;
 
 if [ -z "$mysql_user" ] ; then
-    echo "You MUST specify MySQL user !"
+    echo -e "You MUST specify MySQL user !"
     error_state=1
 fi
 
 if [ -z "$host" ] ; then
-    echo "No remote host specified."
+    echo -e "No remote host specified."
     error_state=1
 fi
 
 if [ -z "$mysql_password" ] ; then
-    echo "You MUST specify MySQL password !"
+    echo -e "You MUST specify MySQL password !"
     error_state=1
 fi
 
 if [ -z "$mysql_database" ] ; then
-    echo "You MUST specify MySQL database !"
+    echo -e "You MUST specify MySQL database !"
     error_state=1
 fi
 
 if [ ! -d "$destdir" ] ; then
-    echo "Destination directory doesn't exist !"
+    echo -e "Destination directory doesn't exist !"
     error_state=1
 fi
 
 if [ "$error_state" = 1 ] ; then
-    echo "There are errors in your arguments, exiting."
+    echo -e "There are errors in your arguments, exiting."
     exit 2
 fi
-echo $destdir
+echo -e $destdir
 #Dump remote database
 remote_command="mysql-autodump -d ${mysql_database} -u ${mysql_user} -p ${mysql_password} -z"
 if [ $verbose ] ; then
-    echo "Dumping remote database"
+    echo -e "Dumping remote database"
 fi
 dumpfile=$(ssh $ssh_user@$host $remote_command)
 if [ $verbose ] ; then
-    echo "Fetching remote dump"
+    echo -e "Fetching remote dump"
 fi
 
 destfile=$destdir/$(basename $dumpfile)
 scp -q $ssh_user@$host:$dumpfile $destfile
 gunzip $destfile
-destfile=`echo $destfile | sed 's/\(.*\)\..*/\1/'`
-echo $destfile
+destfile=`echo -e $destfile | sed 's/\(.*\)\..*/\1/'`
+echo -e $destfile

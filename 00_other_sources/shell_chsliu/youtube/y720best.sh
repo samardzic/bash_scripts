@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # for last; do true; done
-# echo $last
+# echo -e $last
 
 #set -- "${@:1:$(($#-1))}"
 

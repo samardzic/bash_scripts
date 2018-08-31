@@ -94,7 +94,7 @@ while getopts 'lrvdc:s' opt; do
         d) set_dualhead;shift;;
         c) cmd=$OPTARG;shift 2;;
         s) handle_startup;shift;;
-        *) echo 'Unknown param !' >&2;;
+        *) echo -e 'Unknown param !' >&2;;
     esac
 done
 
@@ -103,5 +103,5 @@ case "$cmd" in
     "ipager") start_ipager "$@";;
     "trayer") start_trayer;;
     "") ;;
-    *) echo 'Unknown command !' >&2;;
+    *) echo -e 'Unknown command !' >&2;;
 esac

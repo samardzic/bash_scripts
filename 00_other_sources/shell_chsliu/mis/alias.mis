@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo -e terminal || echo -e error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
@@ -42,8 +42,8 @@ route_show() {
 alias block='blockip $*'
 alias unblock='unblockip $*'
 
-alias stop='sudo echo && sudo screen -dmS off shutdown -h now && exit'
+alias stop='sudo echo -e && sudo screen -dmS off shutdown -h now && exit'
 
-alias ii='curl https://api.ipify.org && echo '
+alias ii='curl https://api.ipify.org && echo -e '
  
 alias cpu='less /proc/cpuinfo |grep "model name"'

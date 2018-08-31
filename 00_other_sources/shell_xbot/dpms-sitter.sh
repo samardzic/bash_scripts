@@ -23,17 +23,17 @@ while true; do
     done
     if [ $ss_switch_off -eq 1 ]; then
         # Turn off DPMS
-        echo Turn off DPMS
+        echo -e Turn off DPMS
         if [ $ss_is_off -eq 0 ]; then
-            echo Action
+            echo -e Action
             xset s off
             xset -dpms
         fi
     else
         # Turn on DPMS
-        echo Turn on DPMS
+        echo -e Turn on DPMS
         if [ $ss_is_off -eq 1 ]; then
-            echo Action
+            echo -e Action
             xset +dpms
             xset s on
         fi

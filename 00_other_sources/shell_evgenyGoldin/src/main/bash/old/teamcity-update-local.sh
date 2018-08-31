@@ -9,7 +9,7 @@ teamcity=c:/Winny/java/TeamCity
 
 if [ "$tcProcess" != "" ]; 
 then 
-    echo 'TeamCity is running'
+    echo -e 'TeamCity is running'
     exit
 fi
 

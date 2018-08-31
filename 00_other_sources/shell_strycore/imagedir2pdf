@@ -43,12 +43,12 @@ while true ; do
 done
 
 if [ ! -d "$dest_dir" ] ; then
-    echo "$dest_dir is not valid destination!"
+    echo -e "$dest_dir is not valid destination!"
     exit 2
 fi
 
 if [ -z "$dest_dir" ] ; then
-    echo "You must specify an output dir!"
+    echo -e "You must specify an output dir!"
     exit 2
 fi
 
@@ -57,12 +57,12 @@ if [ "$method" != "sam2p" ] ; then
 fi
 
 if [ -z $(which $method) ] ; then
-    echo "You must install $method to continue "
+    echo -e "You must install $method to continue "
     exit 2
 fi
 
 if [ -z $(which pdftk) ] ; then
-    echo "You must install pdftk to continue "
+    echo -e "You must install pdftk to continue "
     exit 2
 fi
 
@@ -72,7 +72,7 @@ fi
 pdfname=$(basename $input_dir)
 oldpwd=$PWD
 cd $input_dir
-IFS=$(echo -en "\n\b")
+IFS=$(echo -e -en "\n\b")
 shopt -s extglob
 temp_dir=$(mktemp -d)
 index=1

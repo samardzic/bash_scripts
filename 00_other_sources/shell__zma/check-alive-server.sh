@@ -17,7 +17,7 @@ do
     res=`ping -W1 -c1 $line | grep received | awk '{print $4}'`
     if [ "$res" == "1" ]
     then
-        echo $line
+        echo -e $line
     fi
 done < $infile
 

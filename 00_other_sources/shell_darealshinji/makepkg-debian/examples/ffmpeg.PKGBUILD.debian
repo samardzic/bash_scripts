@@ -173,7 +173,7 @@ doc/APIchanges              ${ffmpeg_doc}developer-info
 doc/*.txt                   ${ffmpeg_doc}developer-info
 EOF
 
-  echo '/usr/share/javascript/jquery/jquery.min.js /usr/share/doc/ffmpeg-doc/api/jquery.js' > debian/ffmpeg.links
+  echo -e '/usr/share/javascript/jquery/jquery.min.js /usr/share/doc/ffmpeg-doc/api/jquery.js' > debian/ffmpeg.links
 
   cat <<EOF> debian/ffmpeg.lintian-overrides
 ffmpeg: embedded-library usr/lib/ffmpeg/*: lib*
@@ -182,7 +182,7 @@ ffmpeg: postinst-has-useless-call-to-ldconfig
 ffmpeg: postrm-has-useless-call-to-ldconfig
 EOF
 if [ "${DEB_HOST_ARCH}" = "i386" ]; then
-  echo 'ffmpeg: shlib-with-non-pic-code /usr/lib/ffmpeg/*' >> debian/ffmpeg.lintian-overrides
+  echo -e 'ffmpeg: shlib-with-non-pic-code /usr/lib/ffmpeg/*' >> debian/ffmpeg.lintian-overrides
 fi
 
   cat <<EOF> debian/ffmpeg.doc-base

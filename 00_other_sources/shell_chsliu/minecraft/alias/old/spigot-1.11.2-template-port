@@ -3,7 +3,7 @@
 spigot11=spigot-1.11.2-template-port
 
 spigot11() {
-	export mcver=$spigot11 && echo mcver=$mcver
+	export mcver=$spigot11 && echo -e mcver=$mcver
 }
 
 alias v11ts=spigot11

@@ -20,7 +20,7 @@ elif [ "$ARCH" == "64" ]; then
         (cd $DOWNLOADS; wget http://download.oracle.com/otn-pub/java/jdk/7u45-b18/jdk-7u45-linux-x64.tar.gz)
     fi
 else 
-    echo "Architecture unable to be determined"
+    echo -e "Architecture unable to be determined"
     exit
 fi
 
@@ -41,7 +41,7 @@ if [ ! -d $HOME/android-studio -o ! -f $DOWNLOADS/android-studio* ]; then
     (cd $DOWNLOADS; wget $STUDIO_URL)
     #verify download finished
     if [ ! -f $DOWNLOADS/android-studio* ]; then
-        echo "tar not found. Download failed?"
+        echo -e "tar not found. Download failed?"
         exit
     fi
 fi

@@ -15,7 +15,7 @@ APP_FILE="$APP_DIR/$APP_NAME"
 
 die()
 {
-    echo "$@" >&2 && exit 1
+    echo -e "$@" >&2 && exit 1
 }
 
 ! [[ "$APP_NAME" =~ ^[a-zA-Z0-9_]+$ ]] && die "Invalid app name, only letters, numbers and _ are allowed."
@@ -29,4 +29,4 @@ launch_web_app $APP_URL &
 TEMPLATE
 )
 
-echo "$SCRIPT" > "$APP_FILE" && chmod 755 "$APP_FILE"
+echo -e "$SCRIPT" > "$APP_FILE" && chmod 755 "$APP_FILE"

@@ -22,12 +22,12 @@
 
 # usage: AX_CHECK_PKG_LIB(prefix, pkg-module, library, headers)
 m4_define([AX_CHECK_PKG_LIB], [{
-    eval $( echo $1 )_lib_avail="no"
-    eval $( echo $1 )_headers_avail="no"
+    eval $( echo -e $1 )_lib_avail="no"
+    eval $( echo -e $1 )_headers_avail="no"
     AC_LANG_PUSH([C++])
     PKG_CHECK_MODULES([$1], [$2], [
-        eval $( echo $1 )_lib_avail="yes"
-        eval $( echo $1 )_headers_avail="yes"
+        eval $( echo -e $1 )_lib_avail="yes"
+        eval $( echo -e $1 )_headers_avail="yes"
     ], [
         # library check
         LIBS_backup="$LIBS"
@@ -38,14 +38,14 @@ m4_define([AX_CHECK_PKG_LIB], [{
                 [[int main() { return 0; }]]
             )
         ], [AC_MSG_RESULT([yes])
-            eval $( echo $1 )_lib_avail="yes"
+            eval $( echo -e $1 )_lib_avail="yes"
         ], [AC_MSG_RESULT([no])]
         )
         LIBS="$LIBS_backup"
         # header checks
         AS_IF([test "x$4" != "x"], [
             AC_CHECK_HEADERS([$4], [
-                eval $( echo $1 )_headers_avail="yes"
+                eval $( echo -e $1 )_headers_avail="yes"
             ])
         ])
     ])

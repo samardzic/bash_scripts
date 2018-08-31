@@ -51,7 +51,7 @@ Check_ID()
 {
 ID=$(/usr/ucb/whoami)
 if [ $ID != "root" ]; then
-        echo "$ID, you must be root to run this program."
+        echo -e "$ID, you must be root to run this program."
         exit 1
 fi
 }
@@ -250,9 +250,9 @@ esac
 Check_ID
 
 # Output header.
-echo
-echo " Link Autospeed Status  Speed  Mode   Ethernet Address"
-echo "----- --------- ------ ------ ----- ------------------"
+echo -e
+echo -e " Link Autospeed Status  Speed  Mode   Ethernet Address"
+echo -e "----- --------- ------ ------ ----- ------------------"
 
 # Create a uniq list of network ports configured on the system.
 #
@@ -262,8 +262,8 @@ echo "----- --------- ------ ------ ----- ------------------"
 for LINK in `${IFC} -a| egrep -v "lo|be|dman|lpfc"| \
 awk -F: '/^[a-z,A-z]/ {print $1}'| sort -u`
 do
- type=$(echo $LINK | sed 's/[0-9]//g')
- num=$(echo $LINK | sed 's/[a-z,A-Z]//g')
+ type=$(echo -e $LINK | sed 's/[0-9]//g')
+ num=$(echo -e $LINK | sed 's/[a-z,A-Z]//g')
 
 # Here we reference the functions above to set the variables for each port which
 # will be outputed below.
@@ -280,7 +280,7 @@ do
 # Set ethernet variable and output all findings for a port to the screen.
 #
  ETHER=`${IFC} ${LINK}| awk '/ether/ {print $2}'`
- echo "$LINK $AUTOSPEED $STATUS $SPEED $MODE $ETHER"
+ echo -e "$LINK $AUTOSPEED $STATUS $SPEED $MODE $ETHER"
 done
 
 set +x

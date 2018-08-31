@@ -41,7 +41,7 @@ is_load_balancer_already_start() {
     dnsip=$(lookup_dns_ip $LB.creeper.tw)
     lbip=$(lookup_lb_ip)
     # Checking if Load Balancer already started
-    echo -e ${YELLOW}=== Load Balancer Status: ${GREEN}DNS=$dnsip,IP=$lbip ${NC}
+    echo -e -e ${YELLOW}=== Load Balancer Status: ${GREEN}DNS=$dnsip,IP=$lbip ${NC}
     [ -z "$dnsip" ] && return 1
     [ "$dnsip" == "$lbip" ]
     return $?
@@ -56,19 +56,19 @@ start() {
         $igctrl start
     
         # Create Load Balancer
-        echo -e ${GREEN}=== Create Load Balancer: ${YELLOW}$POOL ${NC}
+        echo -e -e ${GREEN}=== Create Load Balancer: ${YELLOW}$POOL ${NC}
         gcloud --project $PROJECT compute target-pools create $POOL --region $REGION
 
         # Attach instance-groups
-        # echo -e ${GREEN}=== Attach instance-groups: ${YELLOW}$instances_group ${NC}
+        # echo -e -e ${GREEN}=== Attach instance-groups: ${YELLOW}$instances_group ${NC}
         # gcloud --project $PROJECT compute instance-groups managed set-target-pools $instances_group --target-pools $POOL
 
         # Attach regional instance-groups
-        echo -e ${GREEN}=== Attach regional instance-groups: ${YELLOW}$instances_group_region to $POOL ${NC}
+        echo -e -e ${GREEN}=== Attach regional instance-groups: ${YELLOW}$instances_group_region to $POOL ${NC}
         gcloud --project $PROJECT compute instance-groups managed set-target-pools $instances_group_region --target-pools $POOL --region $REGION
 
         # Create Forwarding Rules
-        echo -e ${GREEN}=== Create Forwarding Rules: ${YELLOW}$RULE ${NC}
+        echo -e -e ${GREEN}=== Create Forwarding Rules: ${YELLOW}$RULE ${NC}
         gcloud --project $PROJECT compute forwarding-rules create $RULE --region $REGION --target-pool https://www.googleapis.com/compute/v1/projects/$PROJECT/regions/$REGION/targetPools/$POOL --ip-protocol $PROTO --ports $PORT
 
         ip=$(lookup_lb_ip)
@@ -88,11 +88,11 @@ stop() {
     $igctrl stop
     
     # Delete Forwarding Rules
-    echo -e ${GREEN}=== Delete Forwarding Rules: ${YELLOW}$RULE ${NC}
+    echo -e -e ${GREEN}=== Delete Forwarding Rules: ${YELLOW}$RULE ${NC}
     gcloud --project $PROJECT -q compute forwarding-rules delete $RULE --region $REGION
 
     # Delete Load Balancer
-    echo -e ${GREEN}=== Delete Load Balancer: ${YELLOW}$POOL ${NC}
+    echo -e -e ${GREEN}=== Delete Load Balancer: ${YELLOW}$POOL ${NC}
     gcloud --project $PROJECT -q compute target-pools delete $POOL
     
     set_account $default_account
@@ -106,17 +106,17 @@ dns_update() {
     set_account $dns_account
     
     # DNS transaction start
-    echo -e ${YELLOW}=== Starting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
+    echo -e -e ${YELLOW}=== Starting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
     $dnsupdate start creeper-196707 creeper-tw
     
-    echo -e ${GREEN}== Updating ${YELLOW}$LB.creeper.tw IN A $1 ${NC}
+    echo -e -e ${GREEN}== Updating ${YELLOW}$LB.creeper.tw IN A $1 ${NC}
     $dnsupdate A creeper-tw $LB creeper.tw 1min 1min $1
     
-    echo -e ${GREEN}== Updating ${YELLOW}mc.creeper.tw IN CNAME $LB.creeper.tw ${NC}
+    echo -e -e ${GREEN}== Updating ${YELLOW}mc.creeper.tw IN CNAME $LB.creeper.tw ${NC}
     $dnsupdate CNAME creeper-tw mc creeper.tw $LB.creeper.tw. 3hour 1min
     
     # DNS transaction commit
-    echo -e ${YELLOW}=== Commiting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
+    echo -e -e ${YELLOW}=== Commiting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
     $dnsupdate commit creeper-196707 creeper-tw
     
     set_account $last_account
@@ -128,17 +128,17 @@ dns_remove() {
     set_account $dns_account
     
     # DNS transaction start
-    echo -e ${YELLOW}=== Starting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
+    echo -e -e ${YELLOW}=== Starting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
     $dnsupdate start creeper-196707 creeper-tw
     
-    echo -e ${GREEN}== Removing ${YELLOW}$LB.creeper.tw IN A ... ${NC}
+    echo -e -e ${GREEN}== Removing ${YELLOW}$LB.creeper.tw IN A ... ${NC}
     $dnsupdate del creeper-196707 creeper-tw $LB creeper.tw 1min 3hour A
     
-    echo -e ${GREEN}== Updating ${YELLOW}mc.creeper.tw IN CNAME $default_HOST.creeper.tw ${NC}
+    echo -e -e ${GREEN}== Updating ${YELLOW}mc.creeper.tw IN CNAME $default_HOST.creeper.tw ${NC}
     $dnsupdate CNAME creeper-tw mc creeper.tw $default_HOST.creeper.tw. 1min 3hour
     
     # DNS transaction commit
-    echo -e ${YELLOW}=== Commiting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
+    echo -e -e ${YELLOW}=== Commiting DNS Changes: ${GREEN}$LB.creeper.tw ${NC}
     $dnsupdate commit creeper-196707 creeper-tw
     
     set_account $last_account

@@ -13,56 +13,56 @@
 # LOGNOW="$MCPATH/logs/latest.log"
 # [ -f $LOGNOW ] || LOGNOW=$LOG
 
-# echo LASTLOGS=$LASTLOGS
-# echo LOGLAST=$LOGLAST
-# echo LOGNOW=$LOGNOW
+# echo -e LASTLOGS=$LASTLOGS
+# echo -e LOGLAST=$LOGLAST
+# echo -e LOGNOW=$LOGNOW
 
-# [ ! -f $LOGLAST ] || echo Last: $LOGLAST ...
-# [ ! -f $LOGNOW ] || echo  Now: $LOGNOW ...
+# [ ! -f $LOGLAST ] || echo -e Last: $LOGLAST ...
+# [ ! -f $LOGNOW ] || echo -e  Now: $LOGNOW ...
 
-# echo -e "${GREEN}List of players joined/left time last time:${NC}"
+# echo -e -e "${GREEN}List of players joined/left time last time:${NC}"
 # [ ! -f $LOGLAST ] || zcat $LOGLAST | grep 'joined\|left' 
-# echo "-----"
+# echo -e "-----"
 # [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep 'joined\|left'
 
-# echo -e "${GREEN}List of players joined last time:${NC}"
+# echo -e -e "${GREEN}List of players joined last time:${NC}"
 # [ ! -f $LOGLAST ] || zcat $LOGLAST | grep joined | awk '{ printf ("%s %s\n", $4, $5) }' | sort | uniq
-# echo "-----"
+# echo -e "-----"
 # [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep joined | awk '{ printf ("%s %s\n", $4, $5) }' | sort | uniq
 
-# echo -e "${GREEN}List of players slained last time:${NC}"
+# echo -e -e "${GREEN}List of players slained last time:${NC}"
 # [ ! -f $LOGLAST ] || zcat $LOGLAST | grep 'was\|burned\|fell\|swim\|blew\|suffocated\|swim\|hit the ground'
-# echo "-----"
+# echo -e "-----"
 # [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep 'was\|burned\|fell\|swim\|blew\|suffocated\|swim\|hit the ground'
 
-# echo -e "${GREEN}List of players teleported last time:${NC}"
+# echo -e -e "${GREEN}List of players teleported last time:${NC}"
 # [ ! -f $LOGLAST ] || zcat $LOGLAST | grep Teleported
-# echo "-----"
+# echo -e "-----"
 # [ ! -f "$LOGNOW" ] || cat "$LOGNOW" | grep Teleported
 
 # }
 
 showstat() {
-echo -e "${GREEN}List of players joined/left time last time:${NC}"
+echo -e -e "${GREEN}List of players joined/left time last time:${NC}"
 logs 0 | grep.left
-echo "-----"
+echo -e "-----"
 logs | grep.left
-echo -e "${GREEN}List of players joined last time:${NC}"
+echo -e -e "${GREEN}List of players joined last time:${NC}"
 logs 0 | grep.logged
-echo "-----"
+echo -e "-----"
 logs | grep.logged
-echo -e "${GREEN}List of players slained last time:${NC}"
+echo -e -e "${GREEN}List of players slained last time:${NC}"
 logs 0 | grep.slain
-echo "-----"
+echo -e "-----"
 logs | grep.slain
-echo -e "${GREEN}List of players cheated last time:${NC}"
+echo -e -e "${GREEN}List of players cheated last time:${NC}"
 logs 0 | grep.cheater
-echo "-----"
+echo -e "-----"
 logs | grep.cheater
 }
 
 get_date() {
-	echo $(stat -c %y "$1" | awk '{ printf ("[%s]\n", $1) }')
+	echo -e $(stat -c %y "$1" | awk '{ printf ("[%s]\n", $1) }')
 }
 
 prefix_pipe() {
@@ -89,7 +89,7 @@ logs() {
 	else
 		LASTLOGS=(`ls -at /mnt/runtimes/$mcver/logs/*.log.gz`)
 		LOG=${LASTLOGS[$1]}
-		# echo $LOG
+		# echo -e $LOG
 
 		if [ -f "$LOG" ]; then 
 			prefix=$(get_date $LOG)
@@ -106,14 +106,14 @@ remove_ansi_color() {
 # 
 grep.player() {
 	inputlog=`cat`
-	linecnt=$(echo "${inputlog[*]}" | wc -l)
-	# echo $linecnt, "${inputlog[*]}"
+	linecnt=$(echo -e "${inputlog[*]}" | wc -l)
+	# echo -e $linecnt, "${inputlog[*]}"
 	if [ $linecnt -lt 2 ]; then return; fi
 
-	players=$(echo "${inputlog[*]}" | grep -A 4 'players online\|玩家在線' | tail -n +2 | remove_ansi_color | sed 's/\[[^]]*\]//g' | sed "s/[a-zA-Z]*://g" | sed 's/,//g')
+	players=$(echo -e "${inputlog[*]}" | grep -A 4 'players online\|玩家在線' | tail -n +2 | remove_ansi_color | sed 's/\[[^]]*\]//g' | sed "s/[a-zA-Z]*://g" | sed 's/,//g')
 	for player in $players
 	do
-		echo $player
+		echo -e $player
 	done
 }
 
@@ -130,7 +130,7 @@ grep.left() {
 # }
 
 file.replace.teamtag() {
-	[ -f $1 ] || { echo no file; return 1; }
+	[ -f $1 ] || { echo -e no file; return 1; }
 	sed -i "s/$off//g" $1
 	sed -i "s/$black/[黑隊]/g" $1
 	sed -i "s/$dark_blue/[B5深藍隊]/g" $1
@@ -151,12 +151,12 @@ file.replace.teamtag() {
 }
 
 file.cleanup() {
-	[ -f $1 ] || { echo no file; return 1; }
+	[ -f $1 ] || { echo -e no file; return 1; }
 	sed -i "s/ \[Server thread\/INFO\]//g" $1
 }
 
 file.replace.cause() {
-	[ -f $1 ] || { echo no file; return 1; }
+	[ -f $1 ] || { echo -e no file; return 1; }
 	sed -i "s/ using /，使用/g" $1
 	sed -i "s/ blew up/被炸死了/g" $1
 	sed -i "s/ burned to death/被燒死/g" $1
@@ -178,7 +178,7 @@ file.replace.cause() {
 }
 
 file.replace.mob() {
-	[ -f $1 ] || { echo no file; return 1; }
+	[ -f $1 ] || { echo -e no file; return 1; }
 	sed -i "s/Cave Spider/洞穴蜘蛛/g" $1
 	sed -i "s/Enderman/安德/g" $1
 	sed -i "s/Husk/屍殼/g" $1
@@ -192,7 +192,7 @@ file.replace.mob() {
 }
 
 file.replace.escape() {
-	[ -f $1 ] || { echo no file; return 1; }
+	[ -f $1 ] || { echo -e no file; return 1; }
 	sed -i "s/\[0;30;1m//g" $1
     sed -i "s/\[0;31;1m//g" $1
     sed -i "s/\[0;32;1m//g" $1
@@ -217,26 +217,26 @@ grep.teams() {
 	# list=$(grep 'lost the achievement' | awk '{ printf ("%s\n", $4) }' | sort | uniq)
 	# list=$(grep achievement | grep § | grep -v -x $black | awk '{ printf ("%s\n", $4) }' | sort | uniq | grep -v $black)
 	list=$(grep § | grep -v -x $black | awk '{ printf ("%s\n", $4) }' | sort | uniq | grep -v $black)
-	list=$(echo $list | sed "s/$off//g")
-	list=$(echo $list | sed "s/$black/[黑隊]/g")
-	list=$(echo $list | sed "s/$dark_blue/[B5深藍隊]/g")
-	list=$(echo $list | sed "s/$dark_green/[B3深綠隊]/g")
-	list=$(echo $list | sed "s/$dark_aqua/[B4深青隊]/g")
-	list=$(echo $list | sed "s/$dark_red/[B1深紅隊]/g")
-	list=$(echo $list | sed "s/$dark_purple/[B6深紫隊]/g")
-	list=$(echo $list | sed "s/$gold/[B2橘隊]/g")
-	list=$(echo $list | sed "s/$gray/[A7灰隊]/g")
-	list=$(echo $list | sed "s/$dark_gray/[B7深灰隊]/g")
-	list=$(echo $list | sed "s/$blue/[A5藍隊]/g")
-	list=$(echo $list | sed "s/$green/[A3綠隊]/g")
-	list=$(echo $list | sed "s/$aqua/[A4青隊]/g")
-	list=$(echo $list | sed "s/$red/[A1紅隊]/g")
-	list=$(echo $list | sed "s/$light_purple/[A6亮紫隊]/g")
-	list=$(echo $list | sed "s/$yellow/[A2黃隊]/g")
-	list=$(echo $list | sed "s/$white/[白隊]/g")
+	list=$(echo -e $list | sed "s/$off//g")
+	list=$(echo -e $list | sed "s/$black/[黑隊]/g")
+	list=$(echo -e $list | sed "s/$dark_blue/[B5深藍隊]/g")
+	list=$(echo -e $list | sed "s/$dark_green/[B3深綠隊]/g")
+	list=$(echo -e $list | sed "s/$dark_aqua/[B4深青隊]/g")
+	list=$(echo -e $list | sed "s/$dark_red/[B1深紅隊]/g")
+	list=$(echo -e $list | sed "s/$dark_purple/[B6深紫隊]/g")
+	list=$(echo -e $list | sed "s/$gold/[B2橘隊]/g")
+	list=$(echo -e $list | sed "s/$gray/[A7灰隊]/g")
+	list=$(echo -e $list | sed "s/$dark_gray/[B7深灰隊]/g")
+	list=$(echo -e $list | sed "s/$blue/[A5藍隊]/g")
+	list=$(echo -e $list | sed "s/$green/[A3綠隊]/g")
+	list=$(echo -e $list | sed "s/$aqua/[A4青隊]/g")
+	list=$(echo -e $list | sed "s/$red/[A1紅隊]/g")
+	list=$(echo -e $list | sed "s/$light_purple/[A6亮紫隊]/g")
+	list=$(echo -e $list | sed "s/$yellow/[A2黃隊]/g")
+	list=$(echo -e $list | sed "s/$white/[白隊]/g")
 	for item in $list
 	do
-		echo $item
+		echo -e $item
 	done
 }
 
@@ -268,17 +268,17 @@ grep.winner() {
 	# playerlist=/tmp/players.txt
 	teamlist=/tmp/teams.txt
 	
-	# echo "${inputlog[*]}" | grep left | awk '{ printf ("%s\n", $4) }' | sort | uniq > $left
-	echo "${inputlog[*]}" | grep.slain | awk '{ printf ("%s\n", $4) }' | sed 's/§.//g' > $slainlist
-	# echo "${inputlog[*]}" | grep logged | awk '{ printf ("%s\n", $4) }' | sed 's/\[[^]]*\]//g' | sort | uniq > $playerlist
-	echo "${inputlog[*]}" | grep.teams | sed 's/\[[^]]*\]//g' > $teamlist
-	# echo "${inputlog[*]}" | grep.teams | awk '{ printf ("%s\n", $4) }' | sed 's/\[[^]]*\]//g' | sort | uniq > $playerlist
+	# echo -e "${inputlog[*]}" | grep left | awk '{ printf ("%s\n", $4) }' | sort | uniq > $left
+	echo -e "${inputlog[*]}" | grep.slain | awk '{ printf ("%s\n", $4) }' | sed 's/§.//g' > $slainlist
+	# echo -e "${inputlog[*]}" | grep logged | awk '{ printf ("%s\n", $4) }' | sed 's/\[[^]]*\]//g' | sort | uniq > $playerlist
+	echo -e "${inputlog[*]}" | grep.teams | sed 's/\[[^]]*\]//g' > $teamlist
+	# echo -e "${inputlog[*]}" | grep.teams | awk '{ printf ("%s\n", $4) }' | sed 's/\[[^]]*\]//g' | sort | uniq > $playerlist
 	# winners=$(cat $playerlist | grep -v -x -f $slainlist)
 	cat $teamlist | grep -v -x -f $slainlist
 	# for winner in $winners
 	# do
-		# echo $winner
-		# echo "${inputlog[*]}" | grep $winner | grep.left
+		# echo -e $winner
+		# echo -e "${inputlog[*]}" | grep $winner | grep.left
 	# done
 	
 	rm $slainlist $teamlist

@@ -17,14 +17,14 @@
 funct_check_params()									# Function Name
 {																	# Start of the function
   if [ ${NARG} -ne 1 ]; then								# If the number of arguments is not one, then output a message
-    echo "$0 : Not enough Parameters passed, you need to supply a directory"
+    echo -e "$0 : Not enough Parameters passed, you need to supply a directory"
     exit 1														# Quit the program
   elif
 
-  # If the argument passed is -h or --h then display the following message in the echo statement
+  # If the argument passed is -h or --h then display the following message in the echo -e statement
 
   [[ ${SLICE} = "-h" ]] || [[ ${SLICE} = "--h" ]]; then
-    echo "Usage: You need to add a slice after the script name, e.g $0 /opt"
+    echo -e "Usage: You need to add a slice after the script name, e.g $0 /opt"
     exit 1														# Quit the program
   fi																# End of the if statement
 }																	# End of the function

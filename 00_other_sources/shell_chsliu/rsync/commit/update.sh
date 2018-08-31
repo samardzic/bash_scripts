@@ -16,7 +16,7 @@ dst=..
 
 pushd "$DP0"
 
-echo rsync $options "$src" $dst
+echo -e rsync $options "$src" $dst
 rsync $options "$src" $dst
 
 popd

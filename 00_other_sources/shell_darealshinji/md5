@@ -1,8 +1,8 @@
 #!/bin/sh
 
 help() {
-   echo "usage: $(basename ${0}) <file>"
-   echo "       $(basename ${0}) -c <checksum> <file>"
+   echo -e "usage: $(basename ${0}) <file>"
+   echo -e "       $(basename ${0}) -c <checksum> <file>"
    exit 0
 }
 
@@ -15,10 +15,10 @@ if [ "${1}" = "-c" ] ; then
       help
    else
       if [ "${2}" = `$(basename ${0})sum -b "${3}" | cut -d' ' -f1` ] ; then
-         echo "OK"
+         echo -e "OK"
          exit 0
       else
-         echo "MISMATCH"
+         echo -e "MISMATCH"
          exit 1
       fi
    fi

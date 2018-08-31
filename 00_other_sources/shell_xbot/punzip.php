@@ -22,7 +22,7 @@ while ($e = zip_read($f)) {
         continue;
     }   
     file_put_contents($filename, zip_entry_read($e, $filesize));
-    echo "$filesize\t$filename\n"; 
+    echo -e "$filesize\t$filename\n"; 
     zip_entry_close($e);
 }   
 zip_close($f);

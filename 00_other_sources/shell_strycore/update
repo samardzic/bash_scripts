@@ -11,8 +11,8 @@ set -e
 SUDO="sudo"
 APT="apt"
 
-echo "Updating cache"
+echo -e "Updating cache"
 $SUDO $APT update
-echo "Upgrading system"
+echo -e "Upgrading system"
 $SUDO $APT full-upgrade -y
-echo "Done"
+echo -e "Done"

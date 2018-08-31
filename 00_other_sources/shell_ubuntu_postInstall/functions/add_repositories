@@ -3,18 +3,18 @@
 # Add Flatpak Repo
 # ${1} = remote, ${2} = https://remote.example.com/
 function add_flatpak_repo() {
-	echo_message header "Starting 'add_flatpak_repo' function"
+	echo -e_message header "Starting 'add_flatpak_repo' function"
 	# Check if already added
 	flatpak remotes | grep ${1} &> /dev/null
 	# If repo is added
 	if [ $? = 0 ]; then
-		echo_message info "Repository already added."
+		echo -e_message info "Repository already added."
 		whiptail --msgbox "The ${1} repository is already added." 8 56
 	else
 		# Add repository
-		echo_message info "Adding flatpak repository..."
+		echo -e_message info "Adding flatpak repository..."
 		flatpak remote-add --if-not-exists ${1} ${2}
-		echo_message success "Repository added."
+		echo -e_message success "Repository added."
 		whiptail --title "Finished" --msgbox "The '${1}' repository has been added." 8 56
 	fi
 }
@@ -22,7 +22,7 @@ function add_flatpak_repo() {
 # Add Launchpad PPA
 # ${1} = Name, ${2} = launchpad-user/ppa-name
 function add_launchpad_ppa() {
-	echo_message header "Starting 'add_launchpad_ppa' function"
+	echo -e_message header "Starting 'add_launchpad_ppa' function"
 	# Check if PPA already added
 	if ! grep -q "^deb .*${2}" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
 		# draw window
@@ -30,18 +30,18 @@ function add_launchpad_ppa() {
 			--title "Add PPA Repository" \
 			--yesno "The ${1} PPA repository (${2}) is not present on your system. \n\nWould you like to add it to continue? " 10 64) then
 			# Add repository
-			echo_message info "Adding ${1} PPA repository..."
+			echo -e_message info "Adding ${1} PPA repository..."
 			superuser_do "add-apt-repository -y ppa:${2}"
 			# Update repository information
 			superuser_do "apt update -qq -y"
 			# Done
-			echo_message success "Repository added."
+			echo -e_message success "Repository added."
 		else
 			# Cancelled
-			echo_message info "Addition of ${1} repository cancelled."
+			echo -e_message info "Addition of ${1} repository cancelled."
 			$3
 		fi
 	else 
-		echo_message info "${1} repository already added."
+		echo -e_message info "${1} repository already added."
 	fi
 }

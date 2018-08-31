@@ -3,7 +3,7 @@
 #=================================
 helpArgs=()
 helpLines=()
-totalcnt=$(echo "$COLUMNS-16"|bc)
+totalcnt=$(echo -e "$COLUMNS-16"|bc)
 #=================================
 hline() {
     printf "%$1s" | tr ' ' $2
@@ -13,9 +13,9 @@ hline() {
 help_hline1() {
     [ -z "$helpArgs" ] && helpArgs=() && helpLines=()
     len1=${#1}
-    len2=$(echo $1|wc -c)
-    len=$(echo "($len2-1+$len1)/2"|bc)
-    cnt=$(echo \($totalcnt-$len\)/2 | bc)
+    len2=$(echo -e $1|wc -c)
+    len=$(echo -e "($len2-1+$len1)/2"|bc)
+    cnt=$(echo -e \($totalcnt-$len\)/2 | bc)
     (( $len & 1 )) && extra='' || extra='.'
     helpArgs+=("$(hline $cnt \.)""$1""$(hline $cnt \.)""$extra")
     helpLines+=('') 
@@ -25,9 +25,9 @@ help_hline1() {
 help_hline2() {
     [ -z "$helpArgs" ] && helpArgs=() && helpLines=()
     len1=${#1}
-    len2=$(echo $1|wc -c)
-    len=$(echo "($len2-1+$len1)/2"|bc)
-    cnt=$(echo \($totalcnt-$len\)/2 | bc)
+    len2=$(echo -e $1|wc -c)
+    len=$(echo -e "($len2-1+$len1)/2"|bc)
+    cnt=$(echo -e \($totalcnt-$len\)/2 | bc)
     (( $len & 1 )) && extra='' || extra='-'
     helpArgs+=("$(hline $cnt -)""$1""$(hline $cnt -)""$extra")
     helpLines+=('') 
@@ -37,9 +37,9 @@ help_hline2() {
 help_hline3() {
     [ -z "$helpArgs" ] && helpArgs=() && helpLines=()
     len1=${#1}
-    len2=$(echo $1|wc -c)
-    len=$(echo "($len2-1+$len1)/2"|bc)
-    cnt=$(echo \($totalcnt-$len\)/2 | bc)
+    len2=$(echo -e $1|wc -c)
+    len=$(echo -e "($len2-1+$len1)/2"|bc)
+    cnt=$(echo -e \($totalcnt-$len\)/2 | bc)
     (( $len & 1 )) && extra='' || extra='='
     helpArgs+=("$(hline $cnt =)""$1""$(hline $cnt =)""$extra")
     helpLines+=('') 
@@ -54,25 +54,25 @@ help_add() {
 
 #=================================
 help_alias() {
-    maxlines=$(echo "$LINES-2"|bc)
+    maxlines=$(echo -e "$LINES-2"|bc)
     # for line in "${helpLines[@]}"
     # do
-        # echo $line
+        # echo -e $line
     # done
     [ ! -z $1 ] && page=$1 || page=0
-    # echo $page
-    num=$(echo "$maxlines*$page"|bc)
-    numEnd=$(echo "$maxlines*($page+1)"|bc)
-    # echo $num $numEnd
+    # echo -e $page
+    num=$(echo -e "$maxlines*$page"|bc)
+    numEnd=$(echo -e "$maxlines*($page+1)"|bc)
+    # echo -e $num $numEnd
     length=${#helpArgs[@]}
-    # echo $length
+    # echo -e $length
     # do the loop
     # for ((i=0;i<=$length;i++)); do
-    maxpage=$(echo "$length/$maxlines"|bc)
-    [ "$page" -gt "$maxpage" ] || echo Page $page/$maxpage
+    maxpage=$(echo -e "$length/$maxlines"|bc)
+    [ "$page" -gt "$maxpage" ] || echo -e Page $page/$maxpage
     for ((i=$num;i<$numEnd;i++)); do
         [ "$i" -gt "$length" ] && break
-        pos=$(echo \($totalcnt\)/2 | bc)
+        pos=$(echo -e \($totalcnt\)/2 | bc)
         printf "%${pos}s %s\n" ${helpArgs[$i]} ${helpLines[$i]}
     done
 }

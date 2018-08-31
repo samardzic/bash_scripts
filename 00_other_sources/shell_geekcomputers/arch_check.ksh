@@ -17,7 +17,7 @@
 funct_check_params()
 {
         if [ ${NARG} -ne 2 ]; then
-                echo "Archive Check Failed : Not enough Parameters passed" >> $LOGFILE
+                echo -e "Archive Check Failed : Not enough Parameters passed" >> $LOGFILE
                 exit 1
         fi
 }
@@ -33,7 +33,7 @@ funct_check_logmode()
         exit
 EOF`
         if [ $STATUS = "NOARCHIVELOG" ]; then
-                echo "Archive Check Failed : $ORACLE_SID database is in NOARCHIVE LOG MODE" >> $LOGFILE
+                echo -e "Archive Check Failed : $ORACLE_SID database is in NOARCHIVE LOG MODE" >> $LOGFILE
                 exit 1
         fi
 

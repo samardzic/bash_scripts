@@ -14,7 +14,7 @@ function install_oracle_java {
 		install_package "$NAME" "$PACKAGE" install_thirdparty
 	else
 		# Cancelled
-		echo_message info "Installation of $NAME cancelled."
+		echo -e_message info "Installation of $NAME cancelled."
 		# return
 		install_thirdparty
 	fi

@@ -8,7 +8,7 @@ lspci -nn | egrep  'sound|udio' > $DEST/lspci.out
 ls /proc/asound/* > $DEST/asound
 cp /proc/asound/cards $DEST/cards
 pulseaudio --check
-echo "$?" > $DEST/pulse_running
+echo -e "$?" > $DEST/pulse_running
 lsmod > $DEST/modules
 
 tar czf ~/sound-info.tar.gz $DEST

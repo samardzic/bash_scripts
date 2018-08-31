@@ -75,7 +75,7 @@ My results that I got on 2015-04-03 from Warsaw
 0.109s http://ip.tyk.nu/ - answer='172.31.13.37'
 0.114s http://ipof.in/txt - answer='172.31.13.37'
 0.115s http://ifcfg.me/ - answer='172.31.13.37'
-0.117s http://ipecho.net/plain - answer='172.31.13.37'
+0.117s http://ipecho -e.net/plain - answer='172.31.13.37'
 0.295s http://ip.appspot.com/ - answer='172.31.13.37'
 0.305s http://wgetip.com/ - answer='172.31.13.37'
 0.346s http://icanhazip.com/ - answer='172.31.13.37'
@@ -94,7 +94,7 @@ Best https response times:
 0.029s https://l2.io/ip - answer=''
 0.029s https://tnx.nl/ip - answer=''
 0.080s https://whatismyip.akamai.com/ - answer='172.31.13.37'
-0.112s https://ipecho.net/plain - answer=''
+0.112s https://ipecho -e.net/plain - answer=''
 0.187s https://ip.tyk.nu/ - answer='172.31.13.37'
 0.204s https://ipof.in/txt - answer='172.31.13.37'
 0.213s https://ident.me/ - answer='172.31.13.37'
@@ -113,7 +113,7 @@ Best average ping times:
 36.828 //tnx.nl/ip
 39.288 //ipof.in/txt
 39.796 //ip.tyk.nu/
-40.586 //ipecho.net/plain
+40.586 //ipecho -e.net/plain
 40.883 //ident.me/
 43.659 //ifcfg.me/
 46.781 //l2.io/ip

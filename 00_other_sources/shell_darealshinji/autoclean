@@ -34,9 +34,9 @@ if [ "$(head -n1 aclocal.m4 2>/dev/null | grep 'generated automatically by acloc
 fi
 
 Makefiles="$(find . -name "Makefile.am" -type f -printf "%p ")"
-rm -f `echo "$Makefiles " | sed 's/.am /.in /g'`
-rm -f `echo "$Makefiles " | sed 's/.am / /g'`
+rm -f `echo -e "$Makefiles " | sed 's/.am /.in /g'`
+rm -f `echo -e "$Makefiles " | sed 's/.am / /g'`
 
 Infiles="$(find . -name "*.in" -type f -printf "%p ")"
-rm -f `echo "$Infiles " | sed 's/.in / /g'`
+rm -f `echo -e "$Infiles " | sed 's/.in / /g'`
 

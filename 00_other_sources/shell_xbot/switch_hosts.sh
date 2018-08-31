@@ -18,7 +18,7 @@
 ######################################################
 
 if [[ -z $1 ]]; then
-    echo "Error: Please input a group tag! eg. offline" >&2
+    echo -e "Error: Please input a group tag! eg. offline" >&2
     exit 1
 fi
 
@@ -27,7 +27,7 @@ HOSTS_TEMP="/tmp/hosts.tmp"
 GROUP_TAG="$1"
 
 if ! grep -P "^#[#]? == $GROUP_TAG$" "$HOSTS" > /dev/null; then
-    echo "Error: Group $GROUP_TAG not found in $HOSTS" >&2
+    echo -e "Error: Group $GROUP_TAG not found in $HOSTS" >&2
     exit 1
 fi
 
@@ -40,7 +40,7 @@ regex2="^#[#]? == [a-zA-Z0-9]+$"
 cat $HOSTS | while read line ; do
     if [[ "$line" =~ $regex1 ]]; then
         if [ "$group_weight" -lt 1 ]; then
-            if echo "$line" | grep -P "^##" > /dev/null; then
+            if echo -e "$line" | grep -P "^##" > /dev/null; then
                 group_weight=2
             else
                 group_weight=1
@@ -54,7 +54,7 @@ cat $HOSTS | while read line ; do
         fi
     elif [[ "$line" =~ $regex2 ]]; then
         if [ "$group_weight" -lt 101 ]; then
-            if echo "$line" | grep -P "^##" > /dev/null; then
+            if echo -e "$line" | grep -P "^##" > /dev/null; then
                 group_weight=102
             else
                 group_weight=101
@@ -85,7 +85,7 @@ cat $HOSTS | while read line ; do
         fi
     fi
 
-    echo "$line" >> $HOSTS_TEMP
+    echo -e "$line" >> $HOSTS_TEMP
 done
 
 cat $HOSTS_TEMP > $HOSTS

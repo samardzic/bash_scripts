@@ -18,19 +18,19 @@ if [[ "$1" != "" ]]; then
   ver=$1
 fi
 
-vermajor=$(echo ${ver} | cut -d'.' -f1)
-verurlstr=$(echo ${ver} | cut -d'.' -f1,2)
+vermajor=$(echo -e ${ver} | cut -d'.' -f1)
+verurlstr=$(echo -e ${ver} | cut -d'.' -f1,2)
 
 date > $log
-echo "Hello there. Start to download, build and install wine $ver 32-bit version..." | tee -a $log
-echo "Logs are in $log" | tee -a $log
+echo -e "Hello there. Start to download, build and install wine $ver 32-bit version..." | tee -a $log
+echo -e "Logs are in $log" | tee -a $log
 
-echo "Please make sure you have EPEL and Nux Desktop repositories configured. Check https://www.systutorials.com/239893/additional-repositories-centos-linux/ for howto." | tee -a $log
-echo "Uninstall old wine64 if you have installed it. Please select yes..." | tee -a $log
+echo -e "Please make sure you have EPEL and Nux Desktop repositories configured. Check https://www.systutorials.com/239893/additional-repositories-centos-linux/ for howto." | tee -a $log
+echo -e "Uninstall old wine64 if you have installed it. Please select yes..." | tee -a $log
 
 yum erase wine wine-*
 
-echo "Install wine building tools..." | tee -a $log
+echo -e "Install wine building tools..." | tee -a $log
 
 yum install samba-winbind-clients -y 2>&1 >>$log
 yum groupinstall 'Development Tools' -y 2>&1 >> $log
@@ -53,7 +53,7 @@ if [[ "${vermajor}" == "2" ]]; then
   yum install libXfixes-devel.{x86_64,i686}  -y 2>&1 >> $log
 fi
 
-echo "Download and unpack the wine source package..." 2>&1 | tee -a $log
+echo -e "Download and unpack the wine source package..." 2>&1 | tee -a $log
 
 cd /usr/src 2>&1 >> $log
 if [[ "${vermajor}" == "1" ]]; then
@@ -64,29 +64,29 @@ elif [[ "${vermajor}" == "2" ]]; then
   tar xf wine-${ver}.tar.xz 2>&1 >> $log
 fi
 
-echo "Build wine..." 2>&1 | tee -a $log
+echo -e "Build wine..." 2>&1 | tee -a $log
 cd wine-${ver}/ 2>&1 >> $log
 mkdir -p wine32 wine64 2>&1 >> $log
 
-echo "   build wine64..." 2>&1 | tee -a $log
+echo -e "   build wine64..." 2>&1 | tee -a $log
 cd wine64 2>&1 >> $log
 ../configure --enable-win64 2>&1 >> $log
 make -j 4 2>&1 >> $log
 
-echo "   build wine32..." 2>&1 | tee -a $log
+echo -e "   build wine32..." 2>&1 | tee -a $log
 cd ../wine32 2>&1 >> $log
 PKG_CONFIG_PATH=/usr/lib/pkgconfig ../configure --with-wine64=../wine64 2>&1 >> $log
 make -j 4 2>&1 >> $log
 
-echo "Install wine..." 2>&1 | tee -a $log
-echo "   install wine32..." 2>&1 | tee -a $log
+echo -e "Install wine..." 2>&1 | tee -a $log
+echo -e "   install wine32..." 2>&1 | tee -a $log
 make install 2>&1 >> $log
 
-echo "   install wine64..." 2>&1 | tee -a $log
+echo -e "   install wine64..." 2>&1 | tee -a $log
 cd ../wine64 2>&1 >> $log
 make install 2>&1 >> $log
 
-echo "Congratulation! All are done. Enjoy!" 2>&1 | tee -a $log
+echo -e "Congratulation! All are done. Enjoy!" 2>&1 | tee -a $log
 rm -f $log
 
 # # Uninstall

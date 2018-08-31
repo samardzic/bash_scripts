@@ -11,7 +11,7 @@ set -e
 CONVERT=convert
 
 if [ -z $(which $CONVERT) ] ; then
-	echo "imagemagick is not installed"
+	echo -e "imagemagick is not installed"
 	exit 2
 fi
 
@@ -54,17 +54,17 @@ done
 error_state=0;
 
 if [ -z "$basedir" ] ; then
-    echo "No input dir specified !"
+    echo -e "No input dir specified !"
     error_state=1
 fi
 
 if [ -z "$size" ] ; then
-    echo "No size specified !"
+    echo -e "No size specified !"
     error_state=1
 fi
 
 if [ "$error_state" = 1 ] ; then
-    echo "There are errors in your arguments, exiting."
+    echo -e "There are errors in your arguments, exiting."
     exit 2
 fi
 
@@ -74,7 +74,7 @@ for sourcefile in $(ls $basedir) ; do
 	filename=${sourcefile%\.*}
 	destfile=${filename}_${size}${ext}
 	if [ "$verbose" = 1 ] ; then
-		echo "Converting "$basedir$sourcefile
+		echo -e "Converting "$basedir$sourcefile
 	fi
 	if [ -z $keep_ratio ] ; then
 		square_image_params="-gravity center -crop ${size}x${size}+0+0 +repage"

@@ -15,10 +15,10 @@ HOSTNAME=`hostname`
 IP=`/sbin/ifconfig eth0 | grep "inet addr" | gawk -F: '{print $2}' | gawk '{print $1}'`
 ###########################################################
 # Create Head and CSS Presentation
-echo "<html>" > $TEMP_FILE
-echo "<head>" >> $TEMP_FILE
-echo "<style>" >> $TEMP_FILE
-echo " /* ------------------
+echo -e "<html>" > $TEMP_FILE
+echo -e "<head>" >> $TEMP_FILE
+echo -e "<style>" >> $TEMP_FILE
+echo -e " /* ------------------
 
  styling for the tables 
 
@@ -108,32 +108,32 @@ body
 	color: #339;
 
 } " >> $TEMP_FILE
-echo "</style>" >> $TEMP_FILE
-echo "</head> " >> $TEMP_FILE
+echo -e "</style>" >> $TEMP_FILE
+echo -e "</head> " >> $TEMP_FILE
 ###########################################################
 # Create Report Body
 #
-echo "<body><h3>Reported on $DATE</h3>" >> $TEMP_FILE
-echo "<h3>Hostname: $HOSTNAME</h3>" >> $TEMP_FILE
-echo "<h3>Internal IP: $IP</h3>" >> $TEMP_FILE
-echo "<table id="stat-table" summary="Daily Statistics">" >> $TEMP_FILE
-echo "<thead>" >> $TEMP_FILE
-echo "<tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Users</th>" >> $TEMP_FILE
-echo "<th scope="col">Load 15 Min</th><th scope="col">Free Memory</th><th scope="col">Swap Used</th>" >> $TEMP_FILE
-echo "<th scope="col">% CPU Idle</th><th scope="col">Disk Free / </th><th scope="col">Disk Free /var</th><th scope="col">Disk Free /usr</th></tr>" >> $TEMP_FILE
-echo "</thead>" >> $TEMP_FILE
+echo -e "<body><h3>Reported on $DATE</h3>" >> $TEMP_FILE
+echo -e "<h3>Hostname: $HOSTNAME</h3>" >> $TEMP_FILE
+echo -e "<h3>Internal IP: $IP</h3>" >> $TEMP_FILE
+echo -e "<table id="stat-table" summary="Daily Statistics">" >> $TEMP_FILE
+echo -e "<thead>" >> $TEMP_FILE
+echo -e "<tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Users</th>" >> $TEMP_FILE
+echo -e "<th scope="col">Load 15 Min</th><th scope="col">Free Memory</th><th scope="col">Swap Used</th>" >> $TEMP_FILE
+echo -e "<th scope="col">% CPU Idle</th><th scope="col">Disk Free / </th><th scope="col">Disk Free /var</th><th scope="col">Disk Free /usr</th></tr>" >> $TEMP_FILE
+echo -e "</thead>" >> $TEMP_FILE
 #
 ###########################################################
 # Place Performance Stats in Report
 #
-echo "<tbody>" >> $TEMP_FILE
+echo -e "<tbody>" >> $TEMP_FILE
 cat $REPORT_FILE | gawk -F, '{
 printf "<tr><td>%s</td><td>%s</td><td>%s</td>", $1, $2, $3;
 printf "<td>%s</td><td>%s</td><td>%s</td>", $4, $5, $6;
 printf "<td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n</tr>\n", $7, $8, $9, $10;
 }' >> $TEMP_FILE
 #
-echo "</tbody></table></body></html>" >> $TEMP_FILE
+echo -e "</tbody></table></body></html>" >> $TEMP_FILE
 #
 ###########################################################
 # Mail Performance Report & Clean up

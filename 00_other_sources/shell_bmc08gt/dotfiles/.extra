@@ -32,7 +32,7 @@ function cli() {
 
     if [ $var == '--version' ]; then
          version=`pkgutil --pkg-info=com.apple.pkg.CLTools_Executables | grep -i version | cut -d ':' -f2 | xargs`
-         echo "XCode CLI Version is $version"
+         echo -e "XCode CLI Version is $version"
     fi
 }
 
@@ -47,7 +47,7 @@ xcode() {
 # wrapper around homebrew that will ensure you are switched to current xcode prior to brewing
 infuse() {
     xcp=$(xcode-select -p)
-    echo $xcp
+    echo -e $xcp
     if [[ "$xcp" =~ .*7.* ]]; then
         xcv=74
         xcode
@@ -79,16 +79,16 @@ laos() {
 function android-kill-proc() {
     local pkgName=$(get-pkgname $1)
     adb wait-for-device
-    echo "Killing: "$pkgName
+    echo -e "Killing: "$pkgName
     adb shell am kill $pkgName
 }
 
 function wheres-my-notifications() {
-    echo "Launching notificationcenterui.plist...."
+    echo -e "Launching notificationcenterui.plist...."
     launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
-    echo "Launching notificationcenterui.agent...."
+    echo -e "Launching notificationcenterui.agent...."
     launchctl start com.apple.notificationcenterui.agent 2> /dev/null
-    echo "Restarting SystemUIServer"
+    echo -e "Restarting SystemUIServer"
     killall SystemUIServer
 }
 

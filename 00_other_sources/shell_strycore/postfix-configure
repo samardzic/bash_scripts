@@ -27,8 +27,8 @@ postconf -e 'inet_protocols = ipv4'
 
 SMTPD_CONF="/etc/postfix/sasl/smtpd.conf"
 touch $SMTPD_CONF
-echo "pwcheck_method: saslauthd" > $SMTPD_CONF
-echo "mech_list: plain login" >> $SMTPD_CONF
+echo -e "pwcheck_method: saslauthd" > $SMTPD_CONF
+echo -e "mech_list: plain login" >> $SMTPD_CONF
 
 cd /tmp
 
@@ -77,10 +77,10 @@ fi
 dpkg-statoverride --force --update --add root sasl 755 /var/spool/postfix/var/run/saslauthd
 /etc/init.d/saslauthd start
 
-USER_HASH=$(echo $SMTP_USER | base64)
-PASSWORD_HASH=$(echo $SMTP_PASSWORD | base64)
+USER_HASH=$(echo -e $SMTP_USER | base64)
+PASSWORD_HASH=$(echo -e $SMTP_PASSWORD | base64)
 
-echo << EOF
+echo -e << EOF
 Opening telnet connection for testing postfix
 The expected result is :
 250-STARTTLS
@@ -100,5 +100,5 @@ My message here
 quit
 EOF
 
-echo 'now type: ehlo localhost'
+echo -e 'now type: ehlo localhost'
 telnet localhost 25

@@ -3,7 +3,7 @@
 mc112=forge-1.12-Survival
 
 mc112() {
-	export mcver=$mc112 && echo mcver=$mcver
+	export mcver=$mc112 && echo -e mcver=$mcver
 	cd /mnt/runtimes/$mcver
 }
 

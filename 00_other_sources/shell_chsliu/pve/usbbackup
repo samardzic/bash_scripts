@@ -3,14 +3,14 @@
 rpool=tank
 
 if [ ! -d "/$rpool" ]; then
-        echo zpool $rpool not created, aborting
+        echo -e zpool $rpool not created, aborting
         exit
 fi
 
 zfs_create() {
         if [ -d "/$1" ]; then return; fi
 
-        echo Creating $*
+        echo -e Creating $*
         sudo zfs create -o xattr=sa -o compression=lz4 $*
 }
 

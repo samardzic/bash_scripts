@@ -20,7 +20,7 @@ get_account() {
 set_account() {
     if [ "$(get_account)" != "$1" ]; then
         # Switching Account
-        echo -e ${GREEN}=== Switching to Account: ${YELLOW}$1 ${NC}
+        echo -e -e ${GREEN}=== Switching to Account: ${YELLOW}$1 ${NC}
         [ ! -z "$1" ] && gcloud config set account $1
     fi
 }

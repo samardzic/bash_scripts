@@ -12,8 +12,8 @@ user$>	pve/newuser <username>
 
 
 ###create disk id
-echo === config /etc/default/zfs
-echo add ZPOOL_IMPORT_PATH="/dev/disk/by-id"
+echo -e === config /etc/default/zfs
+echo -e add ZPOOL_IMPORT_PATH="/dev/disk/by-id"
 
 Edit /etc/zfs/vdev_id.conf to prepare aliases for disk devices found in /dev/disk/by-id/ 
 --------cut here-------------------

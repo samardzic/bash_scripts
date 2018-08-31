@@ -1,4 +1,4 @@
-@echo off
+@echo -e off
 
 REM =================================
 goto :main
@@ -71,7 +71,7 @@ findstr /C:"merge" %LOG1% >>%LINE%
 findstr /C:"CONFLICT" %LOG1% >>%LINE%
 findstr /C:"Untracked files:" %LOG1% >>%LINE%
 call :COUNTLINE %LINE%
-rem echo cnt = %cnt%
+rem echo -e cnt = %cnt%
 rem pause
 if %cnt% GTR 0 set ALARM=1
 
