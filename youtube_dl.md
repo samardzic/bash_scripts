@@ -46,11 +46,11 @@ If you decide to install using **apt/apt-get** you will probablly end up with ol
 - **--audio-format mp3** - Selects the audio output type (mp3) 
 - **--audio-quality 320k** - Selects the output birtrate 
 - **--audio-quality 8** - Another way to define output audio quality
-- ** -i ** - Ignore errors (removed Youtube files)
-- ** -o ** - Output parameters (save location, file name...)
+- **-i** - Ignore errors (removed Youtube files)
+- **-o** - Output parameters (save location, file name...)
 - **"%(title)s.%(ext)s"** - Output file name and extension configuration
-- **-o pavel_mix02/"%(title)s.%(ext)s" ** - Outputs the converted file to new **pavel_mix02/** directory
-- ** --playlist-start 1 --playlist-end 3 ** - Selects the START and END position of the files to be downloaded from playlist
+- **-o pavel_mix02/"%(title)s.%(ext)s"** - Outputs the converted file to new **pavel_mix02/** directory
+- **--playlist-start 1 --playlist-end 3** - Selects the START and END position of the files to be downloaded from playlist
 - **--verbose** - More detailed output
 
 
