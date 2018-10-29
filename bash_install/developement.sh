@@ -112,6 +112,8 @@ echo -e "\n\n######################  Installing python-pip  ####################
 sudo apt-get install -y python-pip
 pip -V
 
+sudo apt-get install -y python3-pip
+pip3 -V
 
 # Multimedia
 echo -e "\n\n----------------------------------------------------------------"
@@ -245,7 +247,7 @@ sudo apt-get install -y lynx
 echo -e "\n\n######################  Installing indicator-weather #####################\n"
 sudo apt-get install -y indicator-weather
 
-sudo apt-get install indicator-cpufreq
+sudo apt-get install -y indicator-cpufreq
 
 # Install Samba share
 echo -e "\n\n----------------------------------------------------------------"
@@ -388,7 +390,7 @@ sudo tar -xzf *linux-x64.tar.gz -C $INSTALL_LOCATION/
 echo -e "\n\n######################  Renaming to  NODE_INSTALL #####################\n"
 mv $INSTALL_LOCATION/node-* $INSTALL_LOCATION/node_install
 
-chown -R $LINUX_USER $INSTALL_LOCATION/node* 
+sudo chown -R $LINUX_USER:$LINUX_USER $INSTALL_LOCATION/node* 
 
 echo -e "\n\n######################  Deleting NODEjs Download #####################\n"
 rm *linux-x64.tar.gz
@@ -417,7 +419,7 @@ wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
 
 echo -e "\n\n######################  Extracting POSTMAN #####################\n"
 sudo tar -xzf postman.tar.gz -C $INSTALL_LOCATION/
-chown -R $LINUX_USER $INSTALL_LOCATION/Post*
+sudo chown -R $LINUX_USER:$LINUX_USER $INSTALL_LOCATION/Post*
 
 rm postman.tar.gz
 sudo ln -s $INSTALL_LOCATION/Postman/Postman /usr/bin/postman
