@@ -79,6 +79,13 @@ sudo apt-get -y upgrade
 
 
 
+# Installation cleanup
+sudo apt-get -y autoclean
+sudo apt-get -y clean
+sudo apt-get -y autoremove
+sudo apt-get -y install -f
+sudo apt-get update --fix-missing
+
 
 
 # Install Essential tools
@@ -263,7 +270,6 @@ whereis samba
 
 
 
-
 # Install Editors
 echo -e "\n\n----------------------------------------------------------------"
 echo -e "-----------------  Installing Editors & IDEs  ------------------"
@@ -305,6 +311,17 @@ sudo apt-get install -y mysql-server
 
 echo -e "\n\n######################  Installing mysql-workbench #####################\n"
 sudo apt-get install -y mysql-workbench
+
+
+
+
+# Installation cleanup
+sudo apt-get -y autoclean
+sudo apt-get -y clean
+sudo apt-get -y autoremove
+sudo apt-get -y install -f
+sudo apt-get update --fix-missing
+
 
 
 
@@ -402,6 +419,43 @@ echo -e "-----  Check NODE path 7 version  ------"
 node -v
 
 
+
+
+echo -e "\n\n----------------------------------------------------------------"
+echo -e "---------------------  YOUTUBE_DL setup  -----------------------"
+echo -e "----------------------------------------------------------------"
+echo -e "\n\n######################  YOUTUBE_DL preconditions #####################\n"
+sudo apt-get install -y ffmpeg rtmpdump
+mkdir $INSTALL_LOCATION/youtube_downloader
+
+echo -e "\n\n######################  Downloading YOUTUBE_DL #####################\n"
+sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O $INSTALL_LOCATION/youtube_downloader/youtube-dl
+sudo chmod 755 $INSTALL_LOCATION/youtube_downloader/youtube-dl
+sudo chown -R $LINUX_USER:$LINUX_USER $INSTALL_LOCATION/youtube_downloader
+cd $INSTALL_LOCATION/youtube_downloader
+
+echo -e "\n\n######################  YOUTUBE_DL Installed #####################\n"
+./youtube-dl --version
+
+
+
+
+
+echo -e "\n\n----------------------------------------------------------------"
+echo -e "----------------------  VirtualBox setup  ----------------------"
+echo -e "----------------------------------------------------------------"
+echo -e "\n\n######################  Generating VirtualBox Download link #####################\n"
+VIRTUALBOX_LINK=$(lynx --dump https://www.virtualbox.org/wiki/Linux_Downloads | grep -w bionic_amd64.deb | sed 's/^.*http/http/')
+echo -e $VIRTUALBOX_LINK
+echo -e "\n\n###############  Generating VirtualBox Extension Pack Download link ###################\n"
+VIRTUALBOX_EXTENSION_LINK=$(lynx --dump https://www.virtualbox.org/wiki/Downloads | grep -w vbox-extpack | sed 's/^.*http/http/')
+echo -e $VIRTUALBOX_EXTENSION_LINK
+echo -e "\n\n####################  Downloading VirtualBox & Extension Pack #####################\n"
+wget $VIRTUALBOX_LINK -O VirtualBox.deb
+wget $VIRTUALBOX_EXTENSION_LINK -O Oracle_VM_VirtualBox_Extension_Pack.vbox-extpack
+echo -e "\n\n####################  Installing VirtualBox & Extension Pack #####################\n"
+# sudo dpkg -i VirtualBox.deb
+rm VirtualBox.deb
 
 
 
