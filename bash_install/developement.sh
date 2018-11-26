@@ -130,6 +130,11 @@ echo -e "----------------------------------------------------------------"
 echo -e "\n\n######################  Installing ubuntu-restricted-extras  #####################\n"
 sudo apt install -y ubuntu-restricted-extras
 
+
+echo -e "\n\n######################  Installing Microsoft core fonts  #####################\n"
+sudo apt-get install -y msttcorefonts
+
+
 echo -e "\n\n######################  Installing flashplugin-installer  #####################\n"
 sudo apt-get install -y flashplugin-installer
 
@@ -142,7 +147,6 @@ sudo apt install -y vlc
 
 echo -e "\n\n######################  Installing SMPlayer  #####################\n"
 sudo apt install -y smplayer
-
 
 
 
@@ -300,6 +304,20 @@ rm vscode_package.deb
 
 
 
+echo -e "\n\n----------------------------------------------------------------"
+echo -e "-------------- Installing Snap package manager  ----------------"
+echo -e "----------------------------------------------------------------"
+
+# Database
+echo -e "\n\n######################  Installing SNAP #####################\n"
+sudo apt-get install -y snapd
+
+echo -e "\n\n######################  Installing mysql-workbench #####################\n"
+echo -e 'export PATH="$PATH:/snap/bin"' >> ~/.bashrc 
+
+
+
+
 
 echo -e "\n\n----------------------------------------------------------------"
 echo -e "-----------------  Installing DataBase Toosl  ------------------"
@@ -412,11 +430,16 @@ sudo chown -R $LINUX_USER:$LINUX_USER $INSTALL_LOCATION/node*
 echo -e "\n\n######################  Deleting NODEjs Download #####################\n"
 rm *linux-x64.tar.gz
 
-echo -e 'export APP=/opt/tinyos-2.x/apps' >> ~/.bashrc 
+# echo -e 'export APP=/opt/tinyos-2.x/apps' >> ~/.bashrc 
 echo -e 'export PATH="$PATH:~/Applications/node_install/bin"' >> ~/.bashrc #edit this location per your folder settilgs
+
+sudo sudo ln -s $INSTALL_LOCATION/node_install/bin/node /usr/bin/nodejs
+sudo sudo ln -s $INSTALL_LOCATION/node_install/bin/node /usr/bin/node
 
 echo -e "-----  Check NODE path 7 version  ------"
 node -v
+nodejs -v
+npm -v
 
 
 
