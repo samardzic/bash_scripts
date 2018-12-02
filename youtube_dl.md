@@ -178,6 +178,14 @@ $ ./youtube-dl -F https://www.youtube.com/watch?v=2MpUj-Aua48
 $ ./youtube-dl -f 137+140 -i -o python_corey/"%(playlist_index)s-%(title)s.%(ext)s" https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU
 ```
 
+- Download playlist range (10-15), specified folder, specific naming and indexing, with ignore errors (Video + Audio):
+```
+$ ./youtube-dl -f 136+140 -i --playlist-start 10 --playlist-end 15  -o Frank_QT2/"%(playlist_index)s-%(title)s.%(ext)s" https://www.youtube.com/playlist?list=PLlgoYPTU6ljCQV39sX-FBizFo2bcjwtB5
+```
+
+
+
+
 
 - Download playlist (Video only):
 ```
