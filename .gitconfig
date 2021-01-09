@@ -1,0 +1,40 @@
+[core]
+	editor = atom
+
+[user]
+	name = Nenad Samardzic
+	email = execom.qa@gmail.com
+	username = samardzic
+
+[push]
+    default = current
+
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	pager = true
+	status = auto
+
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+
+[alias]
+	ci = commit
+	co = checkout
+	st = status -sb
