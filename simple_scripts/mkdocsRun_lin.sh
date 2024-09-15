@@ -8,6 +8,6 @@
 # Created By       : Nenad Samardzic
 # ---------------------------------------------------------------------
 
-# Installation cleanup
+# Start mkdocs server
 echo -e "\n######################  MKdocs Start  #####################\n"
 gnome-terminal -- sh -c 'cd /home/nenad/Build/documents && mkdocs serve -a 127.0.0.1:9005; bash'
