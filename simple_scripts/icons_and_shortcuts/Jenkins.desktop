@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec="/home/ime/Applications/Jenkins/jenkins_run.sh" %F
+Name=Jenkins
+GenericName=Jenkins automation server.
+Icon=/home/ime/Build/bash_scripts/simple_scripts/icons_and_shortcuts/jenkins_icon/favicon.svg
+StartupWMClass=
+Terminal=false
+Categories=Development;IDE;Qt;
+MimeType=text;application;
+Name[en_US]=Jenkins

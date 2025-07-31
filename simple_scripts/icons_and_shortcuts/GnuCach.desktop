@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec="/home/ime/Build/bash_scripts/simple_scripts/repo_lazygit.sh" %F
+Name=GnuCash Repo
+GenericName=GnuCash repo access through LazyGit.
+Icon=/home/ime/Build/bash_scripts/simple_scripts/icons_and_shortcuts/git.png
+StartupWMClass=
+Terminal=True
+Categories=Development;
+MimeType=text;application;
+Name[en_US]=GnuCach Repo
